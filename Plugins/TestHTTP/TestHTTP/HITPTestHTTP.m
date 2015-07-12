@@ -48,9 +48,9 @@
         _repeate = [settings objectForKey:kHITPTestHTTPRepeate];
         
         _menuItem = [[NSMenuItem alloc] initWithTitle:self.title
-                                               action:NULL
+                                               action:@selector(runTheTest:)
                                         keyEquivalent:@""];
-        
+        _menuItem.target = self;
         [_menuItem setState:NSMixedState];
         
         NSNumber *timeout = [settings objectForKey:kHITPTestHTTPTimeout];
@@ -93,7 +93,7 @@
     });
 }
 
-- (void)runTheTest:(NSTimer*)timer {
+- (void)runTheTest:(id)sender {
     [self runTheTest];
 }
 
