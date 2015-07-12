@@ -17,7 +17,7 @@ Each plugin can offer only one function identified by the HITPFunctionIdentifier
 
 That mean, if the example.function identifier is provided by a bundle in the application package and an other one in the user home folder, the application will use the one in the application folder.
 
-Bundle are listed at the begening of the application but not loaded.
+Bundle are listed at the start of the application but not loaded.
 
 ## Configuration
 
