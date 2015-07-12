@@ -23,7 +23,7 @@
 @property NSString *mode;
 @property NSString *originalString;
 @property NSNumber *repeate;
-@property HITPluginTestState state;
+@property HITPluginTestState testState;
 @property NSTimer *cron;
 @property NSMenuItem *menuItem;
 @property NSInteger timeout;
@@ -78,7 +78,7 @@
 
 - (void)updateMenuItemState {
     dispatch_async(dispatch_get_main_queue(), ^{
-        switch (self.state) {
+        switch (self.testState) {
             case HITPluginTestStateRed:
                 self.menuItem.state = NSOffState;
                 break;
@@ -106,21 +106,21 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                    if (connectionError) {
-                                       self.state = HITPluginTestStateRed;
+                                       self.testState = HITPluginTestStateRed;
                                    } else {
                                        if ([self.mode isEqualToString:@"compare"]) {
                                            NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                            if ([content isEqualToString:self.originalString]) {
-                                               self.state = HITPluginTestStateGreen;
+                                               self.testState = HITPluginTestStateGreen;
                                            } else {
-                                               self.state = HITPluginTestStateOrange;
+                                               self.testState = HITPluginTestStateOrange;
                                            }
                                        } else if ([self.mode isEqualToString:@"contain"]) {
                                            NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                            if ([content containsString:self.originalString]) {
-                                               self.state = HITPluginTestStateGreen;
+                                               self.testState = HITPluginTestStateGreen;
                                            } else {
-                                               self.state = HITPluginTestStateOrange;
+                                               self.testState = HITPluginTestStateOrange;
                                            }
                                        } else if ([self.mode isEqualToString:@"md5"]) {
                                            CC_MD5_CTX md5sum;
@@ -141,9 +141,9 @@
                                                                   digest[14], digest[15]];
                                            
                                            if ([md5String isEqualToString:self.originalString]) {
-                                               self.state = HITPluginTestStateGreen;
+                                               self.testState = HITPluginTestStateGreen;
                                            } else {
-                                               self.state = HITPluginTestStateOrange;
+                                               self.testState = HITPluginTestStateOrange;
                                            }
                                        }
                                    }
