@@ -1,0 +1,274 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E177433E1B51EA3800A5B406 /* HITPOpenResource.m in Sources */ = {isa = PBXBuildFile; fileRef = E177433D1B51EA3800A5B406 /* HITPOpenResource.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E177433C1B51EA3800A5B406 /* HITPOpenResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPOpenResource.h; sourceTree = "<group>"; };
+		E177433D1B51EA3800A5B406 /* HITPOpenResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPOpenResource.m; sourceTree = "<group>"; };
+		E1D068291B51E54E00567172 /* OpenResource.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenResource.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1D0682D1B51E54E00567172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1D068361B51E59300567172 /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1D068261B51E54E00567172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1D068201B51E54E00567172 = {
+			isa = PBXGroup;
+			children = (
+				E1D068351B51E59300567172 /* Common */,
+				E1D0682B1B51E54E00567172 /* OpenResource */,
+				E1D0682A1B51E54E00567172 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1D0682A1B51E54E00567172 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1D068291B51E54E00567172 /* OpenResource.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1D0682B1B51E54E00567172 /* OpenResource */ = {
+			isa = PBXGroup;
+			children = (
+				E1D0682C1B51E54E00567172 /* Supporting Files */,
+				E177433C1B51EA3800A5B406 /* HITPOpenResource.h */,
+				E177433D1B51EA3800A5B406 /* HITPOpenResource.m */,
+			);
+			path = OpenResource;
+			sourceTree = "<group>";
+		};
+		E1D0682C1B51E54E00567172 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1D0682D1B51E54E00567172 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1D068351B51E59300567172 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E1D068361B51E59300567172 /* HITPluginProtocol.h */,
+			);
+			name = Common;
+			path = ../../Common;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1D068281B51E54E00567172 /* OpenResource */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1D068301B51E54E00567172 /* Build configuration list for PBXNativeTarget "OpenResource" */;
+			buildPhases = (
+				E1D068251B51E54E00567172 /* Sources */,
+				E1D068261B51E54E00567172 /* Frameworks */,
+				E1D068271B51E54E00567172 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenResource;
+			productName = OpenWebPage;
+			productReference = E1D068291B51E54E00567172 /* OpenResource.hitp */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1D068211B51E54E00567172 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
+				TargetAttributes = {
+					E1D068281B51E54E00567172 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = E1D068241B51E54E00567172 /* Build configuration list for PBXProject "OpenResource" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1D068201B51E54E00567172;
+			productRefGroup = E1D0682A1B51E54E00567172 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1D068281B51E54E00567172 /* OpenResource */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1D068271B51E54E00567172 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1D068251B51E54E00567172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E177433E1B51EA3800A5B406 /* HITPOpenResource.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E1D0682E1B51E54E00567172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E1D0682F1B51E54E00567172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E1D068311B51E54E00567172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OpenResource/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = OpenResource;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = hitp;
+			};
+			name = Debug;
+		};
+		E1D068321B51E54E00567172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OpenResource/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = OpenResource;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = hitp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1D068241B51E54E00567172 /* Build configuration list for PBXProject "OpenResource" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D0682E1B51E54E00567172 /* Debug */,
+				E1D0682F1B51E54E00567172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1D068301B51E54E00567172 /* Build configuration list for PBXNativeTarget "OpenResource" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D068311B51E54E00567172 /* Debug */,
+				E1D068321B51E54E00567172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1D068211B51E54E00567172 /* Project object */;
+}
