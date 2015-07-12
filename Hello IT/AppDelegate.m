@@ -10,11 +10,7 @@
 
 #import "HITPluginsManager.h"
 
-#define kMenuList @"content"
-#define kMenuTitle @"title"
-
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
-#define kMenuItemSettings @"settings"
 
 @interface AppDelegate ()
 
@@ -33,31 +29,38 @@
     self.pluginInstances = [NSMutableArray new];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                              kMenuTitle: @"Hello IT",
-                                                              kMenuList: @[
-                                                                      @{kMenuItemFunctionIdentifier: @"public.title",
-                                                                        kMenuItemSettings: @{
+                                                              @"title": @"Hello IT",
+                                                              @"content": @[
+                                                                      @{@"functionIdentifier": @"public.title",
+                                                                        @"settings": @{
                                                                                 @"title": @"Hello IT default content",
                                                                                 }
                                                                         },
-                                                                      @{kMenuItemFunctionIdentifier: @"public.test.http",
-                                                                        kMenuItemSettings: @{
-                                                                                @"title": @"Accès Internet",
-                                                                                @"URL": @"http://captive.apple.com",
-                                                                                @"originalString": @"73a78ff5bd7e5e88aa445826d4d6eecb",
-                                                                                @"mode":@"md5",
-                                                                                @"repeate": @60,
+                                                                      @{@"functionIdentifier": @"public.submenu",
+                                                                        @"settings": @{
+                                                                                @"title": @"Services state",
+                                                                                @"content": @[
+                                                                                        @{@"functionIdentifier": @"public.test.http",
+                                                                                          @"settings": @{
+                                                                                                  @"title": @"Accès Internet",
+                                                                                                  @"URL": @"http://captive.apple.com",
+                                                                                                  @"originalString": @"73a78ff5bd7e5e88aa445826d4d6eecb",
+                                                                                                  @"mode":@"md5",
+                                                                                                  @"repeate": @60,
+                                                                                                  }
+                                                                                          }
+                                                                                        ]
                                                                                 }
-                                                                        },
-                                                                      @{kMenuItemFunctionIdentifier: @"public.separator"},
-                                                                      @{kMenuItemFunctionIdentifier: @"public.open.resource",
-                                                                        kMenuItemSettings: @{
+                                                                          },
+                                                                      @{@"functionIdentifier": @"public.separator"},
+                                                                      @{@"functionIdentifier": @"public.open.resource",
+                                                                        @"settings": @{
                                                                                 @"title": @"Apple",
                                                                                 @"URL": @"https://www.apple.com"
                                                                                 }
                                                                         },
-                                                                      @{kMenuItemFunctionIdentifier: @"public.separator"},
-                                                                      @{kMenuItemFunctionIdentifier: @"public.quit"}
+                                                                      @{@"functionIdentifier": @"public.separator"},
+                                                                      @{@"functionIdentifier": @"public.quit"}
                                                                       ]
                                                               }];
     
@@ -73,8 +76,13 @@
 }
 
 - (void)loadMenu {
+    NSString *menuBuilder = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemFunctionIdentifier];
     
-    Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:@"public.submenu"];
+    if ([menuBuilder length] == 0) {
+        menuBuilder = @"public.submenu";
+    }
+    
+    Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:menuBuilder];
     self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
     if (self.statusMenuManager) {
         if ([self.statusMenuManager respondsToSelector:@selector(setPluginsManager:)]) {
