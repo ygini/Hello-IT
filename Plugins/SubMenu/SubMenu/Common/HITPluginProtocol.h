@@ -25,6 +25,6 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 + (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings;
 - (NSMenuItem*)menuItem;
 @optional
-- (HITPluginTestState)testState;
+- (HITPluginTestState)testState; //must be observable
 - (void)setPluginsManager:(id<HITPluginsManagerProtocol>)manager;
 @end
