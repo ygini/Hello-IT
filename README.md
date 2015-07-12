@@ -43,19 +43,31 @@ Here is an example of what the Hello IT preferences can look like.
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
-			<string>public.test.http</string>
+			<string>public.submenu</string>
 			<key>settings</key>
 			<dict>
-				<key>URL</key>
-				<string>http://captive.apple.com</string>
-				<key>mode</key>
-				<string>md5</string>
-				<key>originalString</key>
-				<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
-				<key>repeate</key>
-				<integer>60</integer>
+				<key>content</key>
+				<array>
+					<dict>
+						<key>functionIdentifier</key>
+						<string>public.test.http</string>
+						<key>settings</key>
+						<dict>
+							<key>URL</key>
+							<string>http://captive.apple.com</string>
+							<key>mode</key>
+							<string>md5</string>
+							<key>originalString</key>
+							<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
+							<key>repeate</key>
+							<integer>60</integer>
+							<key>title</key>
+							<string>Accès Internet</string>
+						</dict>
+					</dict>
+				</array>
 				<key>title</key>
-				<string>Accès Internet</string>
+				<string>Services state</string>
 			</dict>
 		</dict>
 		<dict>
