@@ -61,7 +61,7 @@ Here is an example of what the Hello IT preferences can look like.
 							<string>md5</string>
 							<key>originalString</key>
 							<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
-							<key>repeate</key>
+							<key>repeat</key>
 							<integer>60</integer>
 							<key>title</key>
 							<string>Internet</string>

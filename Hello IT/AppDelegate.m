@@ -46,7 +46,7 @@
                                                                                                   @"URL": @"http://captive.apple.com",
                                                                                                   @"originalString": @"73a78ff5bd7e5e88aa445826d4d6eecb",
                                                                                                   @"mode":@"md5",
-                                                                                                  @"repeate": @60,
+                                                                                                  @"repeat": @60,
                                                                                                   }
                                                                                           }
                                                                                         ]

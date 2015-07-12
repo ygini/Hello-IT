@@ -14,7 +14,7 @@
 #define kHITPTestHTTPURL @"URL"
 #define kHITPTestHTTPStringToCompare @"originalString"
 #define kHITPTestHTTPMode @"mode"
-#define kHITPTestHTTPRepeate @"repeate"
+#define kHITPTestHTTPRepeat @"repeat"
 #define kHITPTestHTTPTimeout @"timeout"
 
 @interface HITPTestHTTP ()
@@ -22,7 +22,7 @@
 @property NSURL *testPage;
 @property NSString *mode;
 @property NSString *originalString;
-@property NSNumber *repeate;
+@property NSNumber *repeat;
 @property HITPluginTestState testState;
 @property NSTimer *cron;
 @property NSMenuItem *menuItem;
@@ -45,7 +45,7 @@
         _testPage = [NSURL URLWithString:[settings objectForKey:kHITPTestHTTPURL]];
         _mode = [settings objectForKey:kHITPTestHTTPMode];
         _originalString = [settings objectForKey:kHITPTestHTTPStringToCompare];
-        _repeate = [settings objectForKey:kHITPTestHTTPRepeate];
+        _repeat = [settings objectForKey:kHITPTestHTTPRepeat];
         
         _menuItem = [[NSMenuItem alloc] initWithTitle:self.title
                                                action:@selector(runTheTest:)
@@ -61,8 +61,8 @@
         }
         
         
-        if ([_repeate intValue] > 0) {
-            _cron = [NSTimer scheduledTimerWithTimeInterval:[_repeate integerValue]
+        if ([_repeat intValue] > 0) {
+            _cron = [NSTimer scheduledTimerWithTimeInterval:[_repeat integerValue]
                                                      target:self
                                                    selector:@selector(runTheTest:)
                                                    userInfo:nil
