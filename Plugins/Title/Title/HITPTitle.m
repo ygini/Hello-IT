@@ -30,9 +30,8 @@
 }
 
 - (NSMenuItem*)menuItem {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:self.title
-                                                      action:NULL
-                                               keyEquivalent:@""];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] init];
+    menuItem.title = self.title;
     
     menuItem.target = self;
     
