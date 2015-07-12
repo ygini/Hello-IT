@@ -1,2 +1,95 @@
 # Hello-IT
-This application cloud be used by IT services to provide a simple menu with quick access to troubleshooting services and help desk pages.
+The aim of this project is to provide a meta application usage by IT services to provide a status menu for OS X users with all sort of services inside
+
+## Architecture
+
+The application use plugins located in multiple places to support different functions. Those function are usable by system administrator to configure a custom service menu with differents feature inside.
+
+The plugins are located in:
+* The application PlugIns folder for the original one;
+* /Library/Application Support/com.github.ygini.Hello-IT/PlugIns;
+* ~/Library/Application Support/com.github.ygini.Hello-IT/PlugIns;
+and loaded in the same order.
+
+Each plugin can offer only one function identified by the HITPFunctionIdentifier key in the info file. When the Hello IT application start, it reference all bundle path per function identifier.
+
+That mean, if the example.function identifier is provided by a bundle in the application package and an other one in the user home folder, the application will use the one in the application folder.
+
+Bundle are listed at the begening of the application but not loaded.
+
+## Configuration
+
+To load a bundle, the system administrator need to provide a config file for the domain com.github.ygini.Hello-IT. It can be dpeloyed via a regular pref file or MDM/MCX settings.
+
+The preference file can overload the name of the menu (to change from Hello IT to anythin you want) and build the content of the menu.
+
+Here is an example of what the Hello IT preferences can look like.
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MenuList</key>
+	<array>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.title</string>
+			<key>settings</key>
+			<dict>
+				<key>title</key>
+				<string>Hello IT default content</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.test.http</string>
+			<key>settings</key>
+			<dict>
+				<key>URL</key>
+				<string>http://captive.apple.com</string>
+				<key>mode</key>
+				<string>md5</string>
+				<key>originalString</key>
+				<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
+				<key>repeate</key>
+				<integer>60</integer>
+				<key>title</key>
+				<string>Accès Internet</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.open.resource</string>
+			<key>settings</key>
+			<dict>
+				<key>URL</key>
+				<string>https://www.apple.com</string>
+				<key>title</key>
+				<string>Apple</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.quit</string>
+		</dict>
+	</array>
+	<key>MenuTitle</key>
+	<string>Hello IT</string>
+</dict>
+</plist>
+```
+
+The MenuTitle key give the name of the menu in the status bar.
+
+Inside MenuList, the array describe the content of menu in the display order (from top to down). Each menu item is defined by a dictionnary who must have the key functionIdentifier and who may have a key settings.
+
+The content of the settings key is a dictionary. Acceptable values for this dictionary can be discovered in the plugin documentation.
