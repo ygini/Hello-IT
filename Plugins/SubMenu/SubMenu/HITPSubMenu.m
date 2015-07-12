@@ -19,6 +19,7 @@
 @property NSMenuItem *internalMenuItem;
 @property NSMutableArray *subPluginInstances;
 @property id<HITPluginsManagerProtocol> pluginsManager;
+@property HITPluginTestState testState;
 @end
 
 @implementation HITPSubMenu
@@ -27,10 +28,6 @@
     id instance = [[self alloc] initWithSettings:settings];
     return instance;
 }
-
-//- (HITPluginTestState)testState {
-//    
-//}
 
 - (instancetype)initWithSettings:(NSDictionary*)settings
 {
@@ -60,6 +57,15 @@
                     // to create a submenu for example
                     [pluginInstance setPluginsManager:self.pluginsManager];
                 }
+                
+                if ([pluginInstance respondsToSelector:@selector(testState)]) {
+                    NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
+                    [observablePluginInstance addObserver:self
+                                               forKeyPath:@"testState"
+                                                  options:0
+                                                  context:nil];
+                }
+                
                 [self.subPluginInstances addObject:pluginInstance];
                 [menu addItem:[pluginInstance menuItem]];
             } else {
@@ -71,6 +77,38 @@
     }
     
     return self.internalMenuItem;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"testState"]) {
+        int substate = 0;
+        for (id<HITPluginProtocol> pluginInstance in self.subPluginInstances) {
+            if ([pluginInstance respondsToSelector:@selector(testState)]) {
+                substate |= [pluginInstance testState];
+            }
+        }
+        
+        if (substate&HITPluginTestStateRed) self.testState = HITPluginTestStateRed;
+        else if (substate&HITPluginTestStateOrange) self.testState = HITPluginTestStateOrange;
+        else if (substate&HITPluginTestStateGreen) self.testState = HITPluginTestStateGreen;
+        
+        [self updateMenuItemState];
+    }
+}
+
+- (void)updateMenuItemState {
+    switch (self.testState) {
+        case HITPluginTestStateRed:
+            self.menuItem.state = NSOffState;
+            break;
+        case HITPluginTestStateGreen:
+            self.menuItem.state = NSOnState;
+            break;
+        case HITPluginTestStateOrange:
+        default:
+            self.menuItem.state = NSMixedState;
+            break;
+    }
 }
 
 @end
