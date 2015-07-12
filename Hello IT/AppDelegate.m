@@ -63,9 +63,7 @@
                                                                       @{@"functionIdentifier": @"public.quit"}
                                                                       ]
                                                               }];
-    
-    [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] writeToFile:[@"~/Desktop/pref.plist" stringByExpandingTildeInPath] atomically:YES];
-    
+        
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
     }];
