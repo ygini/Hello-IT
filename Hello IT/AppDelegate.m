@@ -10,8 +10,8 @@
 
 #import "HITPluginsManager.h"
 
-#define kMenuList @"MenuList"
-#define kMenuTitle @"MenuTitle"
+#define kMenuList @"content"
+#define kMenuTitle @"title"
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemSettings @"settings"
@@ -21,7 +21,7 @@
 @property (weak) IBOutlet NSWindow *window;
 @property (strong) NSStatusItem *statusItem;
 @property (strong) IBOutlet NSMenu *statusMenu;
-
+@property id<HITPluginProtocol> statusMenuManager;
 @property NSMutableArray *pluginInstances;
 
 @end
@@ -61,6 +61,8 @@
                                                                       ]
                                                               }];
     
+    [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] writeToFile:[@"~/Desktop/pref.plist" stringByExpandingTildeInPath] atomically:YES];
+    
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
     }];
@@ -71,34 +73,24 @@
 }
 
 - (void)loadMenu {
+    
+    Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:@"public.submenu"];
+    self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
+    if (self.statusMenuManager) {
+        if ([self.statusMenuManager respondsToSelector:@selector(setPluginsManager:)]) {
+            [self.statusMenuManager setPluginsManager:[HITPluginsManager sharedInstance]];
+        }
+    }
+    
     self.statusMenu = [[NSMenu alloc] init];
     
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
     
     self.statusItem = [bar statusItemWithLength:NSVariableStatusItemLength];
     
-    self.statusItem.title = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuTitle];
+    self.statusItem.title = [self.statusMenuManager menuItem].title;
     self.statusItem.highlightMode = YES;
-    self.statusItem.menu = self.statusMenu;
-    
-    
-    for (NSDictionary *item in [[NSUserDefaults standardUserDefaults] arrayForKey:kMenuList]) {
-        Class<HITPluginProtocol> TargetPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:[item objectForKeyedSubscript:kMenuItemFunctionIdentifier]];
-        
-        id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKeyedSubscript:kMenuItemSettings]];
-        if (pluginInstance) {
-            if ([pluginInstance respondsToSelector:@selector(setPluginsManager:)]) {
-                // Access to plugin manager may be needed to allow plugin to call other plugins,
-                // to create a submenu for example
-                [pluginInstance setPluginsManager:[HITPluginsManager sharedInstance]];
-            }
-            [self.pluginInstances addObject:pluginInstance];
-            [self.statusMenu addItem:[pluginInstance menuItem]];
-        } else {
-            // TODO: log error
-        }
-    }
-    
+    self.statusItem.menu = [self.statusMenuManager menuItem].submenu;
 }
 
 @end

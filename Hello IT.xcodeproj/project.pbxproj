@@ -12,6 +12,7 @@
 		E17743801B51F23E00A5B406 /* Separator.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177437A1B51F19C00A5B406 /* Separator.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E17743991B51F2CA00A5B406 /* Title.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40511B529AA20017B4DD /* Quit.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40751B529F470017B4DD /* SubMenu.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1D068011B51D08E00567172 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068001B51D08E00567172 /* AppDelegate.m */; };
 		E1D068031B51D08E00567172 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068021B51D08E00567172 /* main.m */; };
 		E1D068051B51D08E00567172 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D068041B51D08E00567172 /* Images.xcassets */; };
@@ -56,6 +57,13 @@
 			remoteGlobalIDString = E1AF40411B529AA10017B4DD;
 			remoteInfo = Quit;
 		};
+		E1AF40741B529F470017B4DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1AF40661B529F460017B4DD;
+			remoteInfo = SubMenu;
+		};
 		E1D0680E1B51D08F00567172 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1D067F21B51D08E00567172 /* Project object */;
@@ -72,6 +80,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */,
 				E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */,
 				E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */,
 				E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */,
@@ -89,6 +98,7 @@
 		E17743751B51F19B00A5B406 /* Separator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Separator.xcodeproj; path = Separator/Separator.xcodeproj; sourceTree = "<group>"; };
 		E17743941B51F2C900A5B406 /* Title.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Title.xcodeproj; path = Title/Title.xcodeproj; sourceTree = "<group>"; };
 		E1AF404B1B529AA10017B4DD /* Quit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quit.xcodeproj; path = Quit/Quit.xcodeproj; sourceTree = "<group>"; };
+		E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubMenu.xcodeproj; path = SubMenu/SubMenu.xcodeproj; sourceTree = "<group>"; };
 		E1D067FA1B51D08E00567172 /* Hello IT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hello IT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D067FE1B51D08E00567172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1D067FF1B51D08E00567172 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -138,6 +148,7 @@
 				E17743941B51F2C900A5B406 /* Title.xcodeproj */,
 				E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */,
 				E1AF404B1B529AA10017B4DD /* Quit.xcodeproj */,
+				E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -170,6 +181,14 @@
 			isa = PBXGroup;
 			children = (
 				E1AF40511B529AA20017B4DD /* Quit.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1AF40711B529F460017B4DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1AF40751B529F470017B4DD /* SubMenu.hitp */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -324,6 +343,10 @@
 					ProjectRef = E17743751B51F19B00A5B406 /* Separator.xcodeproj */;
 				},
 				{
+					ProductGroup = E1AF40711B529F460017B4DD /* Products */;
+					ProjectRef = E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */;
+				},
+				{
 					ProductGroup = E12F1E4B1B52355B005A4418 /* Products */;
 					ProjectRef = E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */;
 				},
@@ -374,6 +397,13 @@
 			fileType = wrapper.cfbundle;
 			path = Quit.hitp;
 			remoteRef = E1AF40501B529AA20017B4DD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E1AF40751B529F470017B4DD /* SubMenu.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SubMenu.hitp;
+			remoteRef = E1AF40741B529F470017B4DD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
