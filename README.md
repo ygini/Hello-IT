@@ -62,7 +62,7 @@ Here is an example of what the Hello IT preferences can look like.
 							<key>repeate</key>
 							<integer>60</integer>
 							<key>title</key>
-							<string>Accès Internet</string>
+							<string>Internet</string>
 						</dict>
 					</dict>
 				</array>
