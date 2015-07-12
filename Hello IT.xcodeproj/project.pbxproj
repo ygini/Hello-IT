@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E11E92741B52FE310096D142 /* SubCommand.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E11E92671B52FC190096D142 /* SubCommand.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E12F1E511B52355C005A4418 /* TestHTTP.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E177435F1B51EA8D00A5B406 /* OpenResource.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177435E1B51EA8600A5B406 /* OpenResource.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E17743801B51F23E00A5B406 /* Separator.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177437A1B51F19C00A5B406 /* Separator.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -22,6 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E11E92661B52FC190096D142 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E11E925F1B52FC180096D142 /* SubCommand.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E11E92551B52FC180096D142;
+			remoteInfo = SubCommand;
+		};
 		E12F1E501B52355C005A4418 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */;
@@ -80,6 +88,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E11E92741B52FE310096D142 /* SubCommand.hitp in Copy Default Plugins */,
 				E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */,
 				E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */,
 				E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */,
@@ -93,6 +102,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E11E925F1B52FC180096D142 /* SubCommand.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubCommand.xcodeproj; path = SubCommand/SubCommand.xcodeproj; sourceTree = "<group>"; };
 		E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TestHTTP.xcodeproj; path = TestHTTP/TestHTTP.xcodeproj; sourceTree = "<group>"; };
 		E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenResource.xcodeproj; path = OpenResource/OpenResource.xcodeproj; sourceTree = "<group>"; };
 		E17743751B51F19B00A5B406 /* Separator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Separator.xcodeproj; path = Separator/Separator.xcodeproj; sourceTree = "<group>"; };
@@ -132,6 +142,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E11E92601B52FC180096D142 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E11E92671B52FC190096D142 /* SubCommand.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E12F1E4B1B52355B005A4418 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +167,7 @@
 				E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */,
 				E1AF404B1B529AA10017B4DD /* Quit.xcodeproj */,
 				E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */,
+				E11E925F1B52FC180096D142 /* SubCommand.xcodeproj */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -343,6 +362,10 @@
 					ProjectRef = E17743751B51F19B00A5B406 /* Separator.xcodeproj */;
 				},
 				{
+					ProductGroup = E11E92601B52FC180096D142 /* Products */;
+					ProjectRef = E11E925F1B52FC180096D142 /* SubCommand.xcodeproj */;
+				},
+				{
 					ProductGroup = E1AF40711B529F460017B4DD /* Products */;
 					ProjectRef = E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */;
 				},
@@ -364,6 +387,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		E11E92671B52FC190096D142 /* SubCommand.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SubCommand.hitp;
+			remoteRef = E11E92661B52FC190096D142 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E12F1E511B52355C005A4418 /* TestHTTP.hitp */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;

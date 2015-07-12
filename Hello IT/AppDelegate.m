@@ -52,6 +52,13 @@
                                                                                         ]
                                                                                 }
                                                                           },
+                                                                      @{@"functionIdentifier": @"public.sub.command",
+                                                                        @"settings": @{
+                                                                                @"title": @"Soud test",
+                                                                                @"commandPath": @"/usr/bin/say",
+                                                                                @"args":@{@"test": @"value"}
+                                                                                }
+                                                                        },
                                                                       @{@"functionIdentifier": @"public.separator"},
                                                                       @{@"functionIdentifier": @"public.open.resource",
                                                                         @"settings": @{

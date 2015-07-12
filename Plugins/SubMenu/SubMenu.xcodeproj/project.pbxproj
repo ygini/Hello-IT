@@ -11,11 +11,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E11E926E1B52FC580096D142 /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
 		E1AF40661B529F460017B4DD /* SubMenu.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SubMenu.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1AF406A1B529F460017B4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1AF40761B529F8A0017B4DD /* HITPSubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPSubMenu.h; sourceTree = "<group>"; };
 		E1AF40771B529F8A0017B4DD /* HITPSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPSubMenu.m; sourceTree = "<group>"; };
-		E1AF407A1B52A1DF0017B4DD /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,9 +29,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E11E926D1B52FC580096D142 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E11E926E1B52FC580096D142 /* HITPluginProtocol.h */,
+			);
+			name = Common;
+			path = ../../Common;
+			sourceTree = "<group>";
+		};
 		E1AF405D1B529F460017B4DD = {
 			isa = PBXGroup;
 			children = (
+				E11E926D1B52FC580096D142 /* Common */,
 				E1AF40681B529F460017B4DD /* SubMenu */,
 				E1AF40671B529F460017B4DD /* Products */,
 			);
@@ -48,7 +58,6 @@
 		E1AF40681B529F460017B4DD /* SubMenu */ = {
 			isa = PBXGroup;
 			children = (
-				E1AF40791B52A1DF0017B4DD /* Common */,
 				E1AF40691B529F460017B4DD /* Supporting Files */,
 				E1AF40761B529F8A0017B4DD /* HITPSubMenu.h */,
 				E1AF40771B529F8A0017B4DD /* HITPSubMenu.m */,
@@ -62,14 +71,6 @@
 				E1AF406A1B529F460017B4DD /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E1AF40791B52A1DF0017B4DD /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				E1AF407A1B52A1DF0017B4DD /* HITPluginProtocol.h */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +266,7 @@
 				E1AF406F1B529F460017B4DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

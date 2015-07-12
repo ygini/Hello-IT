@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 typedef NS_ENUM(NSUInteger, HITPluginTestState) {
+    HITPluginTestStateNoState = 0,
     HITPluginTestStateGreen = 1 << 0,
     HITPluginTestStateOrange = 1 << 1,
     HITPluginTestStateRed = 1 << 2
