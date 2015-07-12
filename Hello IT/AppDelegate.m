@@ -55,7 +55,9 @@
                                                                                 @"title": @"Apple",
                                                                                 @"URL": @"https://www.apple.com"
                                                                                 }
-                                                                        }
+                                                                        },
+                                                                      @{kMenuItemFunctionIdentifier: @"public.separator"},
+                                                                      @{kMenuItemFunctionIdentifier: @"public.quit"}
                                                                       ]
                                                               }];
     
@@ -96,14 +98,6 @@
             // TODO: log error
         }
     }
-    
-    
-    [self.statusMenu addItem:[NSMenuItem separatorItem]];
-    NSMenuItem *exitItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"QUIT_SERVICE", @"Status bar menu item allowing user to quit the application")
-                                                      action:@selector(terminate:)
-                                               keyEquivalent:@""];
-    exitItem.target = NSApp;
-    [self.statusMenu addItem:exitItem];
     
 }
 
