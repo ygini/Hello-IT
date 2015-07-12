@@ -44,8 +44,8 @@
                                                                         kMenuItemSettings: @{
                                                                                 @"title": @"Accès Internet",
                                                                                 @"URL": @"http://captive.apple.com",
-                                                                                @"originalString": @"<HTML><HEAD><TITLE>Success</TITLE></HEAD><BODY>Success</BODY></HTML>",
-                                                                                @"mode":@"compare",
+                                                                                @"originalString": @"73a78ff5bd7e5e88aa445826d4d6eecb",
+                                                                                @"mode":@"md5",
                                                                                 @"repeate": @60,
                                                                                 }
                                                                         },
