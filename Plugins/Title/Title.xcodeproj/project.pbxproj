@@ -266,6 +266,7 @@
 				E17743931B51F2C900A5B406 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
