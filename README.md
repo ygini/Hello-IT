@@ -30,7 +30,7 @@ Here is an example of what the Hello IT preferences can look like.
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>MenuList</key>
+	<key>content</key>
 	<array>
 		<dict>
 			<key>functionIdentifier</key>
@@ -82,14 +82,18 @@ Here is an example of what the Hello IT preferences can look like.
 			<string>public.quit</string>
 		</dict>
 	</array>
-	<key>MenuTitle</key>
+	<key>title</key>
 	<string>Hello IT</string>
 </dict>
 </plist>
 ```
 
-The MenuTitle key give the name of the menu in the status bar.
+The title key give the name of the menu in the status bar.
 
-Inside MenuList, the array describe the content of menu in the display order (from top to down). Each menu item is defined by a dictionnary who must have the key functionIdentifier and who may have a key settings.
+Inside content, the array describe the content of menu in the display order (from top to down). Each menu item is defined by a dictionnary who must have the key functionIdentifier and who may have a key settings.
 
 The content of the settings key is a dictionary. Acceptable values for this dictionary can be discovered in the plugin documentation.
+
+The main menu (the root one, that user see in the first time) is loaded by the public.submenu plugin. If you want to use your own plugin to load it, you just have to specify a functionIdentifier at the root of the preferences.
+
+When the main menu is created, the whole user preferences are used as settings. So you can get your own custom preferences if you decide to use a custom submenu plugin.
