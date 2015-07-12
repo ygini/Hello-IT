@@ -6,15 +6,25 @@
 //  Copyright (c) 2015 Yoann Gini (Open Source Project). All rights reserved.
 //
 
-#ifndef Hello_IT_HITPluginProtocol_h
-#define Hello_IT_HITPluginProtocol_h
-
 #import <Cocoa/Cocoa.h>
+
+typedef NS_ENUM(NSUInteger, HITPluginTestState) {
+    HITPluginTestStateGreen = 1 << 0,
+    HITPluginTestStateOrange = 1 << 1,
+    HITPluginTestStateRed = 1 << 2
+};
+
+@protocol HITPluginProtocol;
+
+@protocol HITPluginsManagerProtocol <NSObject>
+- (Class<HITPluginProtocol>)mainClassForPluginWithFunctionIdentifier:(NSString*)functionIdentifier;
+@end
 
 @protocol HITPluginProtocol <NSObject>
 @required
 + (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings;
 - (NSMenuItem*)menuItem;
+@optional
+- (HITPluginTestState)testState;
+- (void)setPluginsManager:(id<HITPluginsManagerProtocol>)manager;
 @end
-
-#endif

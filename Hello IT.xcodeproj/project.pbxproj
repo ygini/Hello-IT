@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E12F1E511B52355C005A4418 /* TestHTTP.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E177435F1B51EA8D00A5B406 /* OpenResource.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177435E1B51EA8600A5B406 /* OpenResource.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E17743611B51F17A00A5B406 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E17743601B51F17A00A5B406 /* Localizable.strings */; };
 		E17743801B51F23E00A5B406 /* Separator.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177437A1B51F19C00A5B406 /* Separator.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -20,6 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E12F1E501B52355C005A4418 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E12F1E401B52355B005A4418;
+			remoteInfo = TestHTTP;
+		};
 		E177435D1B51EA8600A5B406 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */;
@@ -57,6 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */,
 				E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */,
 				E17743801B51F23E00A5B406 /* Separator.hitp in Copy Default Plugins */,
 				E177435F1B51EA8D00A5B406 /* OpenResource.hitp in Copy Default Plugins */,
@@ -67,6 +76,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TestHTTP.xcodeproj; path = TestHTTP/TestHTTP.xcodeproj; sourceTree = "<group>"; };
 		E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenResource.xcodeproj; path = OpenResource/OpenResource.xcodeproj; sourceTree = "<group>"; };
 		E17743601B51F17A00A5B406 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E17743751B51F19B00A5B406 /* Separator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Separator.xcodeproj; path = Separator/Separator.xcodeproj; sourceTree = "<group>"; };
@@ -104,12 +114,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E12F1E4B1B52355B005A4418 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E12F1E511B52355C005A4418 /* TestHTTP.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E17743301B51E6E600A5B406 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
 				E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */,
 				E17743751B51F19B00A5B406 /* Separator.xcodeproj */,
 				E17743941B51F2C900A5B406 /* Title.xcodeproj */,
+				E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -285,6 +304,10 @@
 					ProjectRef = E17743751B51F19B00A5B406 /* Separator.xcodeproj */;
 				},
 				{
+					ProductGroup = E12F1E4B1B52355B005A4418 /* Products */;
+					ProjectRef = E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */;
+				},
+				{
 					ProductGroup = E17743951B51F2C900A5B406 /* Products */;
 					ProjectRef = E17743941B51F2C900A5B406 /* Title.xcodeproj */;
 				},
@@ -298,6 +321,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		E12F1E511B52355C005A4418 /* TestHTTP.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = TestHTTP.hitp;
+			remoteRef = E12F1E501B52355C005A4418 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E177435E1B51EA8600A5B406 /* OpenResource.hitp */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;

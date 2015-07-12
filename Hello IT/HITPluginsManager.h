@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HITPluginProtocol.h"
 
-@interface HITPluginsManager : NSObject
+@interface HITPluginsManager : NSObject <HITPluginsManagerProtocol>
 
 + (instancetype)sharedInstance;
 - (void)loadPluginsWithCompletionHandler:(void(^)(HITPluginsManager *pluginsManager))handler;

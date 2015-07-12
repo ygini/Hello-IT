@@ -40,6 +40,15 @@
                                                                                 @"title": @"Hello IT default content",
                                                                                 }
                                                                         },
+                                                                      @{kMenuItemFunctionIdentifier: @"public.test.http",
+                                                                        kMenuItemSettings: @{
+                                                                                @"title": @"Accès Internet",
+                                                                                @"URL": @"http://captive.apple.com",
+                                                                                @"originalString": @"<HTML><HEAD><TITLE>Success</TITLE></HEAD><BODY>Success</BODY></HTML>",
+                                                                                @"mode":@"compare",
+                                                                                @"repeate": @60,
+                                                                                }
+                                                                        },
                                                                       @{kMenuItemFunctionIdentifier: @"public.separator"},
                                                                       @{kMenuItemFunctionIdentifier: @"public.open.resource",
                                                                         kMenuItemSettings: @{
@@ -76,6 +85,11 @@
         
         id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKeyedSubscript:kMenuItemSettings]];
         if (pluginInstance) {
+            if ([pluginInstance respondsToSelector:@selector(setPluginsManager:)]) {
+                // Access to plugin manager may be needed to allow plugin to call other plugins,
+                // to create a submenu for example
+                [pluginInstance setPluginsManager:[HITPluginsManager sharedInstance]];
+            }
             [self.pluginInstances addObject:pluginInstance];
             [self.statusMenu addItem:[pluginInstance menuItem]];
         } else {
