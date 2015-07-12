@@ -1,6 +1,8 @@
 # Hello-IT
 The aim of this project is to provide a meta application usage by IT services to provide a status menu for OS X users with all sort of services inside
 
+![Application Screenshot](/Docs/screenshot.png?raw=true "Hello IT")
+
 ## Architecture
 
 The application use plugins located in multiple places to support different functions. Those function are usable by system administrator to configure a custom service menu with differents feature inside.
