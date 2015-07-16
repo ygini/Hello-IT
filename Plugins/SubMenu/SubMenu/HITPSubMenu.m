@@ -69,7 +69,7 @@
                 [self.subPluginInstances addObject:pluginInstance];
                 [menu addItem:[pluginInstance menuItem]];
             } else {
-                // TODO: log error
+                NSLog(@"Target plugin class %@ for function identifier %@ is unable to create any instance with +newPlugInInstanceWithSettings: method.", TargetPlugin, [item objectForKey:kMenuItemFunctionIdentifier]);
             }
         }
         

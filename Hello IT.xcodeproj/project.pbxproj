@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E11E92741B52FE310096D142 /* SubCommand.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E11E92671B52FC190096D142 /* SubCommand.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E12F1E511B52355C005A4418 /* TestHTTP.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E14B67BB1B57888700941A27 /* OpenApplication.bundle in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E14B67AC1B57856000941A27 /* OpenApplication.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E177435F1B51EA8D00A5B406 /* OpenResource.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177435E1B51EA8600A5B406 /* OpenResource.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E17743801B51F23E00A5B406 /* Separator.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177437A1B51F19C00A5B406 /* Separator.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E17743991B51F2CA00A5B406 /* Title.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -36,6 +37,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = E12F1E401B52355B005A4418;
 			remoteInfo = TestHTTP;
+		};
+		E14B67AB1B57856000941A27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E14B67A71B57856000941A27 /* OpenApplication.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14B679D1B57855F00941A27;
+			remoteInfo = OpenApplication;
 		};
 		E177435D1B51EA8600A5B406 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -88,6 +96,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E14B67BB1B57888700941A27 /* OpenApplication.bundle in Copy Default Plugins */,
 				E11E92741B52FE310096D142 /* SubCommand.hitp in Copy Default Plugins */,
 				E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */,
 				E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */,
@@ -104,6 +113,7 @@
 /* Begin PBXFileReference section */
 		E11E925F1B52FC180096D142 /* SubCommand.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubCommand.xcodeproj; path = SubCommand/SubCommand.xcodeproj; sourceTree = "<group>"; };
 		E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TestHTTP.xcodeproj; path = TestHTTP/TestHTTP.xcodeproj; sourceTree = "<group>"; };
+		E14B67A71B57856000941A27 /* OpenApplication.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenApplication.xcodeproj; path = OpenApplication/OpenApplication.xcodeproj; sourceTree = "<group>"; };
 		E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenResource.xcodeproj; path = OpenResource/OpenResource.xcodeproj; sourceTree = "<group>"; };
 		E17743751B51F19B00A5B406 /* Separator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Separator.xcodeproj; path = Separator/Separator.xcodeproj; sourceTree = "<group>"; };
 		E17743941B51F2C900A5B406 /* Title.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Title.xcodeproj; path = Title/Title.xcodeproj; sourceTree = "<group>"; };
@@ -158,6 +168,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E14B67A81B57856000941A27 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E14B67AC1B57856000941A27 /* OpenApplication.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E17743301B51E6E600A5B406 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +186,7 @@
 				E1AF404B1B529AA10017B4DD /* Quit.xcodeproj */,
 				E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */,
 				E11E925F1B52FC180096D142 /* SubCommand.xcodeproj */,
+				E14B67A71B57856000941A27 /* OpenApplication.xcodeproj */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -350,6 +369,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = E14B67A81B57856000941A27 /* Products */;
+					ProjectRef = E14B67A71B57856000941A27 /* OpenApplication.xcodeproj */;
+				},
+				{
 					ProductGroup = E177435A1B51EA8500A5B406 /* Products */;
 					ProjectRef = E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */;
 				},
@@ -399,6 +422,13 @@
 			fileType = wrapper.cfbundle;
 			path = TestHTTP.hitp;
 			remoteRef = E12F1E501B52355C005A4418 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E14B67AC1B57856000941A27 /* OpenApplication.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OpenApplication.bundle;
+			remoteRef = E14B67AB1B57856000941A27 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E177435E1B51EA8600A5B406 /* OpenResource.hitp */ = {

@@ -49,7 +49,9 @@
                                                                    includingPropertiesForKeys:nil
                                                                                       options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                                         error:&error];
-            // TODO: log error
+            if (error) {
+                NSLog(@"Error when trying to load plugins from %@\nError description: %@", pluginsFolderURL, [error localizedDescription]);
+            }
             
             for (NSURL *pluginURL in folderContent) {
                 if ([[pluginURL pathExtension] isEqualToString:@"hitp"]
@@ -57,6 +59,8 @@
                     
                     NSString *functionIdentifier = [[[NSBundle bundleWithURL:pluginURL] infoDictionary] objectForKey:kHITPFunctionIdentifier];
                     [plugins setObject:pluginURL forKey:functionIdentifier];
+                } else {
+                    NSLog(@"Unable to reference plugin at path: %@", pluginURL);
                 }
             }
         }
@@ -85,9 +89,12 @@
                                         appropriateForURL:nil
                                                    create:NO
                                                     error:&error];
-    // TODO: log error
-    URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
-    if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
+    if (error) {
+        NSLog(@"Error when trying to build URL for directory /Library\nError description: %@", [error localizedDescription]);
+    } else {
+        URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
+        if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
+    }
     
     // Plugins directory for current user (~/Library)
     URL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory
@@ -95,10 +102,12 @@
                                         appropriateForURL:nil
                                                    create:NO
                                                     error:&error];
-    // TODO: log error
-    URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
-    if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
-    
+    if (error) {
+        NSLog(@"Error when trying to build URL for directory ~/Library\nError description: %@", [error localizedDescription]);
+    } else {
+        URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
+        if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
+    }
     
     return [NSArray arrayWithArray:URLs];
 }
@@ -114,16 +123,18 @@
             plugin = [NSBundle bundleWithURL:pluginURL];
             [self.loadedPluginsPerFunctionIdentifier setObject:plugin forKey:functionIdentifier];
         } else {
-            // TODO: log error
+            NSLog(@"Plugin path returned for %@ isn't a file URL: %@", functionIdentifier, pluginURL);
         }
     }
     
     if (plugin) {
         NSError *error = nil;
         BOOL success = [plugin loadAndReturnError:&error];
-        // TODO: log error
+        
         if (success) {
             return [plugin principalClass];
+        } else {
+            NSLog(@"Error when loading plugin: %@", [error localizedDescription]);
         }
     }
     
