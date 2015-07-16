@@ -66,6 +66,12 @@
                                                                                 @"URL": @"https://www.apple.com"
                                                                                 }
                                                                         },
+                                                                      @{@"functionIdentifier": @"public.open.application",
+                                                                        @"settings": @{
+                                                                                @"title": @"Text Editor",
+                                                                                @"app": @"TextEdit"
+                                                                                }
+                                                                        },
                                                                       @{@"functionIdentifier": @"public.separator"},
                                                                       @{@"functionIdentifier": @"public.quit"}
                                                                       ]
