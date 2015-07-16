@@ -30,7 +30,7 @@
     if (self) {
         _title = [settings objectForKey:kHITPOpenApplicationTitle];
         _application = [settings objectForKey:kHITPOpenApplicationName];
-        _file = [settings objectForKey:kHITPOpenApplicationFileToOpen];
+        _file = [[settings objectForKey:kHITPOpenApplicationFileToOpen] stringByExpandingTildeInPath];
     }
     return self;
 }
