@@ -54,7 +54,7 @@
                                                                           },
                                                                       @{@"functionIdentifier": @"public.script.item",
                                                                         @"settings": @{
-                                                                                @"commandPath": @"~/SVN/Public/Hello-IT/Plugins/ScriptedItem/SampleScript/DisplayIP.sh",
+                                                                                @"path": @"~/SVN/Public/Hello-IT/Plugins/ScriptedItem/SampleScript/DisplayIP.sh",
                                                                                 @"repeat": @10,
                                                                                 }
                                                                         },

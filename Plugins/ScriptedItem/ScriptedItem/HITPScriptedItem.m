@@ -10,7 +10,7 @@
 
 
 #define kHITPSubCommandRepeat @"repeat"
-#define kHITPSubCommandScript @"commandPath"
+#define kHITPSubCommandScript @"path"
 #define kHITPSubCommandArgs @"args"
 
 @interface HITPScriptedItem ()
