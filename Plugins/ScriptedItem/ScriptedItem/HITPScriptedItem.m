@@ -31,6 +31,7 @@
             _scriptChecked = YES;
         } else {
             _scriptChecked = NO;
+            NSLog(@"Target script no accessible (%@)", _script);
         }
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
