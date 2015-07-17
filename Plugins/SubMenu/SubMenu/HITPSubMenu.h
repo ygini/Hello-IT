@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "HITPluginProtocol.h"
+#import <HITDevKit/HITDevKit.h>
 
-@interface HITPSubMenu : NSObject <HITPluginProtocol>
+@interface HITPSubMenu : HITAdvancedPlugin
 
 @end

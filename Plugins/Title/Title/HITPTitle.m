@@ -8,34 +8,6 @@
 
 #import "HITPTitle.h"
 
-#define kHITPTitle @"title"
-
-@interface HITPTitle ()
-@property NSString *title;
-@end
 @implementation HITPTitle
-
-+ (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings {
-    id instance = [[self alloc] initWithSettings:settings];
-    return instance;
-}
-
-- (instancetype)initWithSettings:(NSDictionary*)settings
-{
-    self = [super init];
-    if (self) {
-        _title = [settings objectForKey:kHITPTitle];
-    }
-    return self;
-}
-
-- (NSMenuItem*)menuItem {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] init];
-    menuItem.title = self.title;
-    
-    menuItem.target = self;
-    
-    return menuItem;
-}
 
 @end

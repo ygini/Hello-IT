@@ -8,18 +8,14 @@
 
 #import "HITPSubMenu.h"
 
-#define kHITPTitle @"title"
-#define kHITPContent @"content"
+#define kMenuItemContent @"content"
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemSettings @"settings"
 
 @interface HITPSubMenu ()
-@property NSString *title;
 @property NSArray *content;
-@property NSMenuItem *internalMenuItem;
 @property NSMutableArray *subPluginInstances;
 @property id<HITPluginsManagerProtocol> pluginsManager;
-@property HITPluginTestState testState;
 @end
 
 @implementation HITPSubMenu
@@ -31,52 +27,50 @@
 
 - (instancetype)initWithSettings:(NSDictionary*)settings
 {
-    self = [super init];
+    self = [super initWithSettings:settings];
     if (self) {
-        _title = [settings objectForKey:kHITPTitle];
-        _content = [settings objectForKey:kHITPContent];
+        _content = [settings objectForKey:kMenuItemContent];
         _subPluginInstances = [NSMutableArray new];
     }
     return self;
 }
 
-- (NSMenuItem*)menuItem {
-    if (!self.internalMenuItem) {
-        self.internalMenuItem = [[NSMenuItem alloc] init];
-        self.internalMenuItem.title = self.title;
+-(NSMenuItem *)prepareNewMenuItem {
+    NSMenuItem *menuItem = [super prepareNewMenuItem];
+    
+    menuItem.action = NULL;
+    menuItem.target = nil;
+    
+    NSMenu *menu = [[NSMenu alloc] init];
+    
+    for (NSDictionary *item in self.content) {
+        Class<HITPluginProtocol> TargetPlugin = [self.pluginsManager mainClassForPluginWithFunctionIdentifier:[item objectForKey:kMenuItemFunctionIdentifier]];
         
-        NSMenu *menu = [[NSMenu alloc] init];
-        
-        for (NSDictionary *item in self.content) {
-            Class<HITPluginProtocol> TargetPlugin = [self.pluginsManager mainClassForPluginWithFunctionIdentifier:[item objectForKey:kMenuItemFunctionIdentifier]];
-            
-            id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKey:kMenuItemSettings]];
-            if (pluginInstance) {
-                if ([pluginInstance respondsToSelector:@selector(setPluginsManager:)]) {
-                    // Access to plugin manager may be needed to allow plugin to call other plugins,
-                    // to create a submenu for example
-                    [pluginInstance setPluginsManager:self.pluginsManager];
-                }
-                
-                if ([pluginInstance respondsToSelector:@selector(testState)]) {
-                    NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
-                    [observablePluginInstance addObserver:self
-                                               forKeyPath:@"testState"
-                                                  options:0
-                                                  context:nil];
-                }
-                
-                [self.subPluginInstances addObject:pluginInstance];
-                [menu addItem:[pluginInstance menuItem]];
-            } else {
-                NSLog(@"Target plugin class %@ for function identifier %@ is unable to create any instance with +newPlugInInstanceWithSettings: method.", TargetPlugin, [item objectForKey:kMenuItemFunctionIdentifier]);
+        id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKey:kMenuItemSettings]];
+        if (pluginInstance) {
+            if ([pluginInstance respondsToSelector:@selector(setPluginsManager:)]) {
+                // Access to plugin manager may be needed to allow plugin to call other plugins,
+                // to create a submenu for example
+                [pluginInstance setPluginsManager:self.pluginsManager];
             }
+            
+            if ([pluginInstance respondsToSelector:@selector(testState)]) {
+                NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
+                [observablePluginInstance addObserver:self
+                                           forKeyPath:@"testState"
+                                              options:0
+                                              context:nil];
+            }
+            
+            [self.subPluginInstances addObject:pluginInstance];
+            [menu addItem:[pluginInstance menuItem]];
+        } else {
+            NSLog(@"Target plugin class %@ for function identifier %@ is unable to create any instance with +newPlugInInstanceWithSettings: method.", TargetPlugin, [item objectForKey:kMenuItemFunctionIdentifier]);
         }
-        
-        self.internalMenuItem.submenu = menu;
     }
     
-    return self.internalMenuItem;
+    menuItem.submenu = menu;
+    return menuItem;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -92,22 +86,6 @@
         else if (substate&HITPluginTestStateOrange) self.testState = HITPluginTestStateOrange;
         else if (substate&HITPluginTestStateGreen) self.testState = HITPluginTestStateGreen;
         
-        [self updateMenuItemState];
-    }
-}
-
-- (void)updateMenuItemState {
-    switch (self.testState) {
-        case HITPluginTestStateRed:
-            self.menuItem.state = NSOffState;
-            break;
-        case HITPluginTestStateGreen:
-            self.menuItem.state = NSOnState;
-            break;
-        case HITPluginTestStateOrange:
-        default:
-            self.menuItem.state = NSMixedState;
-            break;
     }
 }
 

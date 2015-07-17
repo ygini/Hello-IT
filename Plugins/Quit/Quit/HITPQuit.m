@@ -10,17 +10,13 @@
 
 @implementation HITPQuit
 
-+ (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings {
-    id instance = [self new];
-    return instance;
-}
-
-- (NSMenuItem*)menuItem {
+-(NSMenuItem *)prepareNewMenuItem {
     NSMenuItem *exitItem = [[NSMenuItem alloc] initWithTitle:[[NSBundle bundleForClass:[self class]] localizedStringForKey:@"QUIT_SERVICE" value:@"" table:nil]
                                                       action:@selector(terminate:)
                                                keyEquivalent:@""];
     exitItem.target = NSApp;
     return exitItem;
+
 }
 
 @end

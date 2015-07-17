@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E12F1E551B523574005A4418 /* HITPTestHTTP.m in Sources */ = {isa = PBXBuildFile; fileRef = E12F1E541B523574005A4418 /* HITPTestHTTP.m */; };
+		E1B2C9131B594164005A9936 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B2C9121B594164005A9936 /* HITDevKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -15,7 +16,7 @@
 		E12F1E441B52355B005A4418 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12F1E531B523574005A4418 /* HITPTestHTTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPTestHTTP.h; sourceTree = "<group>"; };
 		E12F1E541B523574005A4418 /* HITPTestHTTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPTestHTTP.m; sourceTree = "<group>"; };
-		E12F1E571B5235B0005A4418 /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
+		E1B2C9121B594164005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -23,6 +24,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1B2C9131B594164005A9936 /* HITDevKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +34,7 @@
 		E12F1E371B52355B005A4418 = {
 			isa = PBXGroup;
 			children = (
-				E12F1E561B5235B0005A4418 /* Common */,
+				E1B2C9121B594164005A9936 /* HITDevKit.framework */,
 				E12F1E421B52355B005A4418 /* TestHTTP */,
 				E12F1E411B52355B005A4418 /* Products */,
 			);
@@ -62,15 +64,6 @@
 				E12F1E441B52355B005A4418 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E12F1E561B5235B0005A4418 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				E12F1E571B5235B0005A4418 /* HITPluginProtocol.h */,
-			);
-			name = Common;
-			path = ../../Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +220,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = TestHTTP/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -239,6 +236,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = TestHTTP/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -266,6 +267,7 @@
 				E12F1E491B52355B005A4418 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

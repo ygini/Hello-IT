@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		E1AF40781B529F8A0017B4DD /* HITPSubMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AF40771B529F8A0017B4DD /* HITPSubMenu.m */; };
+		E1B2C91B1B594889005A9936 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B2C91A1B594889005A9936 /* HITDevKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E11E926E1B52FC580096D142 /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
 		E1AF40661B529F460017B4DD /* SubMenu.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SubMenu.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1AF406A1B529F460017B4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1AF40761B529F8A0017B4DD /* HITPSubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPSubMenu.h; sourceTree = "<group>"; };
 		E1AF40771B529F8A0017B4DD /* HITPSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPSubMenu.m; sourceTree = "<group>"; };
+		E1B2C91A1B594889005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -23,25 +24,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1B2C91B1B594889005A9936 /* HITDevKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E11E926D1B52FC580096D142 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				E11E926E1B52FC580096D142 /* HITPluginProtocol.h */,
-			);
-			name = Common;
-			path = ../../Common;
-			sourceTree = "<group>";
-		};
 		E1AF405D1B529F460017B4DD = {
 			isa = PBXGroup;
 			children = (
-				E11E926D1B52FC580096D142 /* Common */,
+				E1B2C91A1B594889005A9936 /* HITDevKit.framework */,
 				E1AF40681B529F460017B4DD /* SubMenu */,
 				E1AF40671B529F460017B4DD /* Products */,
 			);
@@ -227,6 +220,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = SubMenu/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -239,6 +236,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = SubMenu/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";

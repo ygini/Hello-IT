@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "HITPluginProtocol.h"
+#import <HITDevKit/HITDevKit.h>
 
-@interface HITPSeparator : NSObject <HITPluginProtocol>
+@interface HITPSeparator : HITBasicPlugin
 
 @end

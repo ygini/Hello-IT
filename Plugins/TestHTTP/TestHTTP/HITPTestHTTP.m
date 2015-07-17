@@ -10,94 +10,46 @@
 
 #import <CommonCrypto/CommonCrypto.h>
 
-#define kHITPTestHTTPTitle @"title"
 #define kHITPTestHTTPURL @"URL"
 #define kHITPTestHTTPStringToCompare @"originalString"
 #define kHITPTestHTTPMode @"mode"
-#define kHITPTestHTTPRepeat @"repeat"
 #define kHITPTestHTTPTimeout @"timeout"
 
 @interface HITPTestHTTP ()
-@property NSString *title;
 @property NSURL *testPage;
 @property NSString *mode;
 @property NSString *originalString;
-@property NSNumber *repeat;
-@property HITPluginTestState testState;
-@property NSTimer *cron;
-@property NSMenuItem *menuItem;
 @property NSInteger timeout;
 @end
 
 
 @implementation HITPTestHTTP
 
-+ (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings {
-    id instance = [[self alloc] initWithSettings:settings];
-    return instance;
-}
 
 - (instancetype)initWithSettings:(NSDictionary*)settings
 {
-    self = [super init];
+    self = [super initWithSettings:settings];
     if (self) {
-        _title = [settings objectForKey:kHITPTestHTTPTitle];
         _testPage = [NSURL URLWithString:[settings objectForKey:kHITPTestHTTPURL]];
         _mode = [settings objectForKey:kHITPTestHTTPMode];
         _originalString = [settings objectForKey:kHITPTestHTTPStringToCompare];
-        _repeat = [settings objectForKey:kHITPTestHTTPRepeat];
-        
-        _menuItem = [[NSMenuItem alloc] initWithTitle:self.title
-                                               action:@selector(runTheTest:)
-                                        keyEquivalent:@""];
-        _menuItem.target = self;
-        [_menuItem setState:NSMixedState];
-        
+
         NSNumber *timeout = [settings objectForKey:kHITPTestHTTPTimeout];
         if (timeout) {
             _timeout = [timeout integerValue];
         } else {
             _timeout = 30;
         }
-        
-        
-        if ([_repeat intValue] > 0) {
-            _cron = [NSTimer scheduledTimerWithTimeInterval:[_repeat integerValue]
-                                                     target:self
-                                                   selector:@selector(runTheTest:)
-                                                   userInfo:nil
-                                                    repeats:YES];
-            
-            [_cron fire];
-        } else {
-            [self runTheTest];
-        }
     }
     return self;
 }
 
-- (void)updateMenuItemState {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        switch (self.testState) {
-            case HITPluginTestStateRed:
-                self.menuItem.state = NSOffState;
-                break;
-            case HITPluginTestStateGreen:
-                self.menuItem.state = NSOnState;
-                break;
-            case HITPluginTestStateOrange:
-            default:
-                self.menuItem.state = NSMixedState;
-                break;
-        }
-    });
+
+-(void)periodicAction:(NSTimer *)timer {
+    [self mainAction:timer];
 }
 
-- (void)runTheTest:(id)sender {
-    [self runTheTest];
-}
-
-- (void)runTheTest {
+-(void)mainAction:(id)sender {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:self.testPage
@@ -147,8 +99,6 @@
                                            }
                                        }
                                    }
-                                   
-                                   [self updateMenuItemState];
                                }];
         
     });

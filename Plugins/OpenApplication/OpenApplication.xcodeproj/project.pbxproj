@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		E14B67BA1B5785E400941A27 /* HITPOpenApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = E14B67B91B5785E400941A27 /* HITPOpenApplication.m */; };
+		E1B2C91D1B594C12005A9936 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B2C91C1B594C12005A9936 /* HITDevKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E14B679D1B57855F00941A27 /* OpenApplication.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenApplication.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14B67A11B57856000941A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E14B67B71B57858600941A27 /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
 		E14B67B81B5785E400941A27 /* HITPOpenApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPOpenApplication.h; sourceTree = "<group>"; };
 		E14B67B91B5785E400941A27 /* HITPOpenApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPOpenApplication.m; sourceTree = "<group>"; };
+		E1B2C91C1B594C12005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -23,6 +24,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1B2C91D1B594C12005A9936 /* HITDevKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +34,7 @@
 		E14B67941B57855F00941A27 = {
 			isa = PBXGroup;
 			children = (
-				E14B67B61B57858600941A27 /* Common */,
+				E1B2C91C1B594C12005A9936 /* HITDevKit.framework */,
 				E14B679F1B57855F00941A27 /* OpenApplication */,
 				E14B679E1B57855F00941A27 /* Products */,
 			);
@@ -62,15 +64,6 @@
 				E14B67A11B57856000941A27 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E14B67B61B57858600941A27 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				E14B67B71B57858600941A27 /* HITPluginProtocol.h */,
-			);
-			name = Common;
-			path = ../../Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +220,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = OpenApplication/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -239,6 +236,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = OpenApplication/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -266,6 +267,7 @@
 				E14B67A61B57856000941A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

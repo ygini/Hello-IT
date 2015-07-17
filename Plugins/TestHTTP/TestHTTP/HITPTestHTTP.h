@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HITPluginProtocol.h"
 
-@interface HITPTestHTTP : NSObject <HITPluginProtocol>
+#import <HITDevKit/HITDevKit.h>
+
+@interface HITPTestHTTP : HITPeriodicPlugin
 
 @end

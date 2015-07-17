@@ -10,42 +10,24 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define kHITPOpenResourceTitle @"title"
 #define kHITPOpenResourceURL @"URL"
 
 @interface HITPOpenResource ()
-@property NSString *title;
 @property NSURL *resource;
 @end
 
 @implementation HITPOpenResource
 
-+ (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings {
-    id instance = [[self alloc] initWithSettings:settings];
-    return instance;
-}
-
 - (instancetype)initWithSettings:(NSDictionary*)settings
 {
-    self = [super init];
+    self = [super initWithSettings:settings];
     if (self) {
-        _title = [settings objectForKey:kHITPOpenResourceTitle];
         _resource = [NSURL URLWithString:[settings objectForKey:kHITPOpenResourceURL]];
     }
     return self;
 }
 
-- (NSMenuItem*)menuItem {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:self.title
-                                                      action:@selector(openRessource:)
-                                               keyEquivalent:@""];
-    
-    menuItem.target = self;
-    
-    return menuItem;
-}
-
-- (void)openRessource:(id)sender {
+- (void)mainAction:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:self.resource];
 }
 

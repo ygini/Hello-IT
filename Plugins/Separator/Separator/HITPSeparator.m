@@ -10,12 +10,7 @@
 
 @implementation HITPSeparator
 
-+ (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings {
-    id instance = [self new];
-    return instance;
-}
-
-- (NSMenuItem*)menuItem {    
+-(NSMenuItem *)prepareNewMenuItem {
     return [NSMenuItem separatorItem];
 }
 

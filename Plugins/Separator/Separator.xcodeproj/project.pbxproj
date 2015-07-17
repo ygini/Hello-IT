@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		E177437F1B51F1B700A5B406 /* HITPSeparator.m in Sources */ = {isa = PBXBuildFile; fileRef = E177437E1B51F1B700A5B406 /* HITPSeparator.m */; };
+		E1B2C90F1B593CA8005A9936 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B2C90E1B593CA8005A9936 /* HITDevKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E177436B1B51F19B00A5B406 /* Separator.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Separator.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		E177436F1B51F19B00A5B406 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E177437C1B51F1A700A5B406 /* HITPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
 		E177437D1B51F1B700A5B406 /* HITPSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPSeparator.h; sourceTree = "<group>"; };
 		E177437E1B51F1B700A5B406 /* HITPSeparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPSeparator.m; sourceTree = "<group>"; };
+		E1B2C90E1B593CA8005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -23,6 +24,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1B2C90F1B593CA8005A9936 /* HITDevKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +34,7 @@
 		E17743621B51F19B00A5B406 = {
 			isa = PBXGroup;
 			children = (
-				E177437B1B51F1A700A5B406 /* Common */,
+				E1B2C90E1B593CA8005A9936 /* HITDevKit.framework */,
 				E177436D1B51F19B00A5B406 /* Separator */,
 				E177436C1B51F19B00A5B406 /* Products */,
 			);
@@ -62,15 +64,6 @@
 				E177436F1B51F19B00A5B406 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E177437B1B51F1A700A5B406 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				E177437C1B51F1A700A5B406 /* HITPluginProtocol.h */,
-			);
-			name = Common;
-			path = ../../Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +220,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = Separator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -239,6 +236,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
+				);
 				INFOPLIST_FILE = Separator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";

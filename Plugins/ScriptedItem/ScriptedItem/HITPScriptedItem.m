@@ -9,33 +9,21 @@
 #import "HITPScriptedItem.h"
 
 
-#define kHITPSubCommandRepeat @"repeat"
 #define kHITPSubCommandScript @"path"
 #define kHITPSubCommandArgs @"args"
 
 @interface HITPScriptedItem ()
-@property NSMenuItem *menuItem;
-@property HITPluginTestState testState;
-@property NSTimer *cron;
-
-@property NSNumber *repeat;
 @property NSString *script;
-
 @property NSString *base64PlistArgs;
 @end
 
 @implementation HITPScriptedItem
 
-+ (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings {
-    id instance = [[self alloc] initWithSettings:settings];
-    return instance;
-}
 
 - (instancetype)initWithSettings:(NSDictionary*)settings
 {
-    self = [super init];
+    self = [super initWithSettings:settings];
     if (self) {
-        _repeat = [settings objectForKey:kHITPSubCommandRepeat];
         _script = [[settings objectForKey:kHITPSubCommandScript] stringByExpandingTildeInPath];
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
@@ -71,87 +59,66 @@
             _base64PlistArgs = @"";
         }
         
-        _menuItem = [[NSMenuItem alloc] initWithTitle:@"…"
-                                               action:@selector(runOnce:)
-                                        keyEquivalent:@""];
-        _menuItem.target = self;
-        [_menuItem setState:NSOffState];
-        
-        if ([_repeat intValue] > 0) {
-            _cron = [NSTimer scheduledTimerWithTimeInterval:[_repeat integerValue]
-                                                     target:self
-                                                   selector:@selector(periodicRun:)
-                                                   userInfo:nil
-                                                    repeats:YES];
-            
-            [_cron fire];
-        }
-        
-        [self updateTitle:self];
     }
     return self;
 }
 
-- (void)updateMenuItemState {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        switch (self.testState) {
-            case HITPluginTestStateRed:
-                self.menuItem.state = NSOffState;
-                break;
-            case HITPluginTestStateGreen:
-                self.menuItem.state = NSOnState;
-                break;
-            case HITPluginTestStateOrange:
-            default:
-                self.menuItem.state = NSMixedState;
-                break;
-        }
-    });
+-(NSMenuItem *)prepareNewMenuItem {
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"…"
+                                           action:@selector(mainAction:)
+                                    keyEquivalent:@""];
+    menuItem.target = self;
+    
+    [self performSelector:@selector(updateTitle) withObject:nil afterDelay:0];
+    
+    return menuItem;
 }
 
-- (void)runOnce:(id)sender {
+-(void)mainAction:(id)sender {
     [self runScriptWithCommand:@"run"];
 }
 
-- (void)periodicRun:(id)sender {
+-(void)periodicAction:(NSTimer *)timer {
     [self runScriptWithCommand:@"periodic-run"];
 }
 
-- (void)updateTitle:(id)sender {
+- (void)updateTitle {
     [self runScriptWithCommand:@"title"];
 }
 
 - (void)runScriptWithCommand:(NSString*)command {
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath:self.script];
-    [task setArguments:@[command, self.base64PlistArgs]];
-    
-    [task setStandardOutput:[NSPipe pipe]];
-    NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
-    
-    dispatch_io_t stdoutChannel = dispatch_io_create(DISPATCH_IO_STREAM, [fileToRead fileDescriptor], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(int error) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSTask *task = [[NSTask alloc] init];
+        [task setLaunchPath:self.script];
+        [task setArguments:@[command, self.base64PlistArgs]];
         
-    });
-    
-    dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
-        NSData *stdoutData = (NSData *)data;
+        [task setStandardOutput:[NSPipe pipe]];
+        NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
         
-        NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+        dispatch_io_t stdoutChannel = dispatch_io_create(DISPATCH_IO_STREAM, [fileToRead fileDescriptor], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(int error) {
+            
+        });
         
-        NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
-        
-        for (NSString *line in stdoutLines) {
-            if ([line hasPrefix:@"hitp-"]) {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    [self handleScriptRequest:line];
-                });
+        dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
+            NSData *stdoutData = (NSData *)data;
+            
+            NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+            
+            NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
+            
+            for (NSString *line in stdoutLines) {
+                if ([line hasPrefix:@"hitp-"]) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        [self handleScriptRequest:line];
+                    });
+                }
             }
-        }
+        });
+        
+        [task launch];
+        
+        [task waitUntilExit];
     });
-    
-    [task launch];
-    
-    [task waitUntilExit];
 }
 
 - (void)handleScriptRequest:(NSString*)request {
@@ -176,7 +143,6 @@
                 self.testState = HITPluginTestStateNoState;
             }
             
-            [self updateMenuItemState];
         } else if ([key isEqualToString:@"hitp-enabled"]) {
             value = [value uppercaseString];
             
