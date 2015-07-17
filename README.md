@@ -1,29 +1,29 @@
 # Hello-IT
-The aim of this project is to provide a meta application usage by IT services to provide a status menu for OS X users with all sort of services inside
+The aim of this project is to create a "meta application", used by IT services to provide an OS X menu item with all sorts of definable services inside
 
 ![Application Screenshot](/Docs/screenshot.png?raw=true "Hello IT")
 
 ## Architecture
 
-The application use plugins located in multiple places to support different functions. Those function are usable by system administrator to configure a custom service menu with differents feature inside.
+The application uses plugins located in multiple places to support different functions. Those functions allow the system administrator to generate a custom service menu with different features inside.
 
 The plugins are located in:
-* The application PlugIns folder for the original one;
+* The PlugIns folder for the application itself;
 * /Library/Application Support/com.github.ygini.Hello-IT/PlugIns;
 * ~/Library/Application Support/com.github.ygini.Hello-IT/PlugIns;
 and loaded in the same order.
 
-Each plugin can offer only one function identified by the HITPFunctionIdentifier key in the info file. When the Hello IT application start, it reference all bundle path per function identifier.
+Each plugin can offer only one function, as identified by the HITPFunctionIdentifier key in the info file. When the Hello IT application starts, it references all bundle paths per function identifier.
 
-That mean, if the example.function identifier is provided by a bundle in the application package and an other one in the user home folder, the application will use the one in the application folder.
+That means, if the example.function identifier is provided by a bundle in the application package and another one is in the user home folder, the application will use the one in the application folder.
 
-Bundle are listed at the start of the application but not loaded.
+Bundles are listed at the start of the application but not loaded.
 
 ## Configuration
 
-To load a bundle, the system administrator need to provide a config file for the domain com.github.ygini.Hello-IT. It can be dpeloyed via a regular pref file or MDM/MCX settings.
+To load a bundle, the system administrator needs to provide a config file for the domain com.github.ygini.Hello-IT. It can be deployed via a regular pref file or MDM/MCX settings.
 
-The preference file can overload the name of the menu (to change from Hello IT to anythin you want) and build the content of the menu.
+The preference file can overload the name of the menu (to change from Hello IT to anything you want) and build the content of the menu.
 
 Here is an example of what the Hello IT preferences can look like.
 
@@ -102,12 +102,12 @@ Here is an example of what the Hello IT preferences can look like.
 </plist>
 ```
 
-The title key give the name of the menu in the status bar.
+The title key gives the name of the menu in the status bar.
 
-Inside content, the array describe the content of menu in the display order (from top to down). Each menu item is defined by a dictionnary who must have the key functionIdentifier and who may have a key settings.
+Inside content, the array describes the content of menu in the display order (from top to down). Each menu item is defined by a dictionary, which must have the key functionIdentifier and which may have additional key settings.
 
 The content of the settings key is a dictionary. Acceptable values for this dictionary can be discovered in the plugin documentation.
 
-The main menu (the root one, that user see in the first time) is loaded by the public.submenu plugin. If you want to use your own plugin to load it, you just have to specify a functionIdentifier at the root of the preferences.
+The main menu (the root one, that the user sees at first launch) is loaded by the public.submenu plugin. If you want to use your own plugin to load it, you just have to specify a functionIdentifier at the root of the preferences.
 
 When the main menu is created, the whole user preferences are used as settings. So you can get your own custom preferences if you decide to use a custom submenu plugin.
