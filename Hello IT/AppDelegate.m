@@ -52,11 +52,10 @@
                                                                                         ]
                                                                                 }
                                                                           },
-                                                                      @{@"functionIdentifier": @"public.sub.command",
+                                                                      @{@"functionIdentifier": @"public.script.item",
                                                                         @"settings": @{
-                                                                                @"title": @"Soud test",
-                                                                                @"commandPath": @"/usr/bin/say",
-                                                                                @"args":@{@"test": @"value"}
+                                                                                @"commandPath": @"~/SVN/Public/Hello-IT/Plugins/ScriptedItem/SampleScript/DisplayIP.sh",
+                                                                                @"repeat": @10,
                                                                                 }
                                                                         },
                                                                       @{@"functionIdentifier": @"public.separator"},
