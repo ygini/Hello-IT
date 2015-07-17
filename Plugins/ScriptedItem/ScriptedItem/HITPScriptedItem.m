@@ -14,6 +14,7 @@
 
 @interface HITPScriptedItem ()
 @property NSString *script;
+@property BOOL scriptChecked;
 @property NSString *base64PlistArgs;
 @end
 
@@ -25,6 +26,12 @@
     self = [super initWithSettings:settings];
     if (self) {
         _script = [[settings objectForKey:kHITPSubCommandScript] stringByExpandingTildeInPath];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
+            _scriptChecked = YES;
+        } else {
+            _scriptChecked = NO;
+        }
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
         if (args) {
@@ -87,38 +94,40 @@
 }
 
 - (void)runScriptWithCommand:(NSString*)command {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSTask *task = [[NSTask alloc] init];
-        [task setLaunchPath:self.script];
-        [task setArguments:@[command, self.base64PlistArgs]];
-        
-        [task setStandardOutput:[NSPipe pipe]];
-        NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
-        
-        dispatch_io_t stdoutChannel = dispatch_io_create(DISPATCH_IO_STREAM, [fileToRead fileDescriptor], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(int error) {
+    if (self.scriptChecked) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSTask *task = [[NSTask alloc] init];
+            [task setLaunchPath:self.script];
+            [task setArguments:@[command, self.base64PlistArgs]];
             
-        });
-        
-        dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
-            NSData *stdoutData = (NSData *)data;
+            [task setStandardOutput:[NSPipe pipe]];
+            NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
             
-            NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+            dispatch_io_t stdoutChannel = dispatch_io_create(DISPATCH_IO_STREAM, [fileToRead fileDescriptor], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(int error) {
+                
+            });
             
-            NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
-            
-            for (NSString *line in stdoutLines) {
-                if ([line hasPrefix:@"hitp-"]) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                        [self handleScriptRequest:line];
-                    });
+            dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
+                NSData *stdoutData = (NSData *)data;
+                
+                NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+                
+                NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
+                
+                for (NSString *line in stdoutLines) {
+                    if ([line hasPrefix:@"hitp-"]) {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                            [self handleScriptRequest:line];
+                        });
+                    }
                 }
-            }
+            });
+            
+            [task launch];
+            
+            [task waitUntilExit];
         });
-        
-        [task launch];
-        
-        [task waitUntilExit];
-    });
+    }
 }
 
 - (void)handleScriptRequest:(NSString*)request {
