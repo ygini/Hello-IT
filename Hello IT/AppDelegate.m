@@ -11,6 +11,7 @@
 #import "HITPluginsManager.h"
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
+#define kMenuItemStatusBarIcon @"icon"
 
 @interface AppDelegate ()
 
@@ -29,6 +30,7 @@
     self.pluginInstances = [NSMutableArray new];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                                                              @"icon": @"default",
                                                               @"title": @"Hello IT",
                                                               @"content": @[
                                                                       @{@"functionIdentifier": @"public.title",
@@ -106,7 +108,23 @@
     
     self.statusItem = [bar statusItemWithLength:NSVariableStatusItemLength];
     
-    self.statusItem.title = [self.statusMenuManager menuItem].title;
+    NSString *iconString = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarIcon];
+    NSImage *icon = nil;
+    
+    if (iconString) {
+        if ([iconString isEqualToString:@"default"]) {
+            icon = [NSImage imageNamed:@"statusbar"];
+        } else if ([[NSFileManager defaultManager] fileExistsAtPath:iconString]) {
+            icon = [[NSImage alloc] initWithContentsOfFile:iconString];
+        }
+    }
+    
+    if (icon) {
+        self.statusItem.image = icon;
+    } else {
+        self.statusItem.title = [self.statusMenuManager menuItem].title;
+    }
+    
     self.statusItem.highlightMode = YES;
     self.statusItem.menu = [self.statusMenuManager menuItem].submenu;
 }
