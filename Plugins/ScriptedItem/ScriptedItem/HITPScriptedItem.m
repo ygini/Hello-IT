@@ -143,14 +143,16 @@
         } else if ([key isEqualToString:@"hitp-state"]) {
             value = [value lowercaseString];
             
-            if ([value isEqualToString:@"green"]) {
-                self.testState = HITPluginTestStateGreen;
-            } else if ([value isEqualToString:@"orange"]) {
-                self.testState = HITPluginTestStateOrange;
-            } else if ([value isEqualToString:@"red"]) {
-                self.testState = HITPluginTestStateRed;
+            if ([value isEqualToString:@"ok"]) {
+                self.testState = HITPluginTestStateOK;
+            } else if ([value isEqualToString:@"warning"]) {
+                self.testState = HITPluginTestStateWarning;
+            } else if ([value isEqualToString:@"error"]) {
+                self.testState = HITPluginTestStateError;
             } else if ([value isEqualToString:@"none"]) {
-                self.testState = HITPluginTestStateNoState;
+                self.testState = HITPluginTestStateNone;
+            } else if ([value isEqualToString:@"unavailable"]) {
+                self.testState = HITPluginTestStateUnavailable;
             }
             
         } else if ([key isEqualToString:@"hitp-enabled"]) {

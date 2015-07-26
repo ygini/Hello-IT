@@ -82,9 +82,9 @@
             }
         }
         
-        if (substate&HITPluginTestStateRed) self.testState = HITPluginTestStateRed;
-        else if (substate&HITPluginTestStateOrange) self.testState = HITPluginTestStateOrange;
-        else if (substate&HITPluginTestStateGreen) self.testState = HITPluginTestStateGreen;
+        if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
+        else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
+        else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
         
     }
 }

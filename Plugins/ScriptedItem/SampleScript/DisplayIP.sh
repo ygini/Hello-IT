@@ -11,7 +11,7 @@ function updateTitleWithMainIP {
 			if [[ "$ip" != "169.254.*" ]]
 			then
 				echo "hitp-title: $ip"
-				echo "hitp-state: green"
+				echo "hitp-state: ok"
 				ipFound="yes"
 				break
 			fi
@@ -21,7 +21,7 @@ function updateTitleWithMainIP {
 	if [[ "$ipFound" == "no" ]]
 	then
 		echo "hitp-title: No IP Address"
-		echo "hitp-state: red"
+		echo "hitp-state: error"
 	fi
 }
 echo "hitp-enabled: NO"

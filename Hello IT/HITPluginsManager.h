@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HITPluginProtocol.h"
+#import <HITDevKit/HITDevKit.h>
 
 @interface HITPluginsManager : NSObject <HITPluginsManagerProtocol>
 

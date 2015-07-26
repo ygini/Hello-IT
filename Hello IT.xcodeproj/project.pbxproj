@@ -13,6 +13,8 @@
 		E177435F1B51EA8D00A5B406 /* OpenResource.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177435E1B51EA8600A5B406 /* OpenResource.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E17743801B51F23E00A5B406 /* Separator.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E177437A1B51F19C00A5B406 /* Separator.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E17743991B51F2CA00A5B406 /* Title.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E17EA3B31B64C66F00A079E8 /* statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = E17EA3B11B64C66F00A079E8 /* statusbar.png */; };
+		E17EA3B61B64C70200A079E8 /* statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E17EA3B51B64C70200A079E8 /* statusbar@2x.png */; };
 		E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40511B529AA20017B4DD /* Quit.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40751B529F470017B4DD /* SubMenu.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1B2C90B1B593B02005A9936 /* HITDevKit.framework in Copy Frameworks (1 item) */ = {isa = PBXBuildFile; fileRef = E1B2C8F31B59351C005A9936 /* HITDevKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -143,6 +145,8 @@
 		E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenResource.xcodeproj; path = OpenResource/OpenResource.xcodeproj; sourceTree = "<group>"; };
 		E17743751B51F19B00A5B406 /* Separator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Separator.xcodeproj; path = Separator/Separator.xcodeproj; sourceTree = "<group>"; };
 		E17743941B51F2C900A5B406 /* Title.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Title.xcodeproj; path = Title/Title.xcodeproj; sourceTree = "<group>"; };
+		E17EA3B11B64C66F00A079E8 /* statusbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = statusbar.png; sourceTree = "<group>"; };
+		E17EA3B51B64C70200A079E8 /* statusbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar@2x.png"; sourceTree = "<group>"; };
 		E1AF404B1B529AA10017B4DD /* Quit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quit.xcodeproj; path = Quit/Quit.xcodeproj; sourceTree = "<group>"; };
 		E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubMenu.xcodeproj; path = SubMenu/SubMenu.xcodeproj; sourceTree = "<group>"; };
 		E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HITDevKit.xcodeproj; path = HITDevKit/HITDevKit.xcodeproj; sourceTree = "<group>"; };
@@ -158,7 +162,6 @@
 		E1D068131B51D08F00567172 /* Hello_ITTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Hello_ITTests.m; sourceTree = "<group>"; };
 		E1D0681D1B51D4B500567172 /* HITPluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginsManager.h; sourceTree = "<group>"; };
 		E1D0681E1B51D4B500567172 /* HITPluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPluginsManager.m; sourceTree = "<group>"; };
-		E1D068341B51E58000567172 /* HITPluginProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HITPluginProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,7 +275,6 @@
 			children = (
 				E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */,
 				E17743301B51E6E600A5B406 /* Plugins */,
-				E1D068331B51E56700567172 /* Common */,
 				E1D067FC1B51D08E00567172 /* Hello IT */,
 				E1D068101B51D08F00567172 /* Hello ITTests */,
 				E1D067FB1B51D08E00567172 /* Products */,
@@ -296,6 +298,8 @@
 				E1D0681D1B51D4B500567172 /* HITPluginsManager.h */,
 				E1D0681E1B51D4B500567172 /* HITPluginsManager.m */,
 				E1D068041B51D08E00567172 /* Images.xcassets */,
+				E17EA3B11B64C66F00A079E8 /* statusbar.png */,
+				E17EA3B51B64C70200A079E8 /* statusbar@2x.png */,
 				E1D068061B51D08E00567172 /* MainMenu.xib */,
 				E1D067FD1B51D08E00567172 /* Supporting Files */,
 			);
@@ -326,14 +330,6 @@
 				E1D068121B51D08F00567172 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E1D068331B51E56700567172 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				E1D068341B51E58000567172 /* HITPluginProtocol.h */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -530,7 +526,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17EA3B31B64C66F00A079E8 /* statusbar.png in Resources */,
 				E1D068051B51D08E00567172 /* Images.xcassets in Resources */,
+				E17EA3B61B64C70200A079E8 /* statusbar@2x.png in Resources */,
 				E1D068081B51D08E00567172 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

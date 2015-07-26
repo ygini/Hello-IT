@@ -21,18 +21,21 @@
 - (void)updateMenuItemState {
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (self.testState) {
-            case HITPluginTestStateRed:
+            case HITPluginTestStateError:
                 self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Error"
                                                                                                                                                       ofType:@"tiff"]];
                 break;
-            case HITPluginTestStateGreen:
+            case HITPluginTestStateOK:
                 self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"OK"
                                                                                                                                                       ofType:@"tiff"]];
                 break;
-            case HITPluginTestStateOrange:
+            case HITPluginTestStateWarning:
                 self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Warning"
                                                                                                                                                       ofType:@"tiff"]];
                 break;
+            case HITPluginTestStateUnavailable:
+                break;
+            case HITPluginTestStateNone:
             default:
                 self.menuItem.image = nil;
                 break;

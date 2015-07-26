@@ -58,21 +58,21 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                    if (connectionError) {
-                                       self.testState = HITPluginTestStateRed;
+                                       self.testState = HITPluginTestStateError;
                                    } else {
                                        if ([self.mode isEqualToString:@"compare"]) {
                                            NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                            if ([content isEqualToString:self.originalString]) {
-                                               self.testState = HITPluginTestStateGreen;
+                                               self.testState = HITPluginTestStateOK;
                                            } else {
-                                               self.testState = HITPluginTestStateOrange;
+                                               self.testState = HITPluginTestStateWarning;
                                            }
                                        } else if ([self.mode isEqualToString:@"contain"]) {
                                            NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                            if ([content containsString:self.originalString]) {
-                                               self.testState = HITPluginTestStateGreen;
+                                               self.testState = HITPluginTestStateOK;
                                            } else {
-                                               self.testState = HITPluginTestStateOrange;
+                                               self.testState = HITPluginTestStateWarning;
                                            }
                                        } else if ([self.mode isEqualToString:@"md5"]) {
                                            CC_MD5_CTX md5sum;
@@ -93,9 +93,9 @@
                                                                   digest[14], digest[15]];
                                            
                                            if ([md5String isEqualToString:self.originalString]) {
-                                               self.testState = HITPluginTestStateGreen;
+                                               self.testState = HITPluginTestStateOK;
                                            } else {
-                                               self.testState = HITPluginTestStateOrange;
+                                               self.testState = HITPluginTestStateWarning;
                                            }
                                        }
                                    }
