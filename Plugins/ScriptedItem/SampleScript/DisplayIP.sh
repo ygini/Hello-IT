@@ -12,6 +12,7 @@ function updateTitleWithMainIP {
 			then
 				echo "hitp-title: $ip"
 				echo "hitp-state: ok"
+				echo "hitp-tooltip: Having an IP address don't mean you've Internet access"
 				ipFound="yes"
 				break
 			fi
@@ -22,6 +23,7 @@ function updateTitleWithMainIP {
 	then
 		echo "hitp-title: No IP Address"
 		echo "hitp-state: error"
+		echo "hitp-tooltip: Please, check your Ethernet or WiFi connection"
 	fi
 }
 echo "hitp-enabled: NO"

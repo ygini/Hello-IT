@@ -73,8 +73,8 @@
 
 -(NSMenuItem *)prepareNewMenuItem {
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"…"
-                                           action:@selector(mainAction:)
-                                    keyEquivalent:@""];
+                                                      action:@selector(mainAction:)
+                                               keyEquivalent:@""];
     menuItem.target = self;
     
     [self performSelector:@selector(updateTitle) withObject:nil afterDelay:0];
@@ -163,6 +163,9 @@
             } else if ([value isEqualToString:@"NO"]) {
                 self.menuItem.enabled = NO;
             }
+            
+        } else if ([key isEqualToString:@"hitp-tooltip"]) {
+            self.menuItem.toolTip = value;
         }
     });
 }
