@@ -34,6 +34,8 @@
                                                                                                                                                       ofType:@"tiff"]];
                 break;
             case HITPluginTestStateUnavailable:
+                self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Unavailable"
+                                                                                                                                                      ofType:@"tiff"]];
                 break;
             case HITPluginTestStateNone:
             default:

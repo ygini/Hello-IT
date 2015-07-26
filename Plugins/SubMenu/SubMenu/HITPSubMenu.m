@@ -84,6 +84,7 @@
         
         if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
         else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
+        else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
         else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
         
     }
