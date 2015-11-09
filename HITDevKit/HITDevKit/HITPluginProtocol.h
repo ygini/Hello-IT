@@ -20,13 +20,20 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 
 @protocol HITPluginsManagerProtocol <NSObject>
 - (Class<HITPluginProtocol>)mainClassForPluginWithFunctionIdentifier:(NSString*)functionIdentifier;
+- (void)registerPluginInstanceAsNetworkRelated:(id<HITPluginProtocol>)plugin;
 @end
 
 @protocol HITPluginProtocol <NSObject>
+
 @required
 + (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings;
 - (NSMenuItem*)menuItem;
+
 @optional
 - (HITPluginTestState)testState;
 - (void)setPluginsManager:(id<HITPluginsManagerProtocol>)manager;
+
+- (BOOL)isNetworkRelated;
+- (void)generalNetworkStateUpdate:(BOOL)state;
+
 @end

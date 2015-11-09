@@ -12,9 +12,12 @@
 
 #define kHITPFunctionIdentifier @"HITPFunctionIdentifier"
 
+#import "Reachability.h"
+
 @interface HITPluginsManager ()
 @property NSDictionary *pluginURLPerFunctionIdentifier;
 @property NSMutableDictionary *loadedPluginsPerFunctionIdentifier;
+@property NSMutableArray *networkRelatedPluginInstances;
 @end
 
 @implementation HITPluginsManager
@@ -35,6 +38,9 @@
     self = [super init];
     if (self) {
         _loadedPluginsPerFunctionIdentifier = [NSMutableDictionary new];
+        _networkRelatedPluginInstances = [NSMutableArray new];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChangedNotification:) name:kReachabilityChangedNotification object:nil];
     }
     return self;
 }
@@ -139,6 +145,26 @@
     }
     
     return Nil;
+}
+
+- (void)registerPluginInstanceAsNetworkRelated:(id<HITPluginProtocol>)plugin {
+    [self.networkRelatedPluginInstances addObject:plugin];
+}
+
+#pragma mark - Network related plugins management
+
+- (void)reachabilityChangedNotification:(NSNotification*)notification {
+    if ([notification.object isKindOfClass:[Reachability class]]) {
+        Reachability *reachability = notification.object;
+        
+        for (id<HITPluginProtocol> plugin in self.networkRelatedPluginInstances) {
+            BOOL state = [reachability currentReachabilityStatus] != NotReachable;
+            
+            if ([plugin respondsToSelector:@selector(generalNetworkStateUpdate:)]) {
+                [plugin generalNetworkStateUpdate:state];
+            }
+        }
+    }
 }
 
 #pragma mark - Toolbox

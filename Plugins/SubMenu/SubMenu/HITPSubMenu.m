@@ -62,6 +62,12 @@
                                               context:nil];
             }
             
+            if ([pluginInstance respondsToSelector:@selector(isNetworkRelated)]) {
+                if ([pluginInstance isNetworkRelated]) {
+                    [self.pluginsManager registerPluginInstanceAsNetworkRelated:pluginInstance];
+                }
+            }
+            
             [self.subPluginInstances addObject:pluginInstance];
             [menu addItem:[pluginInstance menuItem]];
         } else {

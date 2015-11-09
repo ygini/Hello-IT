@@ -10,6 +10,8 @@
 
 #import "HITPluginsManager.h"
 
+#import "Reachability.h"
+
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemStatusBarIcon @"icon"
 
@@ -20,6 +22,7 @@
 @property (strong) IBOutlet NSMenu *statusMenu;
 @property id<HITPluginProtocol> statusMenuManager;
 @property NSMutableArray *pluginInstances;
+@property Reachability *reachability;
 
 @end
 
@@ -58,6 +61,7 @@
                                                                         @"settings": @{
                                                                                 @"path": @"~/SVN/Public/Hello-IT/Plugins/ScriptedItem/SampleScript/DisplayIP.sh",
                                                                                 @"repeat": @10,
+                                                                                @"network": @YES
                                                                                 }
                                                                         },
                                                                       @{@"functionIdentifier": @"public.separator"},
@@ -80,11 +84,16 @@
         
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
+        
+        self.reachability = [Reachability reachabilityForLocalNetwork];
+        [self.reachability startNotifier];
     }];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+    
+    [self.reachability stopNotifier];
 }
 
 - (void)loadMenu {

@@ -2,6 +2,7 @@
 
 function updateTitleWithMainIP {
 	ipFound="no"
+	globalNetworkState="$3"
 	
 	while read line 
 	do 
@@ -22,8 +23,14 @@ function updateTitleWithMainIP {
 	if [[ "$ipFound" == "no" ]]
 	then
 		echo "hitp-title: No IP Address"
-		echo "hitp-state: error"
-		echo "hitp-tooltip: Please, check your Ethernet or WiFi connection"
+		if [[ "$globalNetworkState" == "1" ]]
+		then
+			echo "hitp-state: error"
+			echo "hitp-tooltip: Please, check your Ethernet or WiFi connection"
+		else
+			echo "hitp-state: unavailable"
+			echo "hitp-tooltip: No network connection available"
+		fi
 	fi
 }
 echo "hitp-enabled: NO"

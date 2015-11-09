@@ -11,15 +11,17 @@
 
 #define kHITPSubCommandScript @"path"
 #define kHITPSubCommandArgs @"args"
+#define kHITPSubCommandNetworkRelated @"network"
 
 @interface HITPScriptedItem ()
 @property NSString *script;
 @property BOOL scriptChecked;
 @property NSString *base64PlistArgs;
+@property BOOL isNetworkRelated;
+@property BOOL generalNetworkState;
 @end
 
 @implementation HITPScriptedItem
-
 
 - (instancetype)initWithSettings:(NSDictionary*)settings
 {
@@ -57,11 +59,14 @@
                 NSLog(@"Untable to encode plist to base64 string\nError %@", [(__bridge NSError*)cfError localizedDescription]);
                 CFRelease(cfError);
             }
-            
+			
             CFRelease(transform);
             
             _base64PlistArgs = [[NSString alloc] initWithData:base64Data
                                                      encoding:NSASCIIStringEncoding];
+            
+            
+            self.isNetworkRelated = [[settings objectForKey:kHITPSubCommandNetworkRelated] boolValue];
             
         } else {
             _base64PlistArgs = @"";
@@ -99,7 +104,13 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
-            [task setArguments:@[command, self.base64PlistArgs]];
+            
+            if (self.isNetworkRelated) {
+                [task setArguments:@[command, self.base64PlistArgs, self.generalNetworkState ? @"1" : @"0"]];
+            } else {
+                [task setArguments:@[command, self.base64PlistArgs]];
+            }
+            
             
             [task setStandardOutput:[NSPipe pipe]];
             NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
@@ -168,6 +179,11 @@
             self.menuItem.toolTip = value;
         }
     });
+}
+
+-(void)generalNetworkStateUpdate:(BOOL)state {
+    self.generalNetworkState = state;
+    [self mainAction:self];
 }
 
 @end
