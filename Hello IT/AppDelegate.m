@@ -77,6 +77,13 @@
                                                                                 @"app": @"TextEdit"
                                                                                 }
                                                                         },
+                                                                      @{@"functionIdentifier": @"public.open.application",
+                                                                        @"settings": @{
+                                                                                @"title": @"TextEdit Info.plist",
+                                                                                @"appURL": @"/Applications/TextEdit.app",
+                                                                                @"args": @[@"/Applications/TextEdit.app/Contents/Info.plist"]
+                                                                                }
+                                                                        },
                                                                       @{@"functionIdentifier": @"public.separator"},
                                                                       @{@"functionIdentifier": @"public.quit"}
                                                                       ]
