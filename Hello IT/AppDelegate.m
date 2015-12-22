@@ -32,6 +32,12 @@
     
     self.pluginInstances = [NSMutableArray new];
     
+    
+    // This is a sample configuration to allow Hello IT to run without any custom settings.
+    // You don't have to edit this code and rebuild the apps to use it, you just have to
+    // customize com.github.ygini.Hello-IT like indicated here on the documentation
+    // https://github.com/ygini/Hello-IT/wiki/Preferences
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                               @"icon": @"default",
                                                               @"title": @"Hello IT",
