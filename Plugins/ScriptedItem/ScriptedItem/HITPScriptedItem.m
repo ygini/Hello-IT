@@ -10,6 +10,7 @@
 
 
 #define kHITPSubCommandScript @"path"
+#define kHITPSubCommandOptions @"options"
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
 
@@ -19,6 +20,7 @@
 @property NSString *base64PlistArgs;
 @property BOOL isNetworkRelated;
 @property BOOL generalNetworkState;
+@property NSArray *options;
 @end
 
 @implementation HITPScriptedItem
@@ -35,6 +37,8 @@
             _scriptChecked = NO;
             NSLog(@"Target script no accessible (%@)", _script);
         }
+        
+        _options = [settings objectForKey:kHITPSubCommandOptions];
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
         if (args) {
@@ -105,12 +109,23 @@
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
             
-            if (self.isNetworkRelated) {
-                [task setArguments:@[command, self.base64PlistArgs, self.generalNetworkState ? @"1" : @"0"]];
-            } else {
-                [task setArguments:@[command, self.base64PlistArgs]];
+            NSMutableArray *finalArgs = [NSMutableArray new];
+            
+            [finalArgs addObject:command];
+            
+            if ([self.options count] > 0) {
+                [finalArgs addObjectsFromArray:self.options];
             }
             
+            if ([self.base64PlistArgs length] > 0) {
+                [finalArgs addObject:self.base64PlistArgs];
+            }
+            
+            if (self.isNetworkRelated) {
+                [finalArgs addObject:self.generalNetworkState ? @"1" : @"0"];
+            }
+            
+            [task setArguments:finalArgs];
             
             [task setStandardOutput:[NSPipe pipe]];
             NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
