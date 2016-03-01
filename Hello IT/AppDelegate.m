@@ -11,6 +11,7 @@
 #import "HITPluginsManager.h"
 
 #import "Reachability.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemStatusBarIcon @"icon"
@@ -23,6 +24,8 @@
 @property id<HITPluginProtocol> statusMenuManager;
 @property NSMutableArray *pluginInstances;
 @property Reachability *reachability;
+
+@property (nonatomic) HITPluginTestState testState;
 
 @end
 
@@ -39,32 +42,35 @@
     // https://github.com/ygini/Hello-IT/wiki/Preferences
     
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                              @"icon": @"default",
-                                                              @"title": @"Hello IT",
-                                                              @"content": @[
-                                                                      @{@"functionIdentifier": @"public.title",
-                                                                        @"settings": @{
-                                                                                @"title": @"Hello IT default content",
-                                                                                }
-                                                                        },
-                                                                      @{@"functionIdentifier": @"public.open.resource",
-                                                                        @"settings": @{
-                                                                                @"title": @"Hello IT Documentation",
-                                                                                @"URL": @"https://github.com/ygini/Hello-IT/wiki"
-                                                                                }
-                                                                        },
-                                                                      @{@"functionIdentifier": @"public.open.resource",
-                                                                        @"settings": @{
-                                                                                @"title": @"The page needed to deploy your custom content",
-                                                                                @"URL": @"https://github.com/ygini/Hello-IT/wiki/Preferences"
-                                                                                }
-                                                                        },
-                                                                      @{@"functionIdentifier": @"public.separator"},
-                                                                      @{@"functionIdentifier": @"public.quit"}
-                                                                      ]
-                                                              }];
-        
+    if ([[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"content"] count] == 0) {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                                                                  @"icon": @"default",
+                                                                  @"title": @"Hello IT",
+                                                                  @"content": @[
+                                                                          @{@"functionIdentifier": @"public.title",
+                                                                            @"settings": @{
+                                                                                    @"title": @"Hello IT default content",
+                                                                                    }
+                                                                            },
+                                                                          @{@"functionIdentifier": @"public.open.resource",
+                                                                            @"settings": @{
+                                                                                    @"title": @"Hello IT Documentation",
+                                                                                    @"URL": @"https://github.com/ygini/Hello-IT/wiki"
+                                                                                    }
+                                                                            },
+                                                                          @{@"functionIdentifier": @"public.open.resource",
+                                                                            @"settings": @{
+                                                                                    @"title": @"The page needed to deploy your custom content",
+                                                                                    @"URL": @"https://github.com/ygini/Hello-IT/wiki/Preferences"
+                                                                                    }
+                                                                            },
+                                                                          @{@"functionIdentifier": @"public.separator"},
+                                                                          @{@"functionIdentifier": @"public.quit"}
+                                                                          ]
+                                                                  }];
+
+    }
+    
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
         
@@ -77,6 +83,86 @@
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
+}
+
+- (NSImage*) adjustImage:(NSImage*)img withHue:(float)hue {
+    
+    CIImage *inputImage = [[CIImage alloc] initWithData:[img TIFFRepresentation]];
+    
+    CIFilter *hueAdjust = [CIFilter filterWithName:@"CIHueAdjust"];
+    [hueAdjust setValue: inputImage forKey: @"inputImage"];
+    [hueAdjust setValue: [NSNumber numberWithFloat: hue]
+                 forKey: @"inputAngle"];
+    CIImage *outputImage = [hueAdjust valueForKey: @"outputImage"];
+    
+    NSImage *resultImage = [[NSImage alloc] initWithSize:[outputImage extent].size];
+    NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:outputImage];
+    [resultImage addRepresentation:rep];
+    
+    return resultImage;
+    
+}
+
+- (void)updateStatusItem {
+    NSString *iconString = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarIcon];
+    NSImage *icon = nil;
+    
+    if (iconString) {
+        if ([iconString isEqualToString:@"default"]) {
+            switch (self.testState) {
+                case HITPluginTestStateError:
+                    icon = [NSImage imageNamed:@"error-statusbar"];
+                    break;
+                case HITPluginTestStateUnavailable:
+                    icon = [NSImage imageNamed:@"unavailable-statusbar"];
+                    break;
+                case HITPluginTestStateWarning:
+                    icon = [NSImage imageNamed:@"warning-statusbar"];
+                    break;
+                default:
+                    icon = [NSImage imageNamed:@"statusbar"];
+                    break;
+            }
+        } else if ([iconString length] > 0) {
+            NSMutableArray * pathComponents = [[iconString pathComponents] mutableCopy];
+            
+            NSString *filename = [pathComponents lastObject];
+            [pathComponents removeLastObject];
+            
+            switch (self.testState) {
+                case HITPluginTestStateError:
+                    [pathComponents addObject:[@"error-" stringByAppendingString:filename]];
+                    break;
+                case HITPluginTestStateUnavailable:
+                    [pathComponents addObject:[@"unavailable-" stringByAppendingString:filename]];
+                    break;
+                case HITPluginTestStateWarning:
+                    [pathComponents addObject:[@"warning-" stringByAppendingString:filename]];
+                    break;
+                default:
+                    [pathComponents addObject:filename];
+                    break;
+            }
+            
+            NSString *finalPath = [pathComponents firstObject];
+            [pathComponents removeObjectAtIndex:0];
+            
+            for (NSString *component in pathComponents) {
+                finalPath = [finalPath stringByAppendingPathComponent:component];
+            }
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
+                icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
+            }
+        }
+    }
+    
+    
+    if (icon) {
+        self.statusItem.image = icon;
+    } else {
+        self.statusItem.title = [self.statusMenuManager menuItem].title;
+    }
 }
 
 - (void)loadMenu {
@@ -94,31 +180,44 @@
         }
     }
     
+    if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
+        NSObject<HITPluginProtocol> *observablePluginInstance = self.statusMenuManager;
+        [observablePluginInstance addObserver:self
+                                   forKeyPath:@"testState"
+                                      options:0
+                                      context:nil];
+    }
+    
+    self.testState = HITPluginTestStateOK;
+    
     self.statusMenu = [[NSMenu alloc] init];
     
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
     
     self.statusItem = [bar statusItemWithLength:NSVariableStatusItemLength];
     
-    NSString *iconString = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarIcon];
-    NSImage *icon = nil;
-    
-    if (iconString) {
-        if ([iconString isEqualToString:@"default"]) {
-            icon = [NSImage imageNamed:@"statusbar"];
-        } else if ([[NSFileManager defaultManager] fileExistsAtPath:iconString]) {
-            icon = [[NSImage alloc] initWithContentsOfFile:iconString];
-        }
-    }
-    
-    if (icon) {
-        self.statusItem.image = icon;
-    } else {
-        self.statusItem.title = [self.statusMenuManager menuItem].title;
-    }
-    
     self.statusItem.highlightMode = YES;
     self.statusItem.menu = [self.statusMenuManager menuItem].submenu;
+    
+    [self updateStatusItem];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"testState"]) {
+        int substate = 0;
+        
+        if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
+            substate |= [self.statusMenuManager testState];
+        }
+        
+        if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
+        else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
+        else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
+        else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
+        
+        [self updateStatusItem];
+        
+    }
 }
 
 @end
