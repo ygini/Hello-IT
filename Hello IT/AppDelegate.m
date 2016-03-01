@@ -38,6 +38,7 @@
     // customize com.github.ygini.Hello-IT like indicated here on the documentation
     // https://github.com/ygini/Hello-IT/wiki/Preferences
     
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                               @"icon": @"default",
                                                               @"title": @"Hello IT",
@@ -47,47 +48,16 @@
                                                                                 @"title": @"Hello IT default content",
                                                                                 }
                                                                         },
-                                                                      @{@"functionIdentifier": @"public.submenu",
-                                                                        @"settings": @{
-                                                                                @"title": @"Services state",
-                                                                                @"content": @[
-                                                                                        @{@"functionIdentifier": @"public.test.http",
-                                                                                          @"settings": @{
-                                                                                                  @"title": @"Internet",
-                                                                                                  @"URL": @"http://captive.apple.com",
-                                                                                                  @"originalString": @"73a78ff5bd7e5e88aa445826d4d6eecb",
-                                                                                                  @"mode":@"md5",
-                                                                                                  @"repeat": @60,
-                                                                                                  }
-                                                                                          }
-                                                                                        ]
-                                                                                }
-                                                                          },
-                                                                      @{@"functionIdentifier": @"public.script.item",
-                                                                        @"settings": @{
-                                                                                @"path": @"~/SVN/Public/Hello-IT/Plugins/ScriptedItem/SampleScript/DisplayIP.sh",
-                                                                                @"repeat": @10,
-                                                                                @"network": @YES
-                                                                                }
-                                                                        },
-                                                                      @{@"functionIdentifier": @"public.separator"},
                                                                       @{@"functionIdentifier": @"public.open.resource",
                                                                         @"settings": @{
-                                                                                @"title": @"Apple",
-                                                                                @"URL": @"https://www.apple.com"
+                                                                                @"title": @"Hello IT Documentation",
+                                                                                @"URL": @"https://github.com/ygini/Hello-IT/wiki"
                                                                                 }
                                                                         },
-                                                                      @{@"functionIdentifier": @"public.open.application",
+                                                                      @{@"functionIdentifier": @"public.open.resource",
                                                                         @"settings": @{
-                                                                                @"title": @"Text Editor",
-                                                                                @"app": @"TextEdit"
-                                                                                }
-                                                                        },
-                                                                      @{@"functionIdentifier": @"public.open.application",
-                                                                        @"settings": @{
-                                                                                @"title": @"TextEdit Info.plist",
-                                                                                @"appURL": @"/Applications/TextEdit.app",
-                                                                                @"args": @[@"/Applications/TextEdit.app/Contents/Info.plist"]
+                                                                                @"title": @"The page needed to deploy your custom content",
+                                                                                @"URL": @"https://github.com/ygini/Hello-IT/wiki/Preferences"
                                                                                 }
                                                                         },
                                                                       @{@"functionIdentifier": @"public.separator"},
