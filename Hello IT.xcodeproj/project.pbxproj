@@ -25,6 +25,12 @@
 		E1D068081B51D08E00567172 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1D068061B51D08E00567172 /* MainMenu.xib */; };
 		E1D068141B51D08F00567172 /* Hello_ITTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068131B51D08F00567172 /* Hello_ITTests.m */; };
 		E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D0681E1B51D4B500567172 /* HITPluginsManager.m */; };
+		F84971A21C860FF6004C3F9A /* error-statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F849719E1C860FF6004C3F9A /* error-statusbar.png */; };
+		F84971A31C860FF6004C3F9A /* error-statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F849719F1C860FF6004C3F9A /* error-statusbar@2x.png */; };
+		F84971A41C860FF6004C3F9A /* warning-statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F84971A01C860FF6004C3F9A /* warning-statusbar.png */; };
+		F84971A51C860FF6004C3F9A /* warning-statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F84971A11C860FF6004C3F9A /* warning-statusbar@2x.png */; };
+		F84971A81C861014004C3F9A /* unavailable-statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F84971A61C861014004C3F9A /* unavailable-statusbar.png */; };
+		F84971A91C861014004C3F9A /* unavailable-statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F84971A71C861014004C3F9A /* unavailable-statusbar@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +171,12 @@
 		E1D068131B51D08F00567172 /* Hello_ITTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Hello_ITTests.m; sourceTree = "<group>"; };
 		E1D0681D1B51D4B500567172 /* HITPluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginsManager.h; sourceTree = "<group>"; };
 		E1D0681E1B51D4B500567172 /* HITPluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPluginsManager.m; sourceTree = "<group>"; };
+		F849719E1C860FF6004C3F9A /* error-statusbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error-statusbar.png"; sourceTree = "<group>"; };
+		F849719F1C860FF6004C3F9A /* error-statusbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error-statusbar@2x.png"; sourceTree = "<group>"; };
+		F84971A01C860FF6004C3F9A /* warning-statusbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning-statusbar.png"; sourceTree = "<group>"; };
+		F84971A11C860FF6004C3F9A /* warning-statusbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning-statusbar@2x.png"; sourceTree = "<group>"; };
+		F84971A61C861014004C3F9A /* unavailable-statusbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unavailable-statusbar.png"; sourceTree = "<group>"; };
+		F84971A71C861014004C3F9A /* unavailable-statusbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unavailable-statusbar@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +317,12 @@
 				E1D068041B51D08E00567172 /* Images.xcassets */,
 				E17EA3B11B64C66F00A079E8 /* statusbar.png */,
 				E17EA3B51B64C70200A079E8 /* statusbar@2x.png */,
+				F849719E1C860FF6004C3F9A /* error-statusbar.png */,
+				F849719F1C860FF6004C3F9A /* error-statusbar@2x.png */,
+				F84971A01C860FF6004C3F9A /* warning-statusbar.png */,
+				F84971A11C860FF6004C3F9A /* warning-statusbar@2x.png */,
+				F84971A61C861014004C3F9A /* unavailable-statusbar.png */,
+				F84971A71C861014004C3F9A /* unavailable-statusbar@2x.png */,
 				E1D068061B51D08E00567172 /* MainMenu.xib */,
 				E1D067FD1B51D08E00567172 /* Supporting Files */,
 			);
@@ -384,7 +402,7 @@
 		E1D067F21B51D08E00567172 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					E1D067F91B51D08E00567172 = {
@@ -532,9 +550,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E17EA3B31B64C66F00A079E8 /* statusbar.png in Resources */,
+				F84971A51C860FF6004C3F9A /* warning-statusbar@2x.png in Resources */,
 				E1D068051B51D08E00567172 /* Images.xcassets in Resources */,
+				F84971A81C861014004C3F9A /* unavailable-statusbar.png in Resources */,
+				F84971A21C860FF6004C3F9A /* error-statusbar.png in Resources */,
 				E17EA3B61B64C70200A079E8 /* statusbar@2x.png in Resources */,
 				E1D068081B51D08E00567172 /* MainMenu.xib in Resources */,
+				F84971A91C861014004C3F9A /* unavailable-statusbar@2x.png in Resources */,
+				F84971A31C860FF6004C3F9A /* error-statusbar@2x.png in Resources */,
+				F84971A41C860FF6004C3F9A /* warning-statusbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +651,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -693,6 +718,7 @@
 				INFOPLIST_FILE = "Hello IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -705,6 +731,7 @@
 				INFOPLIST_FILE = "Hello IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -724,6 +751,7 @@
 				);
 				INFOPLIST_FILE = "Hello ITTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hello IT.app/Contents/MacOS/Hello IT";
 			};
@@ -740,6 +768,7 @@
 				);
 				INFOPLIST_FILE = "Hello ITTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hello IT.app/Contents/MacOS/Hello IT";
 			};
