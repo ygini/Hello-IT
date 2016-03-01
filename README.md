@@ -3,6 +3,8 @@ The aim of this project is to create a "meta application", used by IT services t
 
 ![Application Screenshot](/Docs/screenshot.png?raw=true "Hello IT")
 
+You can find Hello IT release and preview version at https://github.com/ygini/Hello-IT/releases
+
 ## Architecture
 
 The application uses plugins located in multiple places to support different functions. Those functions allow the system administrator to generate a custom service menu with different features inside.
