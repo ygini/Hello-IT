@@ -103,7 +103,7 @@
     if ([self directoryUsableAtURL:URL]) {
         [URLs addObject:URL];
     } else {
-        asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
     }
     
     // Plugins directory for current system (/Library)
@@ -119,7 +119,7 @@
         if ([self directoryUsableAtURL:URL]) {
             [URLs addObject:URL];
         } else {
-            asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     
@@ -136,7 +136,7 @@
         if ([self directoryUsableAtURL:URL]) {
             [URLs addObject:URL];
         } else {
-            asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     
@@ -154,7 +154,7 @@
             plugin = [NSBundle bundleWithURL:pluginURL];
             [self.loadedPluginsPerFunctionIdentifier setObject:plugin forKey:functionIdentifier];
         } else {
-            NSLog(@"Plugin path returned for %@ isn't a file URL: %@", functionIdentifier, pluginURL);
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Plugin path returned for %s isn't a file URL: %s", [functionIdentifier cStringUsingEncoding:NSUTF8StringEncoding], [[pluginURL absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     
@@ -165,7 +165,7 @@
         if (success) {
             return [plugin principalClass];
         } else {
-            NSLog(@"Error when loading plugin: %@", [error localizedDescription]);
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Error when loading plugin for %s: %s", [functionIdentifier cStringUsingEncoding:NSUTF8StringEncoding], [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     
@@ -182,6 +182,8 @@
     if ([notification.object isKindOfClass:[Reachability class]]) {
         Reachability *reachability = notification.object;
         
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Reachability state changed for system");
+
         for (id<HITPluginProtocol> plugin in self.networkRelatedPluginInstances) {
             BOOL state = [reachability currentReachabilityStatus] != NotReachable;
             
