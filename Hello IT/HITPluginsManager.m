@@ -13,6 +13,7 @@
 #define kHITPFunctionIdentifier @"HITPFunctionIdentifier"
 
 #import "Reachability.h"
+#import <asl.h>
 
 @interface HITPluginsManager ()
 @property NSDictionary *pluginURLPerFunctionIdentifier;
@@ -39,7 +40,7 @@
     if (self) {
         _loadedPluginsPerFunctionIdentifier = [NSMutableDictionary new];
         _networkRelatedPluginInstances = [NSMutableArray new];
-        
+                
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChangedNotification:) name:kReachabilityChangedNotification object:nil];
     }
     return self;
@@ -47,26 +48,37 @@
 
 - (void)loadPluginsWithCompletionHandler:(void(^)(HITPluginsManager *pluginsManager))handler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start loading plugins");
+        
         NSMutableDictionary * plugins = [NSMutableDictionary new];
         for (NSURL *pluginsFolderURL in [self pluginsURLs]) {
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Looking for plugins inside %s", [[pluginsFolderURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
             NSError *error = nil;
             
             NSArray *folderContent = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:pluginsFolderURL
                                                                    includingPropertiesForKeys:nil
                                                                                       options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                                         error:&error];
-            if (error) {
-                NSLog(@"Error when trying to load plugins from %@\nError description: %@", pluginsFolderURL, [error localizedDescription]);
-            }
             
-            for (NSURL *pluginURL in folderContent) {
-                if ([[pluginURL pathExtension] isEqualToString:@"hitp"]
-                    && [pluginURL isFileURL]) {
-                    
-                    NSString *functionIdentifier = [[[NSBundle bundleWithURL:pluginURL] infoDictionary] objectForKey:kHITPFunctionIdentifier];
-                    [plugins setObject:pluginURL forKey:functionIdentifier];
-                } else {
-                    NSLog(@"Unable to reference plugin at path: %@", pluginURL);
+            if (error) {
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "%s", [[NSString stringWithFormat:@"Error when trying to load plugins from %@:\n%@", pluginsFolderURL, [error localizedDescription]] cStringUsingEncoding:NSUTF8StringEncoding]);
+            } else {
+                for (NSURL *pluginURL in folderContent) {
+                    if ([[pluginURL pathExtension] isEqualToString:@"hitp"]
+                        && [pluginURL isFileURL]) {
+                        
+                        NSString *functionIdentifier = [[[NSBundle bundleWithURL:pluginURL] infoDictionary] objectForKey:kHITPFunctionIdentifier];
+                        
+                        if ([functionIdentifier length] > 0) {
+                            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Function identifier %s referenced with plugin at path %s", [functionIdentifier cStringUsingEncoding:NSUTF8StringEncoding], [[pluginURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+                            [plugins setObject:pluginURL forKey:functionIdentifier];
+                        } else {
+                            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Plugin found without function identifier, plugin not loaded: %s", [[pluginURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+                        }
+                        
+                    } else {
+                        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Item found in plugin directory without plugin extention, skipping: %s", [[pluginURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+                    }
                 }
             }
         }
@@ -74,6 +86,7 @@
         self.pluginURLPerFunctionIdentifier = [NSDictionary dictionaryWithDictionary:plugins];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Done loading plugins");
             handler(self);
         });
     });
@@ -87,7 +100,11 @@
     
     // Plugins directory inside the application
     URL = [[NSBundle mainBundle] builtInPlugInsURL];
-    if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
+    if ([self directoryUsableAtURL:URL]) {
+        [URLs addObject:URL];
+    } else {
+        asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+    }
     
     // Plugins directory for current system (/Library)
     URL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory
@@ -96,10 +113,14 @@
                                                    create:NO
                                                     error:&error];
     if (error) {
-        NSLog(@"Error when trying to build URL for directory /Library\nError description: %@", [error localizedDescription]);
+        asl_log(NULL, NULL, ASL_LEVEL_ERR, "Error when trying to access plugin directory in /Library:\n%s", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
     } else {
         URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
-        if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
+        if ([self directoryUsableAtURL:URL]) {
+            [URLs addObject:URL];
+        } else {
+            asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
     }
     
     // Plugins directory for current user (~/Library)
@@ -109,10 +130,14 @@
                                                    create:NO
                                                     error:&error];
     if (error) {
-        NSLog(@"Error when trying to build URL for directory ~/Library\nError description: %@", [error localizedDescription]);
+        asl_log(NULL, NULL, ASL_LEVEL_ERR, "Error when trying to access plugin directory in ~/Library:\n%s", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
     } else {
         URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
-        if ([self directoryUsableAtURL:URL]) [URLs addObject:URL];
+        if ([self directoryUsableAtURL:URL]) {
+            [URLs addObject:URL];
+        } else {
+            asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Plugin path %s not usable on this system", [[URL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
     }
     
     return [NSArray arrayWithArray:URLs];

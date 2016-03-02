@@ -13,6 +13,8 @@
 #import "Reachability.h"
 #import <QuartzCore/QuartzCore.h>
 
+#import <asl.h>
+
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemStatusBarIcon @"icon"
 
@@ -32,9 +34,9 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
     self.pluginInstances = [NSMutableArray new];
     
+    asl_add_log_file(NULL, STDERR_FILENO);
     
     // This is a sample configuration to allow Hello IT to run without any custom settings.
     // You don't have to edit this code and rebuild the apps to use it, you just have to
@@ -43,6 +45,8 @@
     
     
     if ([[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"content"] count] == 0) {
+        asl_log(NULL, NULL, ASL_LEVEL_WARNING, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
+        
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                                   @"icon": @"default",
                                                                   @"title": @"Hello IT",
@@ -71,6 +75,11 @@
 
     }
     
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loglevel"]) {
+        asl_set_filter(NULL, ASL_FILTER_MASK_UPTO([[NSUserDefaults standardUserDefaults] integerForKey:@"loglevel"]));
+    }
+
+    
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
         
@@ -83,24 +92,6 @@
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
-}
-
-- (NSImage*) adjustImage:(NSImage*)img withHue:(float)hue {
-    
-    CIImage *inputImage = [[CIImage alloc] initWithData:[img TIFFRepresentation]];
-    
-    CIFilter *hueAdjust = [CIFilter filterWithName:@"CIHueAdjust"];
-    [hueAdjust setValue: inputImage forKey: @"inputImage"];
-    [hueAdjust setValue: [NSNumber numberWithFloat: hue]
-                 forKey: @"inputAngle"];
-    CIImage *outputImage = [hueAdjust valueForKey: @"outputImage"];
-    
-    NSImage *resultImage = [[NSImage alloc] initWithSize:[outputImage extent].size];
-    NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:outputImage];
-    [resultImage addRepresentation:rep];
-    
-    return resultImage;
-    
 }
 
 - (void)updateStatusItem {
@@ -215,8 +206,9 @@
         else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
         else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
         
-        [self updateStatusItem];
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)self.testState);
         
+        [self updateStatusItem];
     }
 }
 
