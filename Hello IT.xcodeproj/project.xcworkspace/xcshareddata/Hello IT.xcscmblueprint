@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7C91C97832ADEC71F401D6497D780E00CBFD8038",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "7C91C97832ADEC71F401D6497D780E00CBFD8038" : 0,
+    "DC22F74549492CDDAC8ED0B403698069A90A4B07" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5FDBE24B-ED35-49D9-9123-5B60CF521840",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "7C91C97832ADEC71F401D6497D780E00CBFD8038" : "Hello-IT",
+    "DC22F74549492CDDAC8ED0B403698069A90A4B07" : "..\/Externe\/MWLogging"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Hello IT",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Hello IT.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ygini\/Hello-IT.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7C91C97832ADEC71F401D6497D780E00CBFD8038"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/MikeWeller\/MWLogging.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DC22F74549492CDDAC8ED0B403698069A90A4B07"
+    }
+  ]
+}
