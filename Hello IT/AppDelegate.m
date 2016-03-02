@@ -83,7 +83,7 @@
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
         
-        self.reachability = [Reachability reachabilityForLocalNetwork];
+        self.reachability = [Reachability reachabilityForInternetConnection];
         [self.reachability startNotifier];
     }];
 }
