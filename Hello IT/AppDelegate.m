@@ -150,11 +150,31 @@
         }
     }
     
-    
     if (icon) {
         self.statusItem.image = icon;
     } else {
-        self.statusItem.title = [self.statusMenuManager menuItem].title;
+        
+        NSColor *textColor = nil;
+        
+        switch (self.testState) {
+            case HITPluginTestStateError:
+                textColor = [NSColor redColor];
+                break;
+            case HITPluginTestStateUnavailable:
+                textColor = [NSColor grayColor];
+                break;
+            case HITPluginTestStateWarning:
+                textColor = [NSColor orangeColor];
+                break;
+            default:
+                textColor = [NSColor blackColor];
+                break;
+        }
+        
+        NSAttributedString *title = [[NSAttributedString alloc] initWithString:[self.statusMenuManager menuItem].title
+                                                                    attributes:@{NSForegroundColorAttributeName: textColor}];
+        
+        self.statusItem.attributedTitle = title;
     }
 }
 
