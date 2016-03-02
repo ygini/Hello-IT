@@ -144,6 +144,8 @@
             
             if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
                 icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
+            } else if ([[NSFileManager defaultManager] fileExistsAtPath:iconString]) {
+                icon = [[NSImage alloc] initWithContentsOfFile:iconString];
             }
         }
     }
