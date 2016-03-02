@@ -12,6 +12,8 @@
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemSettings @"settings"
 
+#import <asl.h>
+
 @interface HITPSubMenu ()
 @property NSArray *content;
 @property NSMutableArray *subPluginInstances;
@@ -43,8 +45,13 @@
     
     NSMenu *menu = [[NSMenu alloc] init];
     
+    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Prepare submenu");
+    
     for (NSDictionary *item in self.content) {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Trying to load submenu item for function %s.", [[item objectForKey:kMenuItemFunctionIdentifier] cStringUsingEncoding:NSUTF8StringEncoding]);
         Class<HITPluginProtocol> TargetPlugin = [self.pluginsManager mainClassForPluginWithFunctionIdentifier:[item objectForKey:kMenuItemFunctionIdentifier]];
+        
+        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Pluing found use %s class.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
         
         id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKey:kMenuItemSettings]];
         if (pluginInstance) {
@@ -56,6 +63,9 @@
             
             if ([pluginInstance respondsToSelector:@selector(testState)]) {
                 NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
+                
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s has state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+                
                 [observablePluginInstance addObserver:self
                                            forKeyPath:@"testState"
                                               options:0
@@ -64,6 +74,7 @@
             
             if ([pluginInstance respondsToSelector:@selector(isNetworkRelated)]) {
                 if ([pluginInstance isNetworkRelated]) {
+                    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s is network related, recording it to the plugins manager.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
                     [self.pluginsManager registerPluginInstanceAsNetworkRelated:pluginInstance];
                 }
             }
@@ -71,10 +82,11 @@
             [self.subPluginInstances addObject:pluginInstance];
             [menu addItem:[pluginInstance menuItem]];
         } else {
-            NSLog(@"Target plugin class %@ for function identifier %@ is unable to create any instance with +newPlugInInstanceWithSettings: method.", TargetPlugin, [item objectForKey:kMenuItemFunctionIdentifier]);
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Impossible to instanciate %s (needed for %s).", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding], [[item objectForKey:kMenuItemFunctionIdentifier] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     
+    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu ready");
     menuItem.submenu = menu;
     return menuItem;
 }
@@ -92,7 +104,9 @@
         else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
         else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
         else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
-        
+
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu state has changed for %lu.", (unsigned long)self.testState);
+
     }
 }
 

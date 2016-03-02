@@ -9,6 +9,7 @@
 #import "HITPTestHTTP.h"
 
 #import <CommonCrypto/CommonCrypto.h>
+#import <asl.h>
 
 #define kHITPTestHTTPURL @"URL"
 #define kHITPTestHTTPStringToCompare @"originalString"
@@ -55,6 +56,8 @@
 }
 
 - (void)generalNetworkStateUpdate:(BOOL)state {
+    asl_log(NULL, NULL, ASL_LEVEL_INFO, "System say the general network is %s.", state == YES ? "available" : "unavailable");
+    
     self.generalNetworkIsAvailable = state;
     [self mainAction:self];
 }
@@ -62,6 +65,7 @@
 -(void)mainAction:(id)sender {
     if (self.generalNetworkIsAvailable) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start test request to %s.", [[self.testPage absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
             
             [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:self.testPage
                                                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -70,20 +74,26 @@
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                        if (connectionError) {
                                            self.testState = HITPluginTestStateError;
+                                           asl_log(NULL, NULL, ASL_LEVEL_INFO, "Connection error during test.");
+                                           asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [[connectionError description] cStringUsingEncoding:NSUTF8StringEncoding]);
                                        } else {
                                            if ([self.mode isEqualToString:@"compare"]) {
                                                NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                                if ([content isEqualToString:self.originalString]) {
                                                    self.testState = HITPluginTestStateOK;
+                                                   asl_log(NULL, NULL, ASL_LEVEL_INFO, "Data based comparaison match.");
                                                } else {
                                                    self.testState = HITPluginTestStateWarning;
+                                                   asl_log(NULL, NULL, ASL_LEVEL_INFO, "Data based comparaison didn't match.");
                                                }
                                            } else if ([self.mode isEqualToString:@"contain"]) {
                                                NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                                if ([content containsString:self.originalString]) {
                                                    self.testState = HITPluginTestStateOK;
+                                                   asl_log(NULL, NULL, ASL_LEVEL_INFO, "Content based comparaison match.");
                                                } else {
                                                    self.testState = HITPluginTestStateWarning;
+                                                   asl_log(NULL, NULL, ASL_LEVEL_INFO, "Content based comparaison didn't match.");
                                                }
                                            } else if ([self.mode isEqualToString:@"md5"]) {
                                                CC_MD5_CTX md5sum;
@@ -105,8 +115,10 @@
                                                
                                                if ([md5String isEqualToString:self.originalString]) {
                                                    self.testState = HITPluginTestStateOK;
+                                                   asl_log(NULL, NULL, ASL_LEVEL_INFO, "MD5 based comparaison match.");
                                                } else {
                                                    self.testState = HITPluginTestStateWarning;
+                                                   asl_log(NULL, NULL, ASL_LEVEL_INFO, "MD5 based comparaison didn't match.");
                                                }
                                            }
                                        }
@@ -116,6 +128,7 @@
     }
     else {
         self.testState = HITPluginTestStateUnavailable;
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "System say general network is unavailable, so we can't test anything on our side.");
     }
 }
 

@@ -14,6 +14,8 @@
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
 
+#import <asl.h>
+
 @interface HITPScriptedItem ()
 @property NSString *script;
 @property BOOL scriptChecked;
@@ -31,11 +33,13 @@
     if (self) {
         _script = [[settings objectForKey:kHITPSubCommandScript] stringByExpandingTildeInPath];
         
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+        
         if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
             _scriptChecked = YES;
         } else {
             _scriptChecked = NO;
-            NSLog(@"Target script no accessible (%@)", _script);
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         }
         
         _options = [settings objectForKey:kHITPSubCommandOptions];
@@ -49,7 +53,7 @@
                                                                             error:&error];
             
             if (error) {
-                NSLog(@"Unable to convert args to plist\nError %@", [error localizedDescription]);
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Unable to convert args to plist %s", [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
             }
             
             
@@ -60,7 +64,7 @@
             if (SecTransformSetAttribute(transform, kSecTransformInputAttributeName, (__bridge CFTypeRef)(plistArgs), &cfError)) {
                 base64Data = (NSData *)CFBridgingRelease(SecTransformExecute(transform, NULL));
             } else {
-                NSLog(@"Untable to encode plist to base64 string\nError %@", [(__bridge NSError*)cfError localizedDescription]);
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Untable to encode plist to base64 string %s", [[(__bridge NSError*)cfError description] cStringUsingEncoding:NSUTF8StringEncoding]);
                 CFRelease(cfError);
             }
 			
@@ -105,6 +109,7 @@
 
 - (void)runScriptWithCommand:(NSString*)command {
     if (self.scriptChecked) {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
@@ -115,14 +120,17 @@
             
             if ([self.options count] > 0) {
                 [finalArgs addObjectsFromArray:self.options];
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
             }
             
             if ([self.base64PlistArgs length] > 0) {
                 [finalArgs addObject:self.base64PlistArgs];
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding base64 plist encoded as arguments");
             }
             
             if (self.isNetworkRelated) {
                 [finalArgs addObject:self.generalNetworkState ? @"1" : @"0"];
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding network state as arguments");
             }
             
             [task setArguments:finalArgs];
@@ -153,11 +161,14 @@
             [task launch];
             
             [task waitUntilExit];
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
         });
     }
 }
 
 - (void)handleScriptRequest:(NSString*)request {
+    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script request recieved: %s", [request cStringUsingEncoding:NSUTF8StringEncoding]);
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         NSRange limiterRange = [request rangeOfString:@":"];
         NSString *key = [[[request substringToIndex:limiterRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
