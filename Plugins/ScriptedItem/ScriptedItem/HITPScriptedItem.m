@@ -201,6 +201,15 @@
                 self.menuItem.enabled = NO;
             }
             
+        } else if ([key isEqualToString:@"hitp-hidden"]) {
+            value = [value uppercaseString];
+            
+            if ([value isEqualToString:@"YES"]) {
+                self.menuItem.hidden = YES;
+            } else if ([value isEqualToString:@"NO"]) {
+                self.menuItem.hidden = NO;
+            }
+            
         } else if ([key isEqualToString:@"hitp-tooltip"]) {
             self.menuItem.toolTip = value;
         }
