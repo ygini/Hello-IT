@@ -54,4 +54,13 @@
     [self updateMenuItemState];
 }
 
+- (instancetype)initWithSettings:(NSDictionary*)settings
+{
+    self = [super initWithSettings:settings];
+    if (self) {
+        _skipForGlobalState = [[settings objectForKey:@"skipForGlobalState"] boolValue];
+    }
+    return self;
+}
+
 @end

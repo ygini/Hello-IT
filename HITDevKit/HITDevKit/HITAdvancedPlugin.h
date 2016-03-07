@@ -11,5 +11,6 @@
 @interface HITAdvancedPlugin : HITSimplePlugin
 
 @property (nonatomic) HITPluginTestState testState;
+@property (nonatomic) BOOL skipForGlobalState;
 
 @end

@@ -62,14 +62,21 @@
             }
             
             if ([pluginInstance respondsToSelector:@selector(testState)]) {
-                NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
                 
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s has state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+                if ([pluginInstance respondsToSelector:@selector(skipForGlobalState)]) {
+                    NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
+                    if (![observablePluginInstance skipForGlobalState]) {
+                        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s has state for global state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+                        
+                        [observablePluginInstance addObserver:self
+                                                   forKeyPath:@"testState"
+                                                      options:0
+                                                      context:nil];
+                    }
+                }
                 
-                [observablePluginInstance addObserver:self
-                                           forKeyPath:@"testState"
-                                              options:0
-                                              context:nil];
+
+
             }
             
             if ([pluginInstance respondsToSelector:@selector(isNetworkRelated)]) {

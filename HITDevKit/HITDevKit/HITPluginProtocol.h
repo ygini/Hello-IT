@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 
 @optional
 - (HITPluginTestState)testState;
+- (BOOL)skipForGlobalState;
+
 - (void)setPluginsManager:(id<HITPluginsManagerProtocol>)manager;
 
 - (BOOL)isNetworkRelated;
