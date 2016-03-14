@@ -29,6 +29,8 @@
 
 @property (nonatomic) HITPluginTestState testState;
 
+@property id notificationOjectForInterfaceTheme;
+
 @end
 
 @implementation AppDelegate
@@ -86,12 +88,20 @@
         self.reachability = [Reachability reachabilityForInternetConnection];
         [self.reachability startNotifier];
     }];
+    
+    self.notificationOjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
+                                                                                                           object:nil
+                                                                                                            queue:nil
+                                                                                                       usingBlock:^(NSNotification * _Nonnull note) {
+                                                                                                           [self updateStatusItem];
+                                                                                            }];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForInterfaceTheme];
 }
 
 - (void)updateStatusItem {
@@ -100,37 +110,80 @@
     
     if (iconString) {
         if ([iconString isEqualToString:@"default"]) {
+            NSString *imageName = nil;
             switch (self.testState) {
                 case HITPluginTestStateError:
-                    icon = [NSImage imageNamed:@"error-statusbar"];
+                    imageName = @"statusbar-error";
                     break;
                 case HITPluginTestStateUnavailable:
-                    icon = [NSImage imageNamed:@"unavailable-statusbar"];
+                    imageName = @"statusbar-unavailable";
                     break;
                 case HITPluginTestStateWarning:
-                    icon = [NSImage imageNamed:@"warning-statusbar"];
+                    imageName = @"statusbar-warning";
+                    break;
+                case HITPluginTestStateOK:
+                    imageName = @"statusbar-ok";
                     break;
                 default:
-                    icon = [NSImage imageNamed:@"statusbar"];
+                    imageName = @"statusbar";
                     break;
             }
+            
+            NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+            
+            if ([osxMode isEqualToString:@"Dark"]) {
+                imageName = [imageName stringByAppendingString:@"-dark"];
+            }
+            
+            icon = [NSImage imageNamed:imageName];
+            
         } else if ([iconString length] > 0) {
             NSMutableArray * pathComponents = [[iconString pathComponents] mutableCopy];
+            
+            NSString *filenameForDark = nil;
+            NSMutableArray * pathComponentsForDark = nil;
+            BOOL tryDark = NO;
             
             NSString *filename = [pathComponents lastObject];
             [pathComponents removeLastObject];
             
+            NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+            
+            if ([osxMode isEqualToString:@"Dark"]) {
+                tryDark = YES;
+                pathComponentsForDark = [pathComponents mutableCopy];
+                filenameForDark = [@"dark-" stringByAppendingString:filename];
+            }
+            
             switch (self.testState) {
                 case HITPluginTestStateError:
                     [pathComponents addObject:[@"error-" stringByAppendingString:filename]];
+                    if (tryDark) {
+                        [pathComponentsForDark addObject:[@"error-" stringByAppendingString:filenameForDark]];
+                    }
                     break;
                 case HITPluginTestStateUnavailable:
                     [pathComponents addObject:[@"unavailable-" stringByAppendingString:filename]];
+                    if (tryDark) {
+                        [pathComponentsForDark addObject:[@"unavailable-" stringByAppendingString:filenameForDark]];
+                    }
                     break;
                 case HITPluginTestStateWarning:
                     [pathComponents addObject:[@"warning-" stringByAppendingString:filename]];
+                    if (tryDark) {
+                        [pathComponentsForDark addObject:[@"warning-" stringByAppendingString:filenameForDark]];
+                    }
+                    break;
+                case HITPluginTestStateOK:
+                    [pathComponents addObject:[@"ok-" stringByAppendingString:filename]];
+                    if (tryDark) {
+                        [pathComponentsForDark addObject:[@"ok-" stringByAppendingString:filenameForDark]];
+                    }
                     break;
                 default:
+                    if (tryDark) {
+                        [pathComponentsForDark addObject:filenameForDark];
+                    }
                     [pathComponents addObject:filename];
                     break;
             }
@@ -142,7 +195,16 @@
                 finalPath = [finalPath stringByAppendingPathComponent:component];
             }
             
-            if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
+            NSString *finalPathForDark = [pathComponentsForDark firstObject];
+            [pathComponentsForDark removeObjectAtIndex:0];
+            
+            for (NSString *component in pathComponentsForDark) {
+                finalPathForDark = [finalPathForDark stringByAppendingPathComponent:component];
+            }
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
+                icon = [[NSImage alloc] initWithContentsOfFile:finalPathForDark];
+            }else if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
                 icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
             } else if ([[NSFileManager defaultManager] fileExistsAtPath:iconString]) {
                 icon = [[NSImage alloc] initWithContentsOfFile:iconString];
@@ -201,8 +263,6 @@
                                       context:nil];
     }
     
-    self.testState = HITPluginTestStateOK;
-    
     self.statusMenu = [[NSMenu alloc] init];
     
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
@@ -227,6 +287,7 @@
         else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
         else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
         else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
+        else self.testState = HITPluginTestStateNone;
         
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)self.testState);
         
