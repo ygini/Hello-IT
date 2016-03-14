@@ -17,6 +17,7 @@
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemStatusBarIcon @"icon"
+#define kMenuItemStatusBarIconFormat @"iconformat"
 
 @interface AppDelegate ()
 
@@ -109,105 +110,68 @@
     NSImage *icon = nil;
     
     if (iconString) {
-        if ([iconString isEqualToString:@"default"]) {
-            NSString *imageName = nil;
-            switch (self.testState) {
-                case HITPluginTestStateError:
-                    imageName = @"statusbar-error";
-                    break;
-                case HITPluginTestStateUnavailable:
-                    imageName = @"statusbar-unavailable";
-                    break;
-                case HITPluginTestStateWarning:
-                    imageName = @"statusbar-warning";
-                    break;
-                case HITPluginTestStateOK:
-                    imageName = @"statusbar-ok";
-                    break;
-                default:
-                    imageName = @"statusbar";
-                    break;
+        NSString *imageName = nil;
+        NSString *imageNameForDark = nil;
+        BOOL tryDark = NO;
+
+        
+        switch (self.testState) {
+            case HITPluginTestStateError:
+                imageName = @"statusbar-error";
+                break;
+            case HITPluginTestStateUnavailable:
+                imageName = @"statusbar-unavailable";
+                break;
+            case HITPluginTestStateWarning:
+                imageName = @"statusbar-warning";
+                break;
+            case HITPluginTestStateOK:
+                imageName = @"statusbar-ok";
+                break;
+            default:
+                imageName = @"statusbar";
+                break;
+        }
+        
+        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+        
+        if ([osxMode isEqualToString:@"Dark"]) {
+            tryDark = YES;
+            imageNameForDark = [imageName stringByAppendingString:@"-dark"];
+        }
+        
+        BOOL useDefaultImageSet = [iconString isEqualToString:@"default"];
+        NSUInteger iconStringLength = [iconString length];
+        
+        if (!useDefaultImageSet && iconStringLength > 0) {
+            NSString *extension = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarIconFormat];
+            if (!extension) {
+                extension = @"NO_EXT_PROVIDED";
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Custom icon path set but not iconformat found. This can't work at all.");
             }
-            
-            NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-            
-            if ([osxMode isEqualToString:@"Dark"]) {
-                imageName = [imageName stringByAppendingString:@"-dark"];
-            }
-            
-            icon = [NSImage imageNamed:imageName];
-            
-        } else if ([iconString length] > 0) {
-            NSMutableArray * pathComponents = [[iconString pathComponents] mutableCopy];
-            
-            NSString *filenameForDark = nil;
-            NSMutableArray * pathComponentsForDark = nil;
-            BOOL tryDark = NO;
-            
-            NSString *filename = [pathComponents lastObject];
-            [pathComponents removeLastObject];
-            
-            NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-            
-            if ([osxMode isEqualToString:@"Dark"]) {
-                tryDark = YES;
-                pathComponentsForDark = [pathComponents mutableCopy];
-                filenameForDark = [@"dark-" stringByAppendingString:filename];
-            }
-            
-            switch (self.testState) {
-                case HITPluginTestStateError:
-                    [pathComponents addObject:[@"error-" stringByAppendingString:filename]];
-                    if (tryDark) {
-                        [pathComponentsForDark addObject:[@"error-" stringByAppendingString:filenameForDark]];
-                    }
-                    break;
-                case HITPluginTestStateUnavailable:
-                    [pathComponents addObject:[@"unavailable-" stringByAppendingString:filename]];
-                    if (tryDark) {
-                        [pathComponentsForDark addObject:[@"unavailable-" stringByAppendingString:filenameForDark]];
-                    }
-                    break;
-                case HITPluginTestStateWarning:
-                    [pathComponents addObject:[@"warning-" stringByAppendingString:filename]];
-                    if (tryDark) {
-                        [pathComponentsForDark addObject:[@"warning-" stringByAppendingString:filenameForDark]];
-                    }
-                    break;
-                case HITPluginTestStateOK:
-                    [pathComponents addObject:[@"ok-" stringByAppendingString:filename]];
-                    if (tryDark) {
-                        [pathComponentsForDark addObject:[@"ok-" stringByAppendingString:filenameForDark]];
-                    }
-                    break;
-                default:
-                    if (tryDark) {
-                        [pathComponentsForDark addObject:filenameForDark];
-                    }
-                    [pathComponents addObject:filename];
-                    break;
-            }
-            
-            NSString *finalPath = [pathComponents firstObject];
-            [pathComponents removeObjectAtIndex:0];
-            
-            for (NSString *component in pathComponents) {
-                finalPath = [finalPath stringByAppendingPathComponent:component];
-            }
-            
-            NSString *finalPathForDark = [pathComponentsForDark firstObject];
-            [pathComponentsForDark removeObjectAtIndex:0];
-            
-            for (NSString *component in pathComponentsForDark) {
-                finalPathForDark = [finalPathForDark stringByAppendingPathComponent:component];
+            NSString *finalPath = [[iconString stringByAppendingString:imageName] stringByAppendingPathExtension:extension];
+
+            NSString *finalPathForDark = nil;
+            if (tryDark) {
+                finalPathForDark = [[iconString stringByAppendingString:imageNameForDark] stringByAppendingPathExtension:extension];
             }
             
             if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
                 icon = [[NSImage alloc] initWithContentsOfFile:finalPathForDark];
-            }else if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
+                
+            } else if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
                 icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
-            } else if ([[NSFileManager defaultManager] fileExistsAtPath:iconString]) {
-                icon = [[NSImage alloc] initWithContentsOfFile:iconString];
+                
+            } else {
+                useDefaultImageSet = YES;
+            }
+        }
+        
+        if (useDefaultImageSet && icon == nil) {
+            if (tryDark) {
+                icon = [NSImage imageNamed:imageNameForDark];
+            } else {
+                icon = [NSImage imageNamed:imageName];
             }
         }
     }
