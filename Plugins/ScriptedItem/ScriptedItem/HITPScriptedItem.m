@@ -212,6 +212,30 @@
             
         } else if ([key isEqualToString:@"hitp-tooltip"]) {
             self.menuItem.toolTip = value;
+            
+        } else if ([key isEqualToString:@"hitp-log-emerg"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_EMERG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-alert"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_ALERT, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-crit"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_CRIT, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-err"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-warning"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_WARNING, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-notice"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-info"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+        } else if ([key isEqualToString:@"hitp-log-debug"]) {
+            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     });
 }
