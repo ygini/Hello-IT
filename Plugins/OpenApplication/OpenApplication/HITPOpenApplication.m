@@ -14,6 +14,8 @@
 #define kHITPOpenApplicationURL @"appURL"
 #define kHITPOpenApplicationArgsArray @"args"
 
+#define kHITPOpenApplicationHideIfNotAvailable @"hideIfNotAvailable"
+
 #import <asl.h>
 
 @interface HITPOpenApplication ()
@@ -22,6 +24,9 @@
 
 @property NSURL *appURL;
 @property NSArray *args;
+
+@property BOOL hideIfNotAvailable;
+
 @end
 
 @implementation HITPOpenApplication
@@ -32,15 +37,39 @@
     if (self) {
         _application = [settings objectForKey:kHITPOpenApplicationName];
         _file = [[settings objectForKey:kHITPOpenApplicationFileToOpen] stringByExpandingTildeInPath];
+        _hideIfNotAvailable = [[settings objectForKey:kHITPOpenApplicationHideIfNotAvailable] boolValue];
         
         NSString *appPath = [settings objectForKey:kHITPOpenApplicationURL];
         if (appPath) {
             _appURL = [NSURL fileURLWithPath:appPath];
             _args = [settings objectForKey:kHITPOpenApplicationArgsArray];
+            
+            if (!_args) {
+                _args = @{};
+            }
         }
         
+        [self hideItemIfNeeded];
     }
     return self;
+}
+
+- (void)hideItemIfNeeded {
+    if (self.hideIfNotAvailable) {
+        if (self.application) {
+            self.menuItem.hidden = [[NSWorkspace sharedWorkspace] fullPathForApplication:self.application] == nil;
+            if (self.menuItem.hidden) {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item %s for %s is hidden, workspace unable to find requested app.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [self.application cStringUsingEncoding:NSUTF8StringEncoding]);
+            }
+        } else {
+            self.menuItem.hidden = ![[NSFileManager defaultManager] fileExistsAtPath:[self.appURL path]];
+            if (self.menuItem.hidden) {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item %s for app at path %s is hidden, path does not exist.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [[self.appURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+            }
+        }
+    } else {
+        self.menuItem.hidden = NO;
+    }
 }
 
 - (void)mainAction:(id)sender {

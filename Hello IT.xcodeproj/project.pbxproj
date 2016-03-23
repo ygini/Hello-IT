@@ -332,26 +332,7 @@
 		E1D067FC1B51D08E00567172 /* Hello IT */ = {
 			isa = PBXGroup;
 			children = (
-				F8340B781C96CF9000C820D7 /* statusbar-dark.png */,
-				F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */,
-				F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */,
-				F8340B7B1C96CF9000C820D7 /* statusbar-error-dark@2x.png */,
-				F8340B7C1C96CF9000C820D7 /* statusbar-error.png */,
-				F8340B7D1C96CF9000C820D7 /* statusbar-error@2x.png */,
-				F8340B7E1C96CF9000C820D7 /* statusbar-ok-dark.png */,
-				F8340B7F1C96CF9000C820D7 /* statusbar-ok-dark@2x.png */,
-				F8340B801C96CF9000C820D7 /* statusbar-ok.png */,
-				F8340B811C96CF9000C820D7 /* statusbar-ok@2x.png */,
-				F8340B821C96CF9000C820D7 /* statusbar-unavailable-dark.png */,
-				F8340B831C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png */,
-				F8340B841C96CF9000C820D7 /* statusbar-unavailable.png */,
-				F8340B851C96CF9000C820D7 /* statusbar-unavailable@2x.png */,
-				F8340B861C96CF9000C820D7 /* statusbar-warning-dark.png */,
-				F8340B871C96CF9000C820D7 /* statusbar-warning-dark@2x.png */,
-				F8340B881C96CF9000C820D7 /* statusbar-warning.png */,
-				F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */,
-				F8340B8A1C96CF9000C820D7 /* statusbar.png */,
-				F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */,
+				F86928FA1CA28B8800AB8E4C /* statusbar */,
 				E1291C081BF11947008D7D90 /* Reachability.h */,
 				E1291C091BF11947008D7D90 /* Reachability.m */,
 				E1D067FF1B51D08E00567172 /* AppDelegate.h */,
@@ -389,6 +370,33 @@
 				E1D068121B51D08F00567172 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F86928FA1CA28B8800AB8E4C /* statusbar */ = {
+			isa = PBXGroup;
+			children = (
+				F8340B781C96CF9000C820D7 /* statusbar-dark.png */,
+				F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */,
+				F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */,
+				F8340B7B1C96CF9000C820D7 /* statusbar-error-dark@2x.png */,
+				F8340B7C1C96CF9000C820D7 /* statusbar-error.png */,
+				F8340B7D1C96CF9000C820D7 /* statusbar-error@2x.png */,
+				F8340B7E1C96CF9000C820D7 /* statusbar-ok-dark.png */,
+				F8340B7F1C96CF9000C820D7 /* statusbar-ok-dark@2x.png */,
+				F8340B801C96CF9000C820D7 /* statusbar-ok.png */,
+				F8340B811C96CF9000C820D7 /* statusbar-ok@2x.png */,
+				F8340B821C96CF9000C820D7 /* statusbar-unavailable-dark.png */,
+				F8340B831C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png */,
+				F8340B841C96CF9000C820D7 /* statusbar-unavailable.png */,
+				F8340B851C96CF9000C820D7 /* statusbar-unavailable@2x.png */,
+				F8340B861C96CF9000C820D7 /* statusbar-warning-dark.png */,
+				F8340B871C96CF9000C820D7 /* statusbar-warning-dark@2x.png */,
+				F8340B881C96CF9000C820D7 /* statusbar-warning.png */,
+				F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */,
+				F8340B8A1C96CF9000C820D7 /* statusbar.png */,
+				F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */,
+			);
+			name = statusbar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
