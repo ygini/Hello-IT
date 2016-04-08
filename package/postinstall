@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# original munki deployment based on autopkg recipe was installing Hello IT in /Applications
+# this isn't a good idea, Hello IT isn't supposed to be run on demand by users
+# so the packaged version of Hello IT will install it in /Applications/Utilities
+# and will move the original version to the trash.
+
 original_app_path="/Applications/Hello IT.app"
 
 while read shortname
