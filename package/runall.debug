@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while read shortname
+do
+    uid=$(id -u "$shortname")
+
+    if [ -n "$uid" ]
+    then
+        /bin/launchctl asuser "$uid" /bin/launchctl load /Library/LaunchAgents/com.github.ygini.hello-it.plist
+    fi
+done < <(ps aux | grep "MacOS/[F]inder" | awk '{print $1}')
+
+exit 0
