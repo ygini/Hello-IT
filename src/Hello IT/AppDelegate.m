@@ -47,7 +47,7 @@
     // https://github.com/ygini/Hello-IT/wiki/Preferences
     
     
-    if ([[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"content"] count] == 0) {
+    if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"content"] count] == 0) {
         asl_log(NULL, NULL, ASL_LEVEL_WARNING, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
@@ -149,11 +149,12 @@
                 extension = @"NO_EXT_PROVIDED";
                 asl_log(NULL, NULL, ASL_LEVEL_ERR, "Custom icon path set but not iconformat found. This can't work at all.");
             }
-            NSString *finalPath = [[iconString stringByAppendingString:imageName] stringByAppendingPathExtension:extension];
+            
+            NSString *finalPath = [[iconString stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:extension];
 
             NSString *finalPathForDark = nil;
             if (tryDark) {
-                finalPathForDark = [[iconString stringByAppendingString:imageNameForDark] stringByAppendingPathExtension:extension];
+                finalPathForDark = [[iconString stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:extension];
             }
             
             if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {

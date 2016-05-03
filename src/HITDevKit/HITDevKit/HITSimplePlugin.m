@@ -11,7 +11,11 @@
 @implementation HITSimplePlugin
 
 -(NSMenuItem *)prepareNewMenuItem {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[self.settings objectForKey:kHITSimplePluginTitleKey]
+    NSString *title = [self.settings objectForKey:kHITSimplePluginTitleKey];
+    if (!title) {
+        title = @"";
+    }
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
                                                       action:@selector(mainAction:)
                                                keyEquivalent:@""];
     menuItem.target = self;
