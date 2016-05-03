@@ -8,6 +8,8 @@
 
 #import "HITSimplePlugin.h"
 
+#import <asl.h>
+
 @implementation HITSimplePlugin
 
 -(NSMenuItem *)prepareNewMenuItem {
@@ -23,8 +25,17 @@
     
     NSString *imagePath = [self.settings objectForKey:kHITSimplePluginImagePathKey];
     
-    NSImage *accessoryImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
-    menuItem.image = accessoryImage;
+    if (imagePath) {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Image set for menu item with title %s at path %s.", [title cStringUsingEncoding:NSUTF8StringEncoding], [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+        NSImage *accessoryImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
+        
+        if (accessoryImage) {
+            menuItem.image = accessoryImage;
+        } else {
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Impossible to load image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+    }
+    
     
     return menuItem;
 }
