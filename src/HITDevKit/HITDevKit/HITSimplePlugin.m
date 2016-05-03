@@ -15,10 +15,16 @@
     if (!title) {
         title = @"";
     }
+    
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
                                                       action:@selector(mainAction:)
                                                keyEquivalent:@""];
     menuItem.target = self;
+    
+    NSString *imagePath = [self.settings objectForKey:kHITSimplePluginImagePathKey];
+    
+    NSImage *accessoryImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
+    menuItem.image = accessoryImage;
     
     return menuItem;
 }

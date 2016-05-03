@@ -10,6 +10,7 @@
 #import <HITDevKit/HITBasicPlugin.h>
 
 #define kHITSimplePluginTitleKey @"title"
+#define kHITSimplePluginImagePathKey @"imagePath"
 
 @interface HITSimplePlugin : HITBasicPlugin
 

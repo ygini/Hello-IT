@@ -62,7 +62,9 @@
                                                                           @{@"functionIdentifier": @"public.open.resource",
                                                                             @"settings": @{
                                                                                     @"title": @"Hello IT Documentation",
-                                                                                    @"URL": @"https://github.com/ygini/Hello-IT/wiki"
+                                                                                    @"URL": @"https://github.com/ygini/Hello-IT/wiki",
+                                                                                    @"imagePath": @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/HelpIcon.icns"
+
                                                                                     }
                                                                             },
                                                                           @{@"functionIdentifier": @"public.open.resource",
