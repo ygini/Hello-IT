@@ -11,6 +11,7 @@
 
 #define kHITSimplePluginTitleKey @"title"
 #define kHITSimplePluginImagePathKey @"imagePath"
+#define kHITSimplePluginImageBaseNameKey @"imageBaseName"
 
 @interface HITSimplePlugin : HITBasicPlugin
 

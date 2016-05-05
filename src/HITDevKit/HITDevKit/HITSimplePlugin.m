@@ -24,9 +24,15 @@
     menuItem.target = self;
     
     NSString *imagePath = [self.settings objectForKey:kHITSimplePluginImagePathKey];
+    NSString *imageBaseName = [self.settings objectForKey:kHITSimplePluginImageBaseNameKey];
+    
+    if ([imagePath length] == 0 && [imageBaseName length] > 0) {
+        NSString *customImageBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomImageForItem"];
+        imagePath = [[customImageBaseFolder stringByAppendingPathComponent:imageBaseName] stringByAppendingPathExtension:@"png"];
+    }
     
     if (imagePath) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Image set for menu item with title %s at path %s.", [title cStringUsingEncoding:NSUTF8StringEncoding], [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item with title %s set with image at path %s.", [title cStringUsingEncoding:NSUTF8StringEncoding], [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
         NSImage *accessoryImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
         
         if (accessoryImage) {

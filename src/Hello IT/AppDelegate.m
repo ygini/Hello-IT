@@ -16,8 +16,7 @@
 #import <asl.h>
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
-#define kMenuItemStatusBarIcon @"icon"
-#define kMenuItemStatusBarIconFormat @"iconformat"
+#define kMenuItemStatusBarTitle @"title"
 
 @interface AppDelegate ()
 
@@ -51,8 +50,6 @@
         asl_log(NULL, NULL, ASL_LEVEL_WARNING, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                  @"icon": @"default",
-                                                                  @"title": @"Hello IT",
                                                                   @"content": @[
                                                                           @{@"functionIdentifier": @"public.title",
                                                                             @"settings": @{
@@ -108,14 +105,14 @@
 }
 
 - (void)updateStatusItem {
-    NSString *iconString = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarIcon];
-    NSImage *icon = nil;
     
-    if (iconString) {
+    NSString *iconTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
+    
+    if ([iconTitle length] == 0) {
         NSString *imageName = nil;
         NSString *imageNameForDark = nil;
         BOOL tryDark = NO;
-
+        NSImage *icon;
         
         switch (self.testState) {
             case HITPluginTestStateError:
@@ -142,47 +139,33 @@
             imageNameForDark = [imageName stringByAppendingString:@"-dark"];
         }
         
-        BOOL useDefaultImageSet = [iconString isEqualToString:@"default"];
-        NSUInteger iconStringLength = [iconString length];
-        
-        if (!useDefaultImageSet && iconStringLength > 0) {
-            NSString *extension = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarIconFormat];
-            if (!extension) {
-                extension = @"NO_EXT_PROVIDED";
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Custom icon path set but not iconformat found. This can't work at all.");
-            }
-            
-            NSString *finalPath = [[iconString stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:extension];
 
-            NSString *finalPathForDark = nil;
-            if (tryDark) {
-                finalPathForDark = [[iconString stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:extension];
-            }
-            
-            if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
-                icon = [[NSImage alloc] initWithContentsOfFile:finalPathForDark];
-                
-            } else if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
-                icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
-                
-            } else {
-                useDefaultImageSet = YES;
-            }
+        NSString *customStatusBarIconBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"];
+
+        
+        NSString *finalPath = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:@"png"];
+        
+        NSString *finalPathForDark = nil;
+        if (tryDark) {
+            finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"png"];
         }
         
-        if (useDefaultImageSet && icon == nil) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
+            icon = [[NSImage alloc] initWithContentsOfFile:finalPathForDark];
+            
+        } else if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
+            icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
+            
+        } else {
             if (tryDark) {
                 icon = [NSImage imageNamed:imageNameForDark];
             } else {
                 icon = [NSImage imageNamed:imageName];
             }
         }
-    }
-    
-    if (icon) {
+        
         self.statusItem.image = icon;
     } else {
-        
         NSColor *textColor = nil;
         
         switch (self.testState) {
