@@ -148,7 +148,9 @@
         NSString *finalPathForDark = nil;
         if (tryDark) {
             finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"png"];
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPathForDark cStringUsingEncoding:NSUTF8StringEncoding]);
         }
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPath cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
             icon = [[NSImage alloc] initWithContentsOfFile:finalPathForDark];
@@ -158,8 +160,10 @@
             
         } else {
             if (tryDark) {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Default dark icon will be used.");
                 icon = [NSImage imageNamed:imageNameForDark];
             } else {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Default icon will be used.");
                 icon = [NSImage imageNamed:imageName];
             }
         }
