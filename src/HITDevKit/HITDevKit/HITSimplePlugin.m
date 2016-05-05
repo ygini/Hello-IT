@@ -28,7 +28,28 @@
     
     if ([imagePath length] == 0 && [imageBaseName length] > 0) {
         NSString *customImageBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomImageForItem"];
-        imagePath = [[customImageBaseFolder stringByAppendingPathComponent:imageBaseName] stringByAppendingPathExtension:@"png"];
+        
+        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+        BOOL tryDark = NO;
+        NSString *imageBaseNameForDark = nil;
+        if ([osxMode isEqualToString:@"Dark"]) {
+            tryDark = YES;
+            imageBaseNameForDark = [imageBaseName stringByAppendingString:@"-dark"];
+        }
+
+        if (tryDark) {
+            imagePath = [[customImageBaseFolder stringByAppendingPathComponent:imageBaseNameForDark] stringByAppendingPathExtension:@"png"];
+            
+            if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath]) {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Image at path %s does not exist.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+                imagePath = nil;
+            }
+        }
+        
+        if ([imagePath length] == 0) {
+            imagePath = [[customImageBaseFolder stringByAppendingPathComponent:imageBaseName] stringByAppendingPathExtension:@"png"];
+        }
+
     }
     
     if (imagePath) {
