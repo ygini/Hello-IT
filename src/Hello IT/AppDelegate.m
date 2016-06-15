@@ -70,6 +70,12 @@
                                                                                     @"URL": @"https://github.com/ygini/Hello-IT/wiki/Preferences"
                                                                                     }
                                                                             },
+                                                                          @{@"functionIdentifier": @"public.script.item",
+                                                                            @"settings": @{
+                                                                                    @"script": @"com.github.ygini.Hello-IT.DisplayIP.sh",
+                                                                                    @"skipForGlobalState": @YES
+                                                                                    }
+                                                                            },
                                                                           @{@"functionIdentifier": @"public.separator"},
                                                                           @{@"functionIdentifier": @"public.quit"}
                                                                           ]

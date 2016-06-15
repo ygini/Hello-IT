@@ -9,7 +9,8 @@
 #import "HITPScriptedItem.h"
 
 
-#define kHITPSubCommandScript @"path"
+#define kHITPSubCommandScriptPath @"path"
+#define kHITPSubCommandScriptName @"script"
 #define kHITPSubCommandOptions @"options"
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
@@ -31,7 +32,11 @@
 {
     self = [super initWithSettings:settings];
     if (self) {
-        _script = [[settings objectForKey:kHITPSubCommandScript] stringByExpandingTildeInPath];
+        _script = [[settings objectForKey:kHITPSubCommandScriptPath] stringByExpandingTildeInPath];
+        
+        if ([_script length] == 0) {
+            _script = [[NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
+        }
         
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         
