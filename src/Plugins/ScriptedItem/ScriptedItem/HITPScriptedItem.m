@@ -163,10 +163,16 @@
                 }
             });
             
-            [task launch];
+            @try {
+                [task launch];
+                
+                [task waitUntilExit];
+                
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
+            } @catch (NSException *exception) {
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
+            }
             
-            [task waitUntilExit];
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
         });
     }
 }
