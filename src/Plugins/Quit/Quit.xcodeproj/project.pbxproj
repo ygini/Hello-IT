@@ -12,6 +12,18 @@
 		F89297401D11356100E431E2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F89297421D11356100E431E2 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F8B50A291D1ED000003CD614 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		E1AF40411B529AA10017B4DD /* Quit.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Quit.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1AF40451B529AA10017B4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,9 +89,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1AF40481B529AA10017B4DD /* Build configuration list for PBXNativeTarget "Quit" */;
 			buildPhases = (
+				F8B50A2A1D1ED006003CD614 /* GitVersion */,
 				E1AF403D1B529AA10017B4DD /* Sources */,
 				E1AF403E1B529AA10017B4DD /* Frameworks */,
 				E1AF403F1B529AA10017B4DD /* Resources */,
+				F8B50A291D1ED000003CD614 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -132,6 +146,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F8B50A2A1D1ED006003CD614 /* GitVersion */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = GitVersion;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E1AF403D1B529AA10017B4DD /* Sources */ = {
