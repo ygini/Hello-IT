@@ -14,6 +14,7 @@
 #define kHITPSubCommandOptions @"options"
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
+#define kHITSimplePluginTitleKey @"title"
 
 #import <asl.h>
 
@@ -90,7 +91,12 @@
 }
 
 -(NSMenuItem *)prepareNewMenuItem {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"…"
+    NSString *title = [self.settings objectForKey:kHITSimplePluginTitleKey];
+    if (!title) {
+        title = @"…";
+    }
+    
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
                                                       action:@selector(mainAction:)
                                                keyEquivalent:@""];
     menuItem.target = self;
