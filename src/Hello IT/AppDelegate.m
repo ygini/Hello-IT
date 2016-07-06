@@ -30,12 +30,17 @@
 @property (nonatomic) HITPluginTestState testState;
 
 @property id notificationOjectForInterfaceTheme;
+@property id notificationOjectForMDMUpdate;
+
+@property BOOL menuOK;
+
 
 @end
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    self.menuOK = NO;
     self.pluginInstances = [NSMutableArray new];
     
     asl_add_log_file(NULL, STDERR_FILENO);
@@ -86,14 +91,22 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loglevel"]) {
         asl_set_filter(NULL, ASL_FILTER_MASK_UPTO([[NSUserDefaults standardUserDefaults] integerForKey:@"loglevel"]));
     }
-
     
-    [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
-        [self loadMenu];
-        
-        self.reachability = [Reachability reachabilityForInternetConnection];
-        [self.reachability startNotifier];
-    }];
+    self.notificationOjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
+                                                                                                      object:nil
+                                                                                                       queue:nil
+                                                                                                  usingBlock:^(NSNotification * _Nonnull note) {
+                                                                                                      NSArray *domains = [note.userInfo objectForKey:@"com.apple.MCX.changedDomains"];
+                                                                                                      if ([domains containsObject:[[NSBundle mainBundle] bundleIdentifier]]) {
+                                                                                                          [self reloadHelloIT];
+                                                                                                      }
+                                                                                                      
+                                                             }];
+    
+    [self reloadHelloIT];
+    
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
     
     self.notificationOjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
                                                                                                            object:nil
@@ -107,10 +120,32 @@
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForMDMUpdate];
     [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForInterfaceTheme];
 }
 
+- (void)reloadHelloIT {
+    self.menuOK = NO;
+    
+    if (self.statusMenuManager) {
+        NSObject<HITPluginProtocol> *menuManagerPlugin = self.statusMenuManager;
+        [menuManagerPlugin stopAndPrepareForRelease];
+    }
+    
+    
+    self.statusMenu = [[NSMenu alloc] init];
+    self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+    
+    [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
+        [self loadMenu];
+    }];
+}
+
 - (void)updateStatusItem {
+    
+    if (!self.menuOK) {
+        return;
+    }
     
     NSString *iconTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
     
@@ -207,6 +242,11 @@
         menuBuilder = @"public.submenu";
     }
     
+    if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
+        NSObject<HITPluginProtocol> *observablePluginInstance = self.statusMenuManager;
+        [observablePluginInstance removeObserver:self forKeyPath:@"testState" context:nil];
+    }
+    
     Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:menuBuilder];
     self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
     if (self.statusMenuManager) {
@@ -223,15 +263,10 @@
                                       context:nil];
     }
     
-    self.statusMenu = [[NSMenu alloc] init];
-    
-    NSStatusBar *bar = [NSStatusBar systemStatusBar];
-    
-    self.statusItem = [bar statusItemWithLength:NSVariableStatusItemLength];
-    
     self.statusItem.highlightMode = YES;
     self.statusItem.menu = [self.statusMenuManager menuItem].submenu;
     
+    self.menuOK = YES;
     [self updateStatusItem];
 }
 

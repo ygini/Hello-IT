@@ -33,11 +33,22 @@
 - (void)setupCronJob {
     _cron = [NSTimer scheduledTimerWithTimeInterval:[_repeat integerValue]
                                              target:self
-                                           selector:@selector(periodicAction:)
+                                           selector:@selector(runPeriodicAction:)
                                            userInfo:nil
                                             repeats:YES];
     
     [_cron fire];
+}
+
+- (void)stopAndPrepareForRelease {
+    [_cron invalidate];
+    [super stopAndPrepareForRelease];
+}
+
+- (void)runPeriodicAction:(NSTimer*)timer {
+    if (self.allowedToRun) {
+        [self periodicAction:timer];
+    }
 }
 
 @end

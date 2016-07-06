@@ -63,7 +63,7 @@
 }
 
 -(void)mainAction:(id)sender {
-    if (self.generalNetworkIsAvailable) {
+    if (self.generalNetworkIsAvailable && self.allowedToRun) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start test request to %s.", [[self.testPage absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
             

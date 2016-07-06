@@ -119,7 +119,7 @@
 }
 
 - (void)runScriptWithCommand:(NSString*)command {
-    if (self.scriptChecked) {
+    if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSTask *task = [[NSTask alloc] init];
