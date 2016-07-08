@@ -125,25 +125,43 @@
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
             
+            NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
+            
+            [environment setObject:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
+                            forKey:@"HELLO_IT_SCRIPT_FOLDER"];
+            
             NSMutableArray *finalArgs = [NSMutableArray new];
             
             [finalArgs addObject:command];
             
             if ([self.options count] > 0) {
                 [finalArgs addObjectsFromArray:self.options];
+                
+                [environment setObject:@"yes"
+                                forKey:@"HELLO_IT_ARGS_AVAILABLE"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
             }
             
             if ([self.base64PlistArgs length] > 0) {
                 [finalArgs addObject:self.base64PlistArgs];
+                
+                [environment setObject:@"yes"
+                                forKey:@"HELLO_IT_BASE64_AVAILABLE"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding base64 plist encoded as arguments");
             }
             
             if (self.isNetworkRelated) {
                 [finalArgs addObject:self.generalNetworkState ? @"1" : @"0"];
+                
+                [environment setObject:@"yes"
+                                forKey:@"HELLO_IT_NETWORK_INFO_AVAILABLE"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding network state as arguments");
             }
             
+            [task setEnvironment:environment];
             [task setArguments:finalArgs];
             
             [task setStandardOutput:[NSPipe pipe]];
