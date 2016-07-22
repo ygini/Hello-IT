@@ -88,7 +88,7 @@
                                                }
                                            } else if ([self.mode isEqualToString:@"contain"]) {
                                                NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                               if ([content containsString:self.originalString]) {
+                                               if ([content rangeOfString:self.originalString].location != NSNotFound) {
                                                    self.testState = HITPluginTestStateOK;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Content based comparaison match.");
                                                } else {
