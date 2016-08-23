@@ -60,7 +60,7 @@ function updateTitleWithArgs {
 	if [ -z "$ipAddress" ]
 	then
 		updateTitle "No IP Address"
-		if [[ "$HELLO_IT_NETWORK_$STATE" == "1" ]]
+		if [[ "$HELLO_IT_NETWORK_STATE" == "1" ]]
 		then
 			handleStateUpdate $mode ${STATE[2]}
 			updateTooltip "Please, check your Ethernet or WiFi connection"
