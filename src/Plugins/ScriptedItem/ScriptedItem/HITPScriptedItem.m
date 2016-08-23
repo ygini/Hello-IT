@@ -140,6 +140,16 @@
                 [environment setObject:@"yes"
                                 forKey:@"HELLO_IT_ARGS_AVAILABLE"];
                 
+                NSMutableString *args = [NSMutableString new];
+                
+                for (NSString *arg in self.options) {
+                    [args appendString:arg];
+                    [args appendString:@" "];
+                }
+                
+                [environment setObject:args
+                                forKey:@"HELLO_IT_ARGS"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
             }
             

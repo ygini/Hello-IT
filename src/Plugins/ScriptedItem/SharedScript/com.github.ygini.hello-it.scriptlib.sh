@@ -14,13 +14,13 @@ function updateTitle {
     echo "hitp-title: $1"
 }
 
-# usage: updateState STATE[0]
+# usage: updateState ${STATE[0]}
 # supported states are managed by the STATE array
-# STATE[0] --> OK (Green light)
-# STATE[1] --> Warning (Orange light)
-# STATE[2] --> Error (Red light)
-# STATE[3] --> Unavailable (Empty circle)
-# STATE[4] --> No state to display (Nothing at all)
+# ${STATE[0]} --> OK (Green light)
+# ${STATE[1]} --> Warning (Orange light)
+# ${STATE[2]} --> Error (Red light)
+# ${STATE[3]} --> Unavailable (Empty circle)
+# ${STATE[4]} --> No state to display (Nothing at all)
 function updateState {
     echo "hitp-state: $1"
 }
@@ -129,13 +129,12 @@ function main {
 		base64=${@:$target_index:1}
 		((arg_garbage+=1))
 		HELLO_IT_PLIST_PATH=$(mktemp)
-		echo "$base64" | openssl base64 -d > $HELLO_IT_PLIST_PATH
+		echo "$base64" | openssl base64 -d -A > $HELLO_IT_PLIST_PATH
 	fi
 	
 	if [ "$HELLO_IT_ARGS_AVAILABLE" == "yes" ] 
 	then
-		arg_length=$(echo "$#-$arg_garbage-1" | bc)
-		options=${@:2:$arg_length}
+		options=("$HELLO_IT_ARGS")
 	fi
 	
 	case "$run_option" in
