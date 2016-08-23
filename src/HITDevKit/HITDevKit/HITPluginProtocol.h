@@ -29,6 +29,9 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 + (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings;
 - (NSMenuItem*)menuItem;
 
+@property (readonly) BOOL allowedToRun;
+- (void)stopAndPrepareForRelease;
+
 @optional
 - (HITPluginTestState)testState;
 - (BOOL)skipForGlobalState;

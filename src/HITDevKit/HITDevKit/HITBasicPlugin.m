@@ -12,6 +12,8 @@
     NSMenuItem *_menuItem;
 }
 
+@property BOOL allowedToRun;
+
 @end
 
 @implementation HITBasicPlugin
@@ -25,6 +27,7 @@
 {
     self = [super init];
     if (self) {
+        _allowedToRun = YES;
         _settings = settings;
     }
     return self;
@@ -38,5 +41,8 @@
     return _menuItem;
 }
 
+- (void)stopAndPrepareForRelease {
+    self.allowedToRun = NO;
+}
 
 @end

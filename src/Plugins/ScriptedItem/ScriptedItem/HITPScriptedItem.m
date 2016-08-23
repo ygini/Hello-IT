@@ -14,6 +14,7 @@
 #define kHITPSubCommandOptions @"options"
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
+#define kHITSimplePluginTitleKey @"title"
 
 #import <asl.h>
 
@@ -90,7 +91,12 @@
 }
 
 -(NSMenuItem *)prepareNewMenuItem {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"…"
+    NSString *title = [self.settings objectForKey:kHITSimplePluginTitleKey];
+    if (!title) {
+        title = @"…";
+    }
+    
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
                                                       action:@selector(mainAction:)
                                                keyEquivalent:@""];
     menuItem.target = self;
@@ -113,11 +119,16 @@
 }
 
 - (void)runScriptWithCommand:(NSString*)command {
-    if (self.scriptChecked) {
+    if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
+            
+            NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
+            
+            [environment setObject:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
+                            forKey:@"HELLO_IT_SCRIPT_FOLDER"];
             
             NSMutableArray *finalArgs = [NSMutableArray new];
             
@@ -125,19 +136,42 @@
             
             if ([self.options count] > 0) {
                 [finalArgs addObjectsFromArray:self.options];
+                
+                [environment setObject:@"yes"
+                                forKey:@"HELLO_IT_ARGS_AVAILABLE"];
+                
+                NSMutableString *args = [NSMutableString new];
+                
+                for (NSString *arg in self.options) {
+                    [args appendString:arg];
+                    [args appendString:@" "];
+                }
+                
+                [environment setObject:args
+                                forKey:@"HELLO_IT_ARGS"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
             }
             
             if ([self.base64PlistArgs length] > 0) {
                 [finalArgs addObject:self.base64PlistArgs];
+                
+                [environment setObject:@"yes"
+                                forKey:@"HELLO_IT_BASE64_AVAILABLE"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding base64 plist encoded as arguments");
             }
             
             if (self.isNetworkRelated) {
                 [finalArgs addObject:self.generalNetworkState ? @"1" : @"0"];
+                
+                [environment setObject:@"yes"
+                                forKey:@"HELLO_IT_NETWORK_INFO_AVAILABLE"];
+                
                 asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding network state as arguments");
             }
             
+            [task setEnvironment:environment];
             [task setArguments:finalArgs];
             
             [task setStandardOutput:[NSPipe pipe]];
@@ -163,10 +197,16 @@
                 }
             });
             
-            [task launch];
+            @try {
+                [task launch];
+                
+                [task waitUntilExit];
+                
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
+            } @catch (NSException *exception) {
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
+            }
             
-            [task waitUntilExit];
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
         });
     }
 }

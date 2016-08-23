@@ -17,6 +17,7 @@
 @interface HITPSubMenu ()
 @property NSArray *content;
 @property NSMutableArray *subPluginInstances;
+@property NSMutableArray *observedSubPluginInstances;
 @property id<HITPluginsManagerProtocol> pluginsManager;
 @end
 
@@ -32,7 +33,6 @@
     self = [super initWithSettings:settings];
     if (self) {
         _content = [settings objectForKey:kMenuItemContent];
-        _subPluginInstances = [NSMutableArray new];
     }
     return self;
 }
@@ -44,6 +44,8 @@
     menuItem.target = nil;
     
     NSMenu *menu = [[NSMenu alloc] init];
+    self.subPluginInstances = [NSMutableArray new];
+    self.observedSubPluginInstances = [NSMutableArray new];
     
     asl_log(NULL, NULL, ASL_LEVEL_INFO, "Prepare submenu");
     
@@ -72,6 +74,7 @@
                                                    forKeyPath:@"testState"
                                                       options:0
                                                       context:nil];
+                        [self.observedSubPluginInstances addObject:observablePluginInstance];
                     }
                 }
                 
@@ -114,6 +117,16 @@
 
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu state has changed for %lu.", (unsigned long)self.testState);
 
+    }
+}
+
+-(void)stopAndPrepareForRelease {
+    for (NSObject<HITPluginProtocol> *observablePluginInstance in self.observedSubPluginInstances) {
+        [observablePluginInstance removeObserver:self forKeyPath:@"testState"];
+    }
+    
+    for (id<HITPluginProtocol> pluginInstance in self.subPluginInstances) {
+        [pluginInstance stopAndPrepareForRelease];
     }
 }
 
