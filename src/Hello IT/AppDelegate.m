@@ -77,7 +77,7 @@
                                                                             },
                                                                           @{@"functionIdentifier": @"public.script.item",
                                                                             @"settings": @{
-                                                                                    @"script": @"com.github.ygini.Hello-IT.ip.sh",
+                                                                                    @"script": @"com.github.ygini.hello-it.ip.sh",
                                                                                     @"skipForGlobalState": @YES,
                                                                                     @"options": @[@"-m", @"2" ]
                                                                                             
@@ -85,7 +85,7 @@
                                                                             },
                                                                           @{@"functionIdentifier": @"public.script.item",
                                                                             @"settings": @{
-                                                                                    @"script": @"com.github.ygini.Hello-IT.hostname.sh",
+                                                                                    @"script": @"com.github.ygini.hello-it.hostname.sh",
                                                                                     @"skipForGlobalState": @YES,
                                                                                     @"args": @{
                                                                                             @"format": @"%C (%H)"
