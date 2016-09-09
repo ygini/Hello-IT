@@ -252,7 +252,7 @@
             if ([value isEqualToString:@"YES"]) {
                 self.menuItem.state = NSOnState;
             } else if ([value isEqualToString:@"NO"]) {
-                self.menuItem.state = NSOnState;
+                self.menuItem.state = NSOffState;
             } else if ([value isEqualToString:@"MIXED"]) {
                 self.menuItem.state = NSMixedState;
             }
