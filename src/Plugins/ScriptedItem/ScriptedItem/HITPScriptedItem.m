@@ -246,6 +246,17 @@
                 self.menuItem.enabled = NO;
             }
             
+        } else if ([key isEqualToString:@"hitp-checked"]) {
+            value = [value uppercaseString];
+            
+            if ([value isEqualToString:@"YES"]) {
+                self.menuItem.state = NSOnState;
+            } else if ([value isEqualToString:@"NO"]) {
+                self.menuItem.state = NSOnState;
+            } else if ([value isEqualToString:@"MIXED"]) {
+                self.menuItem.state = NSMixedState;
+            }
+            
         } else if ([key isEqualToString:@"hitp-hidden"]) {
             value = [value uppercaseString];
             
