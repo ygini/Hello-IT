@@ -51,9 +51,6 @@ function updateTitleWithArgs {
 				;;
 		esac
 	done
-	
-	echo "$@" >> ~/Desktop/test.txt
-	echo "$mainBSDInterface" >> ~/Desktop/test.txt
 
 	ipAddress=$(ifconfig "$mainBSDInterface" | grep "inet " | sed "s/.*inet \([0-9.]*\).*/\1/" | head -n1)
 	

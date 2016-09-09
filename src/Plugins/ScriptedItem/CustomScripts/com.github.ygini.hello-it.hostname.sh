@@ -18,7 +18,7 @@ function updateTitleWithArgs {
     localhostname=$(scutil --get LocalHostName)
     computername=$(scutil --get ComputerName)
 
-    format=$(/usr/libexec/PlistBuddy -c "print format" "$HELLO_IT_PLIST_PATH")
+    format=$(defaults read "$HELLO_IT_PLIST_PATH" format)
     
     if [ -z "$format" ]
     then
