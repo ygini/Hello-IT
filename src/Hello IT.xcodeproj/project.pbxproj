@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E1291C0A1BF11947008D7D90 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E1291C091BF11947008D7D90 /* Reachability.m */; };
 		E12F1E581B5235CC005A4418 /* TestHTTP.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E12F1E511B52355C005A4418 /* TestHTTP.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E14B67BB1B57888700941A27 /* OpenApplication.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E14B67AC1B57856000941A27 /* OpenApplication.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E14B67DA1B59110D00941A27 /* ScriptedItem.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E14B67D41B59059000941A27 /* ScriptedItem.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -43,6 +42,7 @@
 		F8340B9D1C96CF9000C820D7 /* statusbar-warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */; };
 		F8340B9E1C96CF9000C820D7 /* statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8A1C96CF9000C820D7 /* statusbar.png */; };
 		F8340B9F1C96CF9000C820D7 /* statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */; };
+		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,8 +158,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E1291C081BF11947008D7D90 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		E1291C091BF11947008D7D90 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TestHTTP.xcodeproj; path = TestHTTP/TestHTTP.xcodeproj; sourceTree = "<group>"; };
 		E14B67A71B57856000941A27 /* OpenApplication.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenApplication.xcodeproj; path = OpenApplication/OpenApplication.xcodeproj; sourceTree = "<group>"; };
 		E14B67CF1B59059000941A27 /* ScriptedItem.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ScriptedItem.xcodeproj; path = ScriptedItem/ScriptedItem.xcodeproj; sourceTree = "<group>"; };
@@ -201,6 +199,8 @@
 		F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-warning@2x.png"; sourceTree = "<group>"; };
 		F8340B8A1C96CF9000C820D7 /* statusbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = statusbar.png; sourceTree = "<group>"; };
 		F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar@2x.png"; sourceTree = "<group>"; };
+		F89B59391DA7DC350028D75F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		F89B593A1DA7DC350028D75F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,9 +332,9 @@
 		E1D067FC1B51D08E00567172 /* Hello IT */ = {
 			isa = PBXGroup;
 			children = (
+				F89B59391DA7DC350028D75F /* Reachability.h */,
+				F89B593A1DA7DC350028D75F /* Reachability.m */,
 				F86928FA1CA28B8800AB8E4C /* statusbar */,
-				E1291C081BF11947008D7D90 /* Reachability.h */,
-				E1291C091BF11947008D7D90 /* Reachability.m */,
 				E1D067FF1B51D08E00567172 /* AppDelegate.h */,
 				E1D068001B51D08E00567172 /* AppDelegate.m */,
 				E1D0681D1B51D4B500567172 /* HITPluginsManager.h */,
@@ -651,7 +651,7 @@
 			files = (
 				E1D068031B51D08E00567172 /* main.m in Sources */,
 				E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */,
-				E1291C0A1BF11947008D7D90 /* Reachability.m in Sources */,
+				F89B593B1DA7DC350028D75F /* Reachability.m in Sources */,
 				E1D068011B51D08E00567172 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

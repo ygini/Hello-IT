@@ -116,7 +116,7 @@
     
     [self reloadHelloIT];
     
-    self.reachability = [Reachability reachabilityForInternetConnection];
+    self.reachability = [Reachability reachabilityWithHostname:@"captive.apple.com"];
     [self.reachability startNotifier];
     
     self.notificationOjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
