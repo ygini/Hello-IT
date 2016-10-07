@@ -12,6 +12,7 @@
 
 #define kHITPFunctionIdentifier @"HITPFunctionIdentifier"
 
+#import "AppDelegate.h"
 #import "Reachability.h"
 #import <asl.h>
 
@@ -179,6 +180,8 @@
 
 - (void)registerPluginInstanceAsNetworkRelated:(id<HITPluginProtocol>)plugin {
     [self.networkRelatedPluginInstances addObject:plugin];
+    
+    [plugin generalNetworkStateUpdate:[((AppDelegate*)[NSApplication sharedApplication].delegate).reachability currentReachabilityStatus] != NotReachable];
 }
 
 #pragma mark - Network related plugins management

@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class Reachability;
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-
-
+@property (readonly) Reachability *reachability;
 @end
 
