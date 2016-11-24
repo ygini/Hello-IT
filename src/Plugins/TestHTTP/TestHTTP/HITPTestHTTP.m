@@ -15,6 +15,7 @@
 #define kHITPTestHTTPStringToCompare @"originalString"
 #define kHITPTestHTTPMode @"mode"
 #define kHITPTestHTTPTimeout @"timeout"
+#define kHITPTestHTTPIgnoreSystemState @"ignoreSystemState"
 
 @interface HITPTestHTTP ()
 @property NSURL *testPage;
@@ -22,6 +23,7 @@
 @property NSString *originalString;
 @property NSInteger timeout;
 @property BOOL generalNetworkIsAvailable;
+@property BOOL ignoreSystemState;
 @end
 
 
@@ -35,6 +37,8 @@
         _testPage = [NSURL URLWithString:[settings objectForKey:kHITPTestHTTPURL]];
         _mode = [settings objectForKey:kHITPTestHTTPMode];
         _originalString = [settings objectForKey:kHITPTestHTTPStringToCompare];
+        
+        _ignoreSystemState = [[settings objectForKey:kHITPTestHTTPIgnoreSystemState] boolValue];
 
         NSNumber *timeout = [settings objectForKey:kHITPTestHTTPTimeout];
         if (timeout) {
@@ -63,7 +67,7 @@
 }
 
 -(void)mainAction:(id)sender {
-    if (self.generalNetworkIsAvailable && self.allowedToRun) {
+    if ((self.generalNetworkIsAvailable || self.ignoreSystemState) && self.allowedToRun) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start test request to %s.", [[self.testPage absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
             
