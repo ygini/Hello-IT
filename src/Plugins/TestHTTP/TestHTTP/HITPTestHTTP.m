@@ -16,6 +16,8 @@
 #define kHITPTestHTTPMode @"mode"
 #define kHITPTestHTTPTimeout @"timeout"
 #define kHITPTestHTTPIgnoreSystemState @"ignoreSystemState"
+#define kHITPTestHTTPStatusForUnmatchingResult @"unmatchingResult"
+#define kHITPTestHTTPStatusForFailedConnection @"failedConnection"
 
 @interface HITPTestHTTP ()
 @property NSURL *testPage;
@@ -24,6 +26,8 @@
 @property NSInteger timeout;
 @property BOOL generalNetworkIsAvailable;
 @property BOOL ignoreSystemState;
+@property HITPluginTestState unmatchingResult;
+@property HITPluginTestState failedConnection;
 @end
 
 
@@ -39,6 +43,29 @@
         _originalString = [settings objectForKey:kHITPTestHTTPStringToCompare];
         
         _ignoreSystemState = [[settings objectForKey:kHITPTestHTTPIgnoreSystemState] boolValue];
+        
+        self.unmatchingResult = HITPluginTestStateWarning;
+        self.failedConnection = HITPluginTestStateError;
+        
+        for (NSString *property in @[kHITPTestHTTPStatusForUnmatchingResult, kHITPTestHTTPStatusForFailedConnection]) {
+            NSString *value = [settings objectForKey:property];
+            if ([[value lowercaseString] isEqualToString:[@"HITPluginTestStateError" lowercaseString]]) {
+                [self setValue:[NSNumber numberWithInt:HITPluginTestStateError] forKey:property];
+                
+            } else if ([[value lowercaseString] isEqualToString:[@"HITPluginTestStateWarning" lowercaseString]]) {
+                [self setValue:[NSNumber numberWithInt:HITPluginTestStateWarning] forKey:property];
+                
+            } else if ([[value lowercaseString] isEqualToString:[@"HITPluginTestStateOK" lowercaseString]]) {
+                [self setValue:[NSNumber numberWithInt:HITPluginTestStateOK] forKey:property];
+                
+            } else if ([[value lowercaseString] isEqualToString:[@"HITPluginTestStateUnavailable" lowercaseString]]) {
+                [self setValue:[NSNumber numberWithInt:HITPluginTestStateUnavailable] forKey:property];
+                
+            } else if ([[value lowercaseString] isEqualToString:[@"HITPluginTestStateNone" lowercaseString]]) {
+                [self setValue:[NSNumber numberWithInt:HITPluginTestStateNone] forKey:property];
+                
+            }
+        }
 
         NSNumber *timeout = [settings objectForKey:kHITPTestHTTPTimeout];
         if (timeout) {
@@ -77,7 +104,7 @@
                                                queue:[NSOperationQueue mainQueue]
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                        if (connectionError) {
-                                           self.testState = HITPluginTestStateError;
+                                           self.testState = self.failedConnection;
                                            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Connection error during test.");
                                            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [[connectionError description] cStringUsingEncoding:NSUTF8StringEncoding]);
                                        } else {
@@ -87,7 +114,7 @@
                                                    self.testState = HITPluginTestStateOK;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Data based comparaison match.");
                                                } else {
-                                                   self.testState = HITPluginTestStateWarning;
+                                                   self.testState = self.unmatchingResult;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Data based comparaison didn't match.");
                                                }
                                            } else if ([self.mode isEqualToString:@"contain"]) {
@@ -96,7 +123,7 @@
                                                    self.testState = HITPluginTestStateOK;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Content based comparaison match.");
                                                } else {
-                                                   self.testState = HITPluginTestStateWarning;
+                                                   self.testState = self.unmatchingResult;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Content based comparaison didn't match.");
                                                }
                                            } else if ([self.mode isEqualToString:@"md5"]) {
@@ -121,7 +148,7 @@
                                                    self.testState = HITPluginTestStateOK;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "MD5 based comparaison match.");
                                                } else {
-                                                   self.testState = HITPluginTestStateWarning;
+                                                   self.testState = self.unmatchingResult;
                                                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "MD5 based comparaison didn't match.");
                                                }
                                            }

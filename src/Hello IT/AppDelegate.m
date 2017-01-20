@@ -17,6 +17,8 @@
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemStatusBarTitle @"title"
+#define kMenuItemContent @"content"
+#define kMenuItemSettings @"settings"
 
 @interface AppDelegate ()
 
@@ -247,7 +249,24 @@
 }
 
 - (void)loadMenu {
-    NSString *menuBuilder = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemFunctionIdentifier];
+    NSMutableDictionary *compositeSettings = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] mutableCopy];
+    NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH %@", @"com.github.ygini.Hello-IT."]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        return [obj2 compare:obj1];
+    }];
+    
+    NSMutableArray *updatedContent = [[compositeSettings objectForKey:kMenuItemContent] mutableCopy];
+    
+    for (NSString *domainName in relatedDomainNames) {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
+        NSMutableDictionary *subDomain = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName] mutableCopy];
+        
+        [updatedContent insertObject:subDomain
+                             atIndex:0];
+    }
+    
+    [compositeSettings setObject:updatedContent forKey:kMenuItemContent];
+    
+    NSString *menuBuilder = [compositeSettings objectForKey:kMenuItemFunctionIdentifier];
     
     if ([menuBuilder length] == 0) {
         menuBuilder = @"public.submenu";
@@ -259,7 +278,7 @@
     }
     
     Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:menuBuilder];
-    self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
+    self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:compositeSettings];
     if (self.statusMenuManager) {
         if ([self.statusMenuManager respondsToSelector:@selector(setPluginsManager:)]) {
             [self.statusMenuManager setPluginsManager:[HITPluginsManager sharedInstance]];
