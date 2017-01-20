@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>functionIdentifier</key>
+	<string>public.submenu</string>
+	<key>settings</key>
+	<dict>
+		<key>content</key>
+		<array>
+			<dict>
+				<key>functionIdentifier</key>
+				<string>public.open.application</string>
+				<key>settings</key>
+				<dict>
+					<key>app</key>
+					<string>Terminal</string>
+					<key>title</key>
+					<string>Terminal</string>
+				</dict>
+			</dict>
+		</array>
+		<key>title</key>
+		<string>IT Tools</string>
+	</dict>
+</dict>
+</plist>

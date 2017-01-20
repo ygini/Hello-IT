@@ -11,14 +11,22 @@
 #define kMenuItemContent @"content"
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemSettings @"settings"
+#define kMenuItemStateSortScenario @"stateSortScenario"
 
 #import <asl.h>
+
+typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
+    HITPSubMenuSortScenarioUnavailableWin = 0,
+    HITPSubMenuSortScenarioOKWin
+};
+
 
 @interface HITPSubMenu ()
 @property NSArray *content;
 @property NSMutableArray *subPluginInstances;
 @property NSMutableArray *observedSubPluginInstances;
 @property id<HITPluginsManagerProtocol> pluginsManager;
+@property HITPSubMenuSortScenario stateSortScenario;
 @end
 
 @implementation HITPSubMenu
@@ -33,6 +41,14 @@
     self = [super initWithSettings:settings];
     if (self) {
         _content = [settings objectForKey:kMenuItemContent];
+        
+        NSNumber *selectedScenario = [settings objectForKey:kMenuItemStateSortScenario];
+        if (selectedScenario) {
+            _stateSortScenario = [selectedScenario integerValue];
+        } else {
+            _stateSortScenario = HITPSubMenuSortScenarioUnavailableWin;
+        }
+        
     }
     return self;
 }
@@ -110,10 +126,18 @@
             }
         }
         
-        if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
-        else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
-        else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
-        else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
+        if (self.stateSortScenario == HITPSubMenuSortScenarioOKWin) {
+            if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
+            else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
+            else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
+            else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
+        } else if (self.stateSortScenario == HITPSubMenuSortScenarioUnavailableWin) {
+            if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
+            else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
+            else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
+            else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
+
+        }
 
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu state has changed for %lu.", (unsigned long)self.testState);
 
