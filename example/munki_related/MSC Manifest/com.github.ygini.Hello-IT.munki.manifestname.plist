@@ -20,11 +20,11 @@
           <key>settings</key>
           <dict>
             <key>path</key>
-            <string>/Library/Application Support/com.github.ygini.hello-it/CustomScripts/com.github.ygini.hello-it.pendingmscupdates.sh</string>
+            <string>/Library/Application Support/com.github.ygini.hello-it/CustomScripts/com.github.ygini.hello-it.munki.manifestname.sh</string>
             <key>periodic-run</key>
-            <integer>60</integer>
+            <integer>6000</integer>
             <key>title</key>
-            <string>pendingmscupdatescount</string>
+            <string>mscmanifest</string>
           </dict>
         </dict>
       </dict>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>com.github.ygini.hello-it</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<key>content</key>
+								<array>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.title</string>
+										<key>settings</key>
+										<dict>
+											<key>title</key>
+											<string>IT Support</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.submenu</string>
+										<key>settings</key>
+										<dict>
+											<key>content</key>
+											<array>
+												<dict>
+													<key>functionIdentifier</key>
+													<string>public.test.http</string>
+													<key>settings</key>
+													<dict>
+														<key>URL</key>
+														<string>http://captive.apple.com</string>
+														<key>imageBaseName</key>
+														<string>network</string>
+														<key>mode</key>
+														<string>md5</string>
+														<key>originalString</key>
+														<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
+														<key>repeat</key>
+														<integer>60</integer>
+														<key>title</key>
+														<string>Internet</string>
+													</dict>
+												</dict>
+											</array>
+											<key>title</key>
+											<string>Connection Test</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.submenu</string>
+										<key>settings</key>
+										<dict>
+											<key>content</key>
+											<array>
+												<dict>
+													<key>functionIdentifier</key>
+													<string>public.script.item</string>
+													<key>settings</key>
+													<dict>
+														<key>path</key>
+														<string>/Library/Application Support/com.github.ygini.hello-it/Scripts/smart_status.sh</string>
+														<key>title</key>
+														<string>SMARTstatus</string>
+													</dict>
+												</dict>
+												<dict>
+													<key>functionIdentifier</key>
+													<string>public.script.item</string>
+													<key>settings</key>
+													<dict>
+														<key>path</key>
+														<string>/Library/Application Support/com.github.ygini.hello-it/Scripts/ram_info.sh</string>
+														<key>title</key>
+														<string>RAMInfo</string>
+													</dict>
+												</dict>
+												<dict>
+													<key>functionIdentifier</key>
+													<string>public.script.item</string>
+													<key>settings</key>
+													<dict>
+														<key>path</key>
+														<string>/Library/Application Support/com.github.ygini.hello-it/Scripts/os_info.sh</string>
+														<key>title</key>
+														<string>OSInfo</string>
+													</dict>
+												</dict>
+												<dict>
+													<key>functionIdentifier</key>
+													<string>public.script.item</string>
+													<key>settings</key>
+													<dict>
+														<key>path</key>
+														<string>/Library/Application Support/com.github.ygini.hello-it/Scripts/sn_info.sh</string>
+														<key>title</key>
+														<string>SNInfo</string>
+													</dict>
+												</dict>
+												<dict>
+													<key>functionIdentifier</key>
+													<string>public.script.item</string>
+													<key>settings</key>
+													<dict>
+														<key>path</key>
+														<string>/Library/Application Support/com.github.ygini.hello-it/CustomScripts/com.github.ygini.hello-it.ip.sh</string>
+														<key>title</key>
+														<string>updateTitleWithMainIP</string>
+                            <key>periodic-run</key>
+                            <integer>60</integer>
+													</dict>
+												</dict>
+											</array>
+											<key>title</key>
+											<string>Computer Details</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.open.resource</string>
+										<key>settings</key>
+										<dict>
+											<key>URL</key>
+											<string>https://drive.google.com/drive/folders/0B9fFeTiu4kBYYjBDLWdnTzQtcTA</string>
+											<key>title</key>
+											<string>BSD7 Knowledge Base - Staff</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.open.resource</string>
+										<key>settings</key>
+										<dict>
+											<key>URL</key>
+											<string>https://secure.bsd7.org/district/support/</string>
+											<key>title</key>
+											<string>Submit a Tech Request</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.separator</string>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.separator</string>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.title</string>
+										<key>settings</key>
+										<dict>
+											<key>title</key>
+											<string>Resources</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.open.resource</string>
+										<key>settings</key>
+										<dict>
+											<key>URL</key>
+											<string>https://www.google.com/a/yourcompany.com/</string>
+											<key>title</key>
+											<string>Google Mail &amp; Calendar</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.open.resource</string>
+										<key>settings</key>
+										<dict>
+											<key>URL</key>
+											<string>https://www.bsd7.org/</string>
+											<key>title</key>
+											<string>BSD7 Homepage</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.separator</string>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.title</string>
+										<key>settings</key>
+										<dict>
+											<key>title</key>
+											<string>Key Applications</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.open.application</string>
+										<key>settings</key>
+										<dict>
+											<key>appURL</key>
+											<string>/Applications/Managed Software Center.app</string>
+											<key>hideIfNotAvailable</key>
+											<string>NO</string>
+											<key>title</key>
+											<string>Managed Software Center</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.script.item</string>
+										<key>settings</key>
+										<dict>
+											<key>path</key>
+											<string>/Library/Application Support/com.github.ygini.hello-it/CustomScripts/com.github.ygini.hello-it.pendingmscupdates.sh</string>
+											<key>repeat</key>
+											<string>1000</string>
+											<key>title</key>
+											<string>pendingupdatescount</string>
+										</dict>
+									</dict>
+									<dict>
+										<key>functionIdentifier</key>
+										<string>public.separator</string>
+									</dict>
+								</array>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>MCXToProfile.a560c8ba-01eb-486a-a7f6-f2b208218cd4.alacarte.customsettings.06be8416-6831-401c-95b3-889610b35feb</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>06be8416-6831-401c-95b3-889610b35feb</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Included custom settings:
+com.github.ygini.hello-it
+
+Git revision: a0e04c60fc</string>
+	<key>PayloadDisplayName</key>
+	<string>Hello IT Configuration</string>
+	<key>PayloadIdentifier</key>
+	<string>org.bsd7.techserv.helloit.config</string>
+	<key>PayloadOrganization</key>
+	<string>Bozeman School District #7</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>a560c8ba-01eb-486a-a7f6-f2b208218cd4</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
