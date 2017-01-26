@@ -1,14 +1,9 @@
 ##Munki Manifest Name
-
-###Description:
-Provides user with name of manifest currently in use by the computer. Useful for my district. - Zack McCauley
-
-## Pending Munki Updates
 ---
 ##### Author: [Zack McCauley](https://www.github.com/WardsParadox)
 
-### Description:
-Provides user feedback as to how many Managed Software Center updates are available. If any are available, it displays a warning. You could of course change this.
+###Description:
+Provides user with name of manifest currently in use by the computer. Useful for my district. - Zack McCauley
 
 ### Preference Keys to add:
     <dict>
@@ -19,6 +14,6 @@ Provides user feedback as to how many Managed Software Center updates are availa
         <key>script</key>
         <string>com.github.ygini.hello-it.munki.manifestname.sh</string>
         <key>title</key>
-        <string>pendingupdatescount</string>
+        <string>manifestname</string>
       </dict>
     </dict>

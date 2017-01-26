@@ -1,9 +1,9 @@
-## Pending Munki Updates
+## Computer Details
 ---
 ##### Author: [Zack McCauley](https://www.github.com/WardsParadox)
 
 ### Description:
-All munki related Hello-IT scripts and preferences dwell here. There is an included preference file that you can drop in place as well!
+All of these scripts are "Computer Detail" related. Most written by [smashism](https://www.github.com/smashism) but were updated to use the library and additional features added.
 
 ### Current Scripts Included in Preference File:
 Manifest Name: Shows current manifest associated with MSC
