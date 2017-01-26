@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>functionIdentifier</key>
+    <string>public.submenu</string>
+    <key>settings</key>
+    <dict>
+      <key>title</key>
+      <string>Computer Details</string>
+      <key>content</key>
+      <array>
+        <dict>
+          <key>functionIdentifier</key>
+          <string>public.script.item</string>
+          <key>settings</key>
+          <dict>
+            <key>script</key>
+            <string>com.github.ygini.hello-it.computerdetails.serialnumber.sh</string>
+            <key>title</key>
+            <string>serialnumber</string>
+          </dict>
+        </dict>
+        <dict>
+          <key>functionIdentifier</key>
+          <string>public.script.item</string>
+          <key>settings</key>
+          <dict>
+            <key>script</key>
+            <string>com.github.ygini.hello-it.computerdetails.macOSversion.sh</string>
+            <key>title</key>
+            <string>modelinfo</string>
+          </dict>
+        </dict>
+        <dict>
+          <key>functionIdentifier</key>
+          <string>public.script.item</string>
+          <key>settings</key>
+          <dict>
+            <key>script</key>
+            <string>com.github.ygini.hello-it.computerdetails.macOSversion.sh</string>
+            <key>title</key>
+            <string>macOSversion</string>
+          </dict>
+        </dict>
+        <dict>
+          <key>functionIdentifier</key>
+          <string>public.separator</string>
+        </dict>
+      </array>
+    </dict>
+  </dict>
+</plist>

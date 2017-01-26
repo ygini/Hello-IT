@@ -74,17 +74,17 @@ function updateTitleWithArgs {
 }
 
 function onClickAction {
-    updateTitleWithArgs $@
+    updateTitleWithArgs "$@"
 }
 
 function fromCronAction {
-    updateTitleWithArgs $@
+    updateTitleWithArgs "$@"
 }
 
 function setTitleAction {
-    updateTitleWithArgs $@
+    updateTitleWithArgs "$@"
 }
 
-main $@
+main "$@"
 
 exit 0

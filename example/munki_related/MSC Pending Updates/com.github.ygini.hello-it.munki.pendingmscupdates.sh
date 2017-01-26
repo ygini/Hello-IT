@@ -22,13 +22,19 @@ function setTitleAction {
     # ${STATE[2]} --> Error (Red light)
     # ${STATE[3]} --> Unavailable (Empty circle)
     # ${STATE[4]} --> No state to display (Nothing at all)
-    updateState "${STATE[0]}"
+    updateState "${STATE[4]}"
     updateTooltip "🎉No Available Updates!🎉"
 
   else
-    updateTitle "Pending MSC Updates: $pendingupdates"
-    updateState "${STATE[1]}"
-    updateTooltip "Updates Available."
+    if [ "$(defaults read /Library/Preferences/ManagedInstalls.plist RestartRequired 2> /dev/null)" ]; then
+      updateTitle "Pending MSC Updates: $pendingupdates. Restart Required!"
+      updateState "${STATE[2]}"
+      updateTooltip "Your updates require a restart!"
+    else
+      updateTitle "Pending MSC Updates: $pendingupdates"
+      updateState "${STATE[1]}"
+      updateTooltip "Updates Available."
+    fi
   fi
 
 }

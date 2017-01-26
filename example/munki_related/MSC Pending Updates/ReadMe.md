@@ -11,8 +11,8 @@ Provides user feedback as to how many Managed Software Center updates are availa
       <string>public.script.item</string>
       <key>settings</key>
       <dict>
-        <key>path</key>
-        <string>/Library/Application Support/com.github.ygini.hello-it/CustomScripts/com.github.ygini.hello-it.pendingmscupdates.sh</string>
+        <key>script</key>
+        <string>com.github.ygini.hello-it.munki.pendingmscupdates.sh</string>
         <key>periodic-run</key>
         <integer>360</integer>
         <key>title</key>

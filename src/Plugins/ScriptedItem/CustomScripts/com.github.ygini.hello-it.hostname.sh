@@ -19,29 +19,28 @@ function updateTitleWithArgs {
     computername=$(scutil --get ComputerName)
 
     format=$(defaults read "$HELLO_IT_PLIST_PATH" format)
-    
+
     if [ -z "$format" ]
     then
     	format="%C"
     fi
 
     title=$(echo "$format" | sed "s/%C/$computername/g" | sed "s/%H/$hostname/g" | sed "s/%L/$localhostname/g")
-
-    updateTitle "$title"
+    updateTitle "Hostname: $title"
 }
 
 function onClickAction {
-    updateTitleWithArgs $@
+    updateTitleWithArgs "$@"
 }
 
 function fromCronAction {
-    updateTitleWithArgs $@
+    updateTitleWithArgs "$@"
 }
 
 function setTitleAction {
-    updateTitleWithArgs $@
+    updateTitleWithArgs "$@"
 }
 
-main $@
+main "$@"
 
 exit 0
