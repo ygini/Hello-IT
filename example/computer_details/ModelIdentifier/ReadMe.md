@@ -1,6 +1,6 @@
 ## Model Menu Item
 ---
-##### Script based on: [smashism](https://www.github.com/smashism)
+##### Script based on: [Emily K/smashism](https://www.github.com/Emily K/smashism)
 ##### Updated by [Zack McCauley](https://www.github.com/wardsparadox)
 
 
