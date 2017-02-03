@@ -1,6 +1,8 @@
 ## Serial Number
 ---
-##### Original Author: [smashism](https://www.github.com/smashism)
+##### Script based on: [smashism](https://www.github.com/smashism)
+##### Updated by [Zack McCauley](https://www.github.com/wardsparadox)
+
 
 ### Description:
 Displays serial number in Hello-IT, UUID in tooltip. Updated to use the hitp shell lib.

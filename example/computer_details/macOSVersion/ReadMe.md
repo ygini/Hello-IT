@@ -1,6 +1,8 @@
 ## MacOS Version
 ---
-##### Original Author: [smashism](https://www.github.com/smashism)
+##### Script based on: [smashism](https://www.github.com/smashism)
+##### Updated by [Zack McCauley](https://www.github.com/wardsparadox)
+
 
 ### Description:
 Displays macOS Version in Hello-IT. Updated to use the hitp shell lib.

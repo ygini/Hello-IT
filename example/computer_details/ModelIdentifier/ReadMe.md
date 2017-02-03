@@ -1,6 +1,8 @@
 ## Model Menu Item
 ---
-##### Original Author: [smashism](https://www.github.com/smashism)
+##### Script based on: [smashism](https://www.github.com/smashism)
+##### Updated by [Zack McCauley](https://www.github.com/wardsparadox)
+
 
 ### Description:
 Displays Model Info as title, Model Identifier in tooltip. Updated to use the hitp shell lib.
