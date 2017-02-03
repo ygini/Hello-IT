@@ -1,5 +1,5 @@
 #!/bin/bash
-#. "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
+. "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
 
 function onClickAction {
   setTitleAction "$@"
@@ -15,6 +15,6 @@ function setTitleAction {
 }
 
 ### The only things to do outside of a bash function is to call the main function defined by the Hello IT bash lib.
-#main "$@"
+main "$@"
 setTitleAction
 exit 0
