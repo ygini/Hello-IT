@@ -5,6 +5,10 @@ function onClickAction {
   setTitleAction "$@"
 }
 
+function fromCronAction {
+   setTitleAction "$@"
+}
+
 function setTitleAction {
   smartstatus="$(diskutil info disk0 | awk '/SMART Status/ {print $3,$4}')"
   if [[ "$smartstatus" = "Verified " ]]; then

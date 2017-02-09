@@ -1,11 +1,12 @@
-## Script Name
+## Uptime Module
 ---
 ##### Author: [Zack McCauley](https://www.github.com/WardsParadox)
-##### Idea: John Black
+##### Idea: John Black @black on MacAdmins.slack
 
 
 ### Description:
-Shows total uptime of computer in hours. Tooltip shows last reboot date.
+Shows total uptime of computer in days. Tooltip shows last reboot date.
+Click to show a prompt to restart.
 
 ### Preference Keys
 <dict>

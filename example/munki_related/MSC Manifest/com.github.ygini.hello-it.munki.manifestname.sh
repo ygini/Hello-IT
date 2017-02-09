@@ -7,6 +7,10 @@ function onClickAction {
  /usr/bin/open /Applications/Managed\ Software\ Center.app
 }
 
+function fromCronAction {
+   setTitleAction "$@"
+}
+
 function setTitleAction {
   if [ "$(defaults read /Library/Preferences/ManagedInstalls.plist ClientIdentifier 2> /dev/null)" ];
   then

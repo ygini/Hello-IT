@@ -6,11 +6,11 @@
 # Alert if uptime greater than alertcount
 alertcount=15
 # Warn if uptime greater than warningcount
-warningcount=10
+warningcount=7
 
 
 function onClickAction {
-  setTitleAction "$@"
+  osascript -e 'tell app "loginwindow" to «event aevtrrst»'
 }
 
 function fromCronAction {
@@ -18,24 +18,25 @@ function fromCronAction {
 }
 
 function setTitleAction {
-  rebootdate="$(last reboot | awk 'NR==1 {print $3,$4,$5,$6}')"
-  uptimedays="$(uptime | awk '{print $3}')"
-  uptimehours="$(uptime | awk -F, '{print $2}')"
-  if [[ $uptimedays -lt $warningcount ]]; then
-      echo "Time since last reboot: $uptimedays day and $uptimehours hours"
+  rebootdate="$(date -r "$(sysctl -n kern.boottime | awk '{print $4}' | sed 's/,//')" "+%+")"
+  lastboot="$(date -r "$(sysctl -n kern.boottime | awk '{print $4}' | sed 's/,//')" "+%s")"
+  now="$(date +"%s")"
+  diff="$(( (now - lastboot) / 86400 ))"
+  if [[ $diff -lt $warningcount ]]; then # Diff < 7
+      echo "Time since last reboot: $diff day(s)."
       updateState "${STATE[0]}"
-      updateTitle "Time since Reboot: $uptimedays day, $uptimehours hours"
-      updateTooltip "Last Reboot: $rebootdate"
-  elif [[ $uptimedays -ge $alertcount ]]; then
-      echo "Time since last reboot: $uptimedays days and $uptimehours hours"
+      updateTitle "Time since Reboot: $diff day(s)."
+      updateTooltip "Last Reboot: $rebootdate. Click to restart."
+  elif [[ $diff -gt $alertcount ]]; then # Diff > 15
+      echo "Time since last reboot: $diff day(s)."
       updateState "${STATE[2]}"
-      updateTitle "Time since Reboot: $uptimedays day, $uptimehours hours"
-      updateTooltip "Last Reboot: $rebootdate"
-  else
-    echo "Time since last reboot: $uptimedays days and $uptimehours hours"
-    updateState "${STATE[1]}"
-    updateTitle "Time since Reboot: $uptimedays day, $uptimehours hours"
-    updateTooltip "Last Reboot: $rebootdate"
+      updateTitle "Time since Reboot: $diff day(s)."
+      updateTooltip "Last Reboot: $rebootdate. Click to restart."
+  else # 7 <= Diff < 15
+      echo "Time since last reboot: $diff day(s)."
+      updateState "${STATE[1]}"
+      updateTitle "Time since Reboot: $diff day(s)."
+      updateTooltip "Last Reboot: $rebootdate. Click to restart."
   fi
 }
 
