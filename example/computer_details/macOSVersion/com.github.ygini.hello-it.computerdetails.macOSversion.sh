@@ -5,6 +5,10 @@ function onClickAction {
   setTitleAction "$@"
 }
 
+function fromCronAction {
+   setTitleAction "$@"
+}
+
 function setTitleAction {
   osversion="$(sw_vers | grep "ProductVersion" | awk '{print $2}')"
   buildversion="$(sw_vers | grep "Build" | awk '{print $2}')"

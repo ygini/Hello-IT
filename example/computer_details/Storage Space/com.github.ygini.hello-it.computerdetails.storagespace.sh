@@ -5,6 +5,10 @@ function onClickAction {
   setTitleAction "$@"
 }
 
+function fromCronAction {
+   setTitleAction "$@"
+}
+
 function setTitleAction {
   storagecmd="$(df -H / | grep "/" | awk '{print $3" / "$2 " Used,",$5 " used"}')"
   total="$(df / | grep "/" | awk '{print $2}' | sed 's/G//')"

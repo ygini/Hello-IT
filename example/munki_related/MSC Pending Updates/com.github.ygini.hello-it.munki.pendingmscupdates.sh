@@ -7,6 +7,10 @@ function onClickAction {
   /usr/bin/open /Applications/Managed\ Software\ Center.app
 }
 
+function fromCronAction {
+   setTitleAction "$@"
+}
+
 function setTitleAction {
   pendingupdates="$(defaults read /Library/Preferences/ManagedInstalls.plist PendingUpdateCount)"
   #echo "$pendingupdates"
