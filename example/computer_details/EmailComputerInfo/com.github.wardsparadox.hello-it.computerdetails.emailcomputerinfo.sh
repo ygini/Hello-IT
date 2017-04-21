@@ -19,8 +19,19 @@ memory="$(system_profiler SPHardwareDataType | grep "Memory:" | cut -d":" -f2)"
 compname="$(/usr/sbin/scutil --get LocalHostName)"
 macaddr="$(python -c "from uuid import getnode; print hex(getnode())[2:]")"
 ipaddr="$(python -c "import socket; print socket.gethostbyname(socket.gethostname())")"
-manifest="$(defaults read /Library/Preferences/ManagedInstalls.plist ClientIdentifier 2> /dev/null)"
 pendingupdates="$(defaults read /Library/Preferences/ManagedInstalls.plist PendingUpdateCount)"
+
+if [ "$(defaults read /Library/Preferences/ManagedInstalls.plist ClientIdentifier 2> /dev/null)" ];
+then
+  # usage: updateTitle "My new title"
+  # first arg only will be used as new title, don't forget quotes
+  manifest="$(defaults read /Library/Preferences/ManagedInstalls.plist ClientIdentifier 2> /dev/null)"
+elif [ -e "/Library/Managed Installs/manifests/$(/usr/sbin/ioreg -c IOPlatformExpertDevice -d 2 | /usr/bin/awk -F\" '/IOPlatformSerialNumber/{print $(NF-1)}')" ] || [ -e "/Library/Managed Installs/manifests/$(/usr/bin/python -c "import os;print os.uname()[1]")" ];  then
+  manifest="Using Serial/Hostname Manifest."
+else
+  manifest="No ClientIdentifier found!"
+fi
+
 
 function onClickAction {
 link="mailto:?Subject=Computer%20Information%20from%20Hello-IT&Body=-%20Computer%20Details%20-%0ASerial%20Number%3A%20${serial}%0AHardware%20UUID%3A%20${uuid}%0AModel%3A%20${model}%0AModel%20Identifier%3A%20${modelid}%0AModel%20Description%3A%20${modeldesc}%0AmacOS%20Version%3A%20${osversion}%0AmacOS%20Build%3A%20${buildversion}%0ATotal%20Storage%3A%20${storage}%0ASMART%20Status%3A%20${smartstatus}%0ATotal%20RAM%3A%20${memory}%0A-%20Network%20Details%20-%0AComputer%20Name%3A%20${compname}%0AMAC%20Address%20%28Current%20Interface%29%3A%20${macaddr}%0AIP%20Address%20%28Current%20Interface%29%3A%20${ipaddr}%0A-%20Munki%20Details%20-%0AManifest%3A%20${manifest}%0APending%20Updates%3A%20${pendingupdates}"

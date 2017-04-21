@@ -124,13 +124,13 @@
                             <key>settings</key>
                             <dict>
                               <key>URL</key>
-                              <string>http://captive.apple.com</string>
+                              <string>https://raw.githubusercontent.com/ygini/Hello-IT/master/staticfiles/internet_test.txt</string>
                               <key>imageBaseName</key>
                               <string>network</string>
                               <key>mode</key>
                               <string>md5</string>
                               <key>originalString</key>
-                              <string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
+                              <string>ccf41dc8262810b99142b5627d27c25e</string>
                               <key>repeat</key>
                               <integer>60</integer>
                               <key>title</key>
