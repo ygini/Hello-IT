@@ -211,7 +211,8 @@
         self.statusItem.image = icon;
     } else {
         NSColor *textColor = nil;
-        
+        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+
         switch (self.testState) {
             case HITPluginTestStateError:
                 textColor = [NSColor redColor];
@@ -223,7 +224,11 @@
                 textColor = [NSColor orangeColor];
                 break;
             default:
-                textColor = [NSColor blackColor];
+                if ([osxMode isEqualToString:@"Dark"]) {
+                    textColor = [NSColor whiteColor];
+                } else {
+                    textColor = [NSColor blackColor];
+                }
                 break;
         }
         
