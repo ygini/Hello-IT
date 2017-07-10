@@ -60,21 +60,7 @@
                                                                   @"content": @[
                                                                           @{@"functionIdentifier": @"public.title",
                                                                             @"settings": @{
-                                                                                    @"title": @"Hello IT default content",
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.open.resource",
-                                                                            @"settings": @{
-                                                                                    @"title": @"Hello IT Documentation",
-                                                                                    @"URL": @"https://github.com/ygini/Hello-IT/wiki",
-                                                                                    @"imagePath": @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/HelpIcon.icns"
-
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.open.resource",
-                                                                            @"settings": @{
-                                                                                    @"title": @"The page needed to deploy your custom content",
-                                                                                    @"URL": @"https://github.com/ygini/Hello-IT/wiki/Preferences"
+                                                                                    @"title": @"You Mac isn't managed, please call your IT support",
                                                                                     }
                                                                             },
                                                                           @{@"functionIdentifier": @"public.script.item",
@@ -225,7 +211,8 @@
         self.statusItem.image = icon;
     } else {
         NSColor *textColor = nil;
-        
+        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+
         switch (self.testState) {
             case HITPluginTestStateError:
                 textColor = [NSColor redColor];
@@ -237,7 +224,11 @@
                 textColor = [NSColor orangeColor];
                 break;
             default:
-                textColor = [NSColor blackColor];
+                if ([osxMode isEqualToString:@"Dark"]) {
+                    textColor = [NSColor whiteColor];
+                } else {
+                    textColor = [NSColor blackColor];
+                }
                 break;
         }
         
