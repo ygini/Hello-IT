@@ -123,6 +123,69 @@
 			remoteGlobalIDString = E1D067F91B51D08E00567172;
 			remoteInfo = "Hello IT";
 		};
+		F8F4E5761F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E1B2C8D01B59351B005A9936;
+			remoteInfo = HITDevKit;
+		};
+		F8F4E5781F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E1D068281B51E54E00567172;
+			remoteInfo = OpenResource;
+		};
+		F8F4E57A1F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E17743751B51F19B00A5B406 /* Separator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E177436A1B51F19B00A5B406;
+			remoteInfo = Separator;
+		};
+		F8F4E57C1F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E17743941B51F2C900A5B406 /* Title.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E17743891B51F2C900A5B406;
+			remoteInfo = Title;
+		};
+		F8F4E57E1F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E12F1E4A1B52355B005A4418 /* TestHTTP.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E12F1E3F1B52355B005A4418;
+			remoteInfo = TestHTTP;
+		};
+		F8F4E5801F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1AF404B1B529AA10017B4DD /* Quit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E1AF40401B529AA10017B4DD;
+			remoteInfo = Quit;
+		};
+		F8F4E5821F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1AF40701B529F460017B4DD /* SubMenu.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E1AF40651B529F460017B4DD;
+			remoteInfo = SubMenu;
+		};
+		F8F4E5841F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E14B67A71B57856000941A27 /* OpenApplication.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E14B679C1B57855F00941A27;
+			remoteInfo = OpenApplication;
+		};
+		F8F4E5861F1A73CC004E8789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E14B67CF1B59059000941A27 /* ScriptedItem.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E14B67C41B59059000941A27;
+			remoteInfo = ScriptedItem;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -416,6 +479,15 @@
 			buildRules = (
 			);
 			dependencies = (
+				F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E57B1F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E57D1F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E57F1F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E5811F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E5831F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E5851F1A73CC004E8789 /* PBXTargetDependency */,
+				F8F4E5871F1A73CC004E8789 /* PBXTargetDependency */,
 			);
 			name = "Hello IT";
 			productName = "Hello IT";
@@ -671,6 +743,51 @@
 			isa = PBXTargetDependency;
 			target = E1D067F91B51D08E00567172 /* Hello IT */;
 			targetProxy = E1D0680E1B51D08F00567172 /* PBXContainerItemProxy */;
+		};
+		F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HITDevKit;
+			targetProxy = F8F4E5761F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenResource;
+			targetProxy = F8F4E5781F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E57B1F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Separator;
+			targetProxy = F8F4E57A1F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E57D1F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Title;
+			targetProxy = F8F4E57C1F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E57F1F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TestHTTP;
+			targetProxy = F8F4E57E1F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E5811F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Quit;
+			targetProxy = F8F4E5801F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E5831F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SubMenu;
+			targetProxy = F8F4E5821F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E5851F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenApplication;
+			targetProxy = F8F4E5841F1A73CC004E8789 /* PBXContainerItemProxy */;
+		};
+		F8F4E5871F1A73CC004E8789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ScriptedItem;
+			targetProxy = F8F4E5861F1A73CC004E8789 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
