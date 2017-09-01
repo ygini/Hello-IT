@@ -2,7 +2,9 @@
 
 CONFIGURATION="Release"
 
-GIT_ROOT_DIR="$(dirname $(dirname ${BASH_SOURCE[0]}))"
+DEVELOPER_ID_INSTALLER="Developer ID Installer: Yoann GINI (CRXPBZF3N4)"
+
+GIT_ROOT_DIR="$(git rev-parse --show-toplevel)"
 PROJECT_DIR="${GIT_ROOT_DIR}/src"
 BUILT_PRODUCTS_DIR="$(mktemp -d)"
 
@@ -14,6 +16,16 @@ BASE_RELEASE_LOCATION="${GIT_ROOT_DIR}/package/build"
 RELEASE_LOCATION="${BASE_RELEASE_LOCATION}/${PKG_VERSION}-${CONFIGURATION}"
 RELEASE_PRODUCT_LOCATION="${RELEASE_LOCATION}/Products"
 RELEASE_DSYM_LOCATION="${RELEASE_LOCATION}/dSYM"
+
+
+UNCOMMITED_CHANGE=$(git status -s | wc -l | bc)
+
+if [ $UNCOMMITED_CHANGE -ne 0 ]
+then
+	echo "There is some uncommited change to the repo"
+	echo "Please, commit and try again"
+	exit 1
+fi
 
 PKG_ROOT="$(mktemp -d)"
 
@@ -54,7 +66,7 @@ cp -r "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${
 
 #sudo chown -R root:wheel "${PKG_ROOT}"
 
-pkgbuild --sign "Developer ID Installer: Yoann GINI (CRXPBZF3N4)" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+pkgbuild --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
 rm -rf "${PKG_ROOT}"
 
