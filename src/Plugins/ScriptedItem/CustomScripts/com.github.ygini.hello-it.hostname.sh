@@ -13,7 +13,7 @@
 
 . "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
 
-function updateTitleWithArgs {
+function getHostname {
     hostname=$(scutil --get HostName)
     localhostname=$(scutil --get LocalHostName)
     computername=$(scutil --get ComputerName)
@@ -25,12 +25,18 @@ function updateTitleWithArgs {
     	format="%C"
     fi
 
-    title=$(echo "$format" | sed "s/%C/$computername/g" | sed "s/%H/$hostname/g" | sed "s/%L/$localhostname/g")
+    echo "$format" | sed "s/%C/$computername/g" | sed "s/%H/$hostname/g" | sed "s/%L/$localhostname/g"
+    
+}
+
+function updateTitleWithArgs {
+    title=$(getHostname)
     updateTitle "Hostname: $title"
 }
 
 function onClickAction {
     updateTitleWithArgs "$@"
+    getHostname | pbcopy
 }
 
 function fromCronAction {
