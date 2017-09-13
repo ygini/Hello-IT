@@ -27,25 +27,28 @@ fi
 
 UNCOMMITED_CHANGE=$(git status -s | wc -l | bc)
 
-if [ $UNCOMMITED_CHANGE -ne 0 ] && [ "$CONFIGURATION" == "Release" ]
+if [ -z $FORCE_SKIP_REPO_STATE ]
 then
-	echo "Your are on ${CURRENT_BRANCH} and there"
-	echo "is some uncommited change to the repo."
-	echo "Please, commit and try again or use"
-	echo "a development branch."
-	exit 1
+	if [ $UNCOMMITED_CHANGE -ne 0 ] && [ "$CONFIGURATION" == "Release" ]
+	then
+		echo "Your are on ${CURRENT_BRANCH} and there"
+		echo "is some uncommited change to the repo."
+		echo "Please, commit and try again or use"
+		echo "a development branch."
+		exit 1
+	fi
 fi
 
 PKG_VERSION=$(/usr/libexec/PlistBuddy -c "print CFBundleShortVersionString" "${PROJECT_DIR}/Hello IT/Info.plist")
 
 if [[ "$CURRENT_BRANCH" == release* ]]
 then
-        CONFIGURATION="Release"
+       	CONFIGURATION="Release"
         VERSION_FROM_BRANCH=$(echo "${CURRENT_BRANCH}" | awk -F'/' '{print $2}')
-        if [[ "$VERSION_FROM_BRANCH" =~ ^[0-9]+\.[0-9]+ ]]
+       	if [[ "$VERSION_FROM_BRANCH" =~ ^[0-9]+\.[0-9]+ ]]
         then
-                PKG_VERSION=$VERSION_FROM_BRANCH
-                /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $PKG_VERSION" "${PROJECT_DIR}/Hello IT/Info.plist"
+       	        PKG_VERSION=$VERSION_FROM_BRANCH
+               	/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $PKG_VERSION" "${PROJECT_DIR}/Hello IT/Info.plist"
                 git add "${PROJECT_DIR}/Hello IT/Info.plist"
 		git commit -m "Update app version number according to release branch" 
         fi
@@ -95,7 +98,12 @@ cp -r "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${
 
 #sudo chown -R root:wheel "${PKG_ROOT}"
 
-pkgbuild --component-plist "${GIT_ROOT_DIR}/package/pkgbuild_options.plist" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+PBK_BUILD_COMPONENT="${BUILT_PRODUCTS_DIR}/components.plist"
+pkgbuild --analyze --root "${PKG_ROOT}" "${PBK_BUILD_COMPONENT}"
+
+/usr/libexec/PlistBuddy -c "Set 0:BundleIsRelocatable bool false" "${PBK_BUILD_COMPONENT}"
+/usr/libexec/PlistBuddy -c "Print" "${PBK_BUILD_COMPONENT}"
+pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
 rm -rf "${PKG_ROOT}"
 
