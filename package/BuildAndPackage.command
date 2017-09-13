@@ -38,7 +38,7 @@ fi
 
 PKG_VERSION=$(/usr/libexec/PlistBuddy -c "print CFBundleShortVersionString" "${PROJECT_DIR}/Hello IT/Info.plist")
 
-if [[ "$CURRENT_BRANCH" == "release/*" ]]
+if [[ "$CURRENT_BRANCH" == release* ]]
 then
         CONFIGURATION="Release"
         VERSION_FROM_BRANCH=$(echo "${CURRENT_BRANCH}" | awk -F'/' '{print $2}')
@@ -50,6 +50,8 @@ then
 		git commit -m "Update app version number according to release branch" 
         fi
 fi
+
+exit 0
 
 BASE_RELEASE_LOCATION="${GIT_ROOT_DIR}/package/build"
 RELEASE_LOCATION="${BASE_RELEASE_LOCATION}/${PKG_VERSION}-${CONFIGURATION}"
