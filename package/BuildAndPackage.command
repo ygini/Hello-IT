@@ -95,7 +95,7 @@ cp -r "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${
 
 #sudo chown -R root:wheel "${PKG_ROOT}"
 
-pkgbuild --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+pkgbuild --component-plist "${GIT_ROOT_DIR}/package/pkgbuild_options.plist" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
 rm -rf "${PKG_ROOT}"
 
