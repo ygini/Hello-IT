@@ -18,7 +18,7 @@ CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$CURRENT_BRANCH" == "master" ]]
 then
 	CONFIGURATION="Release"
-elif [[ "$CURRENT_BRANCH" == "release/*" ]]
+elif [[ "$CURRENT_BRANCH" == release* ]]
 then
         CONFIGURATION="Release"
 else
