@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Display computer IP address as title
-# With no option, the script detect the main
-# interface used to reach 8.8.8.8
+# Display Public IP address as title
+# With no option, the script detect the public
+# address using https://ip.abelionni.com/script/
 #
-# You can specify source interface with -i option
+# You can specify the test URL using -u
 #
 # You can specify the behavior if no IP
 # are found with -m option:
@@ -15,15 +15,15 @@
 . "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
 
 mode=0
-mainBSDInterface=$(route -n get 8.8.8.8 | grep "interface: " | awk -F ": " '{print $2}')
+public_ip_url="https://ip.abelionni.com/script/"
 
-while getopts "m:i:" o; do
+while getopts "m:u:" o; do
 	case "${o}" in
 		m)
 			mode=${OPTARG}
 			;;
-		i)
-			mainBSDInterface=${OPTARG}
+		u)
+			public_ip_url=${OPTARG}
 			;;
 	esac
 done
@@ -52,12 +52,12 @@ function handleStateUpdate {
 }
 
 function getIP {
-	ifconfig "$mainBSDInterface" | grep "inet " | sed "s/.*inet \([0-9.]*\).*/\1/" | head -n1
+	curl -s "$public_ip_url"
 }
 
-function updateTitleWithArgs {
-    ipAddress=$(getIP "$@")
-    
+function updateTitleWithArgs {	
+	ipAddress=$(curl -s "$public_ip_url")
+
 	if [ -z "$ipAddress" ]
 	then
 		updateTitle "No IP Address"
@@ -67,12 +67,12 @@ function updateTitleWithArgs {
 			updateTooltip "Please, check your Ethernet or WiFi connection"
 		else
 			handleStateUpdate $mode ${STATE[3]}
-			updateTooltip "No network connection available"
+			updateTooltip "No internet connection available"
 		fi
 	else
-		updateTitle "Local IP: $ipAddress"
+		updateTitle "Public IP: $ipAddress"
 		handleStateUpdate $mode ${STATE[0]}
-    	updateTooltip "Having an IP address doesn't mean you've Internet access"
+    	updateTooltip "You should have access to Internet"
 	fi
 
 }

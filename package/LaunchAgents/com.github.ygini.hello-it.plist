@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>KeepAlive</key>
-	<false/>
+	<true/>
 	<key>Label</key>
 	<string>com.github.ygini.hello-it</string>
 	<key>ProgramArguments</key>

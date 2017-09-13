@@ -293,7 +293,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"testState"]) {
-        int substate = 0;
+        int substate = HITPluginTestStateNone;
         
         if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
             substate |= [self.statusMenuManager testState];
