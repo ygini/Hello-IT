@@ -24,12 +24,9 @@
 
 @property (weak) IBOutlet NSWindow *window;
 @property (strong) NSStatusItem *statusItem;
-@property (strong) IBOutlet NSMenu *statusMenu;
 @property id<HITPluginProtocol> statusMenuManager;
 @property NSMutableArray *pluginInstances;
 @property Reachability *reachability;
-
-@property (nonatomic) HITPluginTestState testState;
 
 @property id notificationOjectForInterfaceTheme;
 @property id notificationOjectForMDMUpdate;
@@ -96,11 +93,17 @@
                                                                                                        queue:nil
                                                                                                   usingBlock:^(NSNotification * _Nonnull note) {
                                                                                                       NSArray *domains = [note.userInfo objectForKey:@"com.apple.MCX.changedDomains"];
-                                                                                                      if ([domains containsObject:[[NSBundle mainBundle] bundleIdentifier]]) {
-                                                                                                          [self reloadHelloIT];
+                                                                                                      
+                                                                                                      for (NSString *domain in domains) {
+                                                                                                          if ([[domain lowercaseString] isEqualToString:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]]) {
+                                                                                                              [self reloadHelloIT];
+                                                                                                          }
                                                                                                       }
                                                                                                       
                                                              }];
+    
+    
+    self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
     [self reloadHelloIT];
     
@@ -132,9 +135,6 @@
     }
     
     
-    self.statusMenu = [[NSMenu alloc] init];
-    self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-    
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
         [self loadMenu];
     }];
@@ -146,6 +146,13 @@
         return;
     }
     
+    HITPluginTestState statusMenuState = HITPluginTestStateNone;
+    
+    if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
+        statusMenuState |= [self.statusMenuManager testState];
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)statusMenuState);
+    }
+    
     NSString *iconTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
     
     if ([iconTitle length] == 0) {
@@ -154,7 +161,7 @@
         BOOL tryDark = NO;
         NSImage *icon;
         
-        switch (self.testState) {
+        switch (statusMenuState) {
             case HITPluginTestStateError:
                 imageName = @"statusbar-error";
                 break;
@@ -213,7 +220,7 @@
         NSColor *textColor = nil;
         NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
 
-        switch (self.testState) {
+        switch (statusMenuState) {
             case HITPluginTestStateError:
                 textColor = [NSColor redColor];
                 break;
@@ -293,20 +300,6 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"testState"]) {
-        int substate = HITPluginTestStateNone;
-        
-        if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
-            substate |= [self.statusMenuManager testState];
-        }
-        
-        if (substate&HITPluginTestStateError) self.testState = HITPluginTestStateError;
-        else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
-        else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
-        else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
-        else self.testState = HITPluginTestStateNone;
-        
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)self.testState);
-        
         [self updateStatusItem];
     }
 }
