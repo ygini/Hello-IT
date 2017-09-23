@@ -95,7 +95,7 @@
                                                                                                       NSArray *domains = [note.userInfo objectForKey:@"com.apple.MCX.changedDomains"];
                                                                                                       
                                                                                                       for (NSString *domain in domains) {
-                                                                                                          if ([[domain lowercaseString] isEqualToString:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]]) {
+                                                                                                          if ([[domain lowercaseString] rangeOfString:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]].location == 0) {
                                                                                                               [self reloadHelloIT];
                                                                                                           }
                                                                                                       }
