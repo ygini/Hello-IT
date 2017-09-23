@@ -247,12 +247,31 @@
 }
 
 - (void)loadMenu {
-    NSMutableDictionary *compositeSettings = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] mutableCopy];
-    NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH %@", @"com.github.ygini.Hello-IT."]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+    NSMutableDictionary *compositeSettings = [NSMutableDictionary dictionaryWithCapacity:2];
+
+    NSArray *oldStyleRootContent = [[NSUserDefaults standardUserDefaults] arrayForKey:kMenuItemContent];
+    
+    if (oldStyleRootContent) {
+        // We have pre 1.3 preferences, were root item is the settings for public.submenu instead of regular item settings
+        // We need to rebuild the settings to fill 1.3+ needs, with root item being exactly like another item
+        
+        [compositeSettings setObject:@"public.submenu" forKey:kMenuItemFunctionIdentifier];
+        [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent} forKey:kMenuItemSettings];
+        
+    } else {
+        // 1.3+ version support standard function and settings keys at root, allowing end IT to use custom functions more easily
+        
+        [compositeSettings setObject:[[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemFunctionIdentifier] forKey:kMenuItemFunctionIdentifier];
+        [compositeSettings setObject:[[NSUserDefaults standardUserDefaults] dictionaryForKey:kMenuItemSettings] forKey:kMenuItemSettings];
+        
+    }
+    
+    // HIT support composed menu item, all user's preferences starting with "bundleID." will be loaded as first item
+    NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@"."]]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
         return [obj2 compare:obj1];
     }];
     
-    NSMutableArray *updatedContent = [[compositeSettings objectForKey:kMenuItemContent] mutableCopy];
+    NSMutableArray *updatedContent = [[[compositeSettings objectForKey:kMenuItemSettings] objectForKey:kMenuItemContent] mutableCopy];
     
     for (NSString *domainName in relatedDomainNames) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
@@ -262,21 +281,18 @@
                              atIndex:0];
     }
     
-    [compositeSettings setObject:updatedContent forKey:kMenuItemContent];
-    
-    NSString *menuBuilder = [compositeSettings objectForKey:kMenuItemFunctionIdentifier];
-    
-    if ([menuBuilder length] == 0) {
-        menuBuilder = @"public.submenu";
-    }
+    NSMutableDictionary *rootItemSettings = [[compositeSettings objectForKey:kMenuItemSettings] mutableCopy];
+    [rootItemSettings setObject:updatedContent forKey:kMenuItemContent];
+    [compositeSettings setObject:rootItemSettings forKey:kMenuItemSettings];
+
     
     if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
         NSObject<HITPluginProtocol> *observablePluginInstance = self.statusMenuManager;
         [observablePluginInstance removeObserver:self forKeyPath:@"testState" context:nil];
     }
     
-    Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:menuBuilder];
-    self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:compositeSettings];
+    Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:[compositeSettings objectForKey:kMenuItemFunctionIdentifier]];
+    self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:[compositeSettings objectForKey:kMenuItemSettings]];
     if (self.statusMenuManager) {
         if ([self.statusMenuManager respondsToSelector:@selector(setPluginsManager:)]) {
             [self.statusMenuManager setPluginsManager:[HITPluginsManager sharedInstance]];
