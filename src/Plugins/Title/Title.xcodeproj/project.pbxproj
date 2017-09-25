@@ -243,10 +243,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
-				);
 				INFOPLIST_FILE = Title/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.hitp.$(PRODUCT_NAME:rfc1034identifier)";
@@ -260,10 +256,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug",
-				);
 				INFOPLIST_FILE = Title/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.hitp.$(PRODUCT_NAME:rfc1034identifier)";
