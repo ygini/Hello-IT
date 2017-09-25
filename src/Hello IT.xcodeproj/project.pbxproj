@@ -131,6 +131,13 @@
 			remoteGlobalIDString = F83294A51F773076009DA574;
 			remoteInfo = ADPass;
 		};
+		F86CCC0A1F790D250043CF55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F83294AE1F773076009DA574 /* ADPass.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F83294A41F773076009DA574;
+			remoteInfo = ADPass;
+		};
 		F8F4E5761F1A73CC004E8789 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */;
@@ -499,6 +506,7 @@
 			);
 			dependencies = (
 				F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */,
+				F86CCC0B1F790D250043CF55 /* PBXTargetDependency */,
 				F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */,
 				F8F4E57B1F1A73CC004E8789 /* PBXTargetDependency */,
 				F8F4E57D1F1A73CC004E8789 /* PBXTargetDependency */,
@@ -773,6 +781,11 @@
 			isa = PBXTargetDependency;
 			target = E1D067F91B51D08E00567172 /* Hello IT */;
 			targetProxy = E1D0680E1B51D08F00567172 /* PBXContainerItemProxy */;
+		};
+		F86CCC0B1F790D250043CF55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ADPass;
+			targetProxy = F86CCC0A1F790D250043CF55 /* PBXContainerItemProxy */;
 		};
 		F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
