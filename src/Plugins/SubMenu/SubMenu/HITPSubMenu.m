@@ -73,6 +73,8 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
         
         id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKey:kMenuItemSettings]];
         if (pluginInstance) {
+            NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
+            
             if ([pluginInstance respondsToSelector:@selector(setPluginsManager:)]) {
                 // Access to plugin manager may be needed to allow plugin to call other plugins,
                 // to create a submenu for example
@@ -80,22 +82,21 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
             }
             
             if ([pluginInstance respondsToSelector:@selector(testState)]) {
+                BOOL skipForGlobalState = NO;
                 
                 if ([pluginInstance respondsToSelector:@selector(skipForGlobalState)]) {
-                    NSObject<HITPluginProtocol> *observablePluginInstance = pluginInstance;
-                    if (![observablePluginInstance skipForGlobalState]) {
-                        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s has state for global state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
-                        
-                        [observablePluginInstance addObserver:self
-                                                   forKeyPath:@"testState"
-                                                      options:0
-                                                      context:nil];
-                        [self.observedSubPluginInstances addObject:observablePluginInstance];
-                    }
+                    skipForGlobalState = [observablePluginInstance skipForGlobalState];
                 }
                 
-
-
+                if (!skipForGlobalState) {
+                    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s has state for global state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+                    
+                    [observablePluginInstance addObserver:self
+                                               forKeyPath:@"testState"
+                                                  options:0
+                                                  context:nil];
+                    [self.observedSubPluginInstances addObject:observablePluginInstance];
+                }
             }
             
             if ([pluginInstance respondsToSelector:@selector(isNetworkRelated)]) {
