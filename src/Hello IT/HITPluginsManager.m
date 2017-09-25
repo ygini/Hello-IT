@@ -121,7 +121,7 @@
     if (error) {
         asl_log(NULL, NULL, ASL_LEVEL_ERR, "Error when trying to access plugin directory in /Library:\n%s", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
     } else {
-        URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
+        URL = [[URL URLByAppendingPathComponent:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]] URLByAppendingPathComponent:kHITPPlugInsFolder];
         if ([self directoryUsableAtURL:URL]) {
             [URLs addObject:URL];
         } else {
@@ -138,7 +138,7 @@
     if (error) {
         asl_log(NULL, NULL, ASL_LEVEL_ERR, "Error when trying to access plugin directory in ~/Library:\n%s", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
     } else {
-        URL = [[URL URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] URLByAppendingPathComponent:kHITPPlugInsFolder];
+        URL = [[URL URLByAppendingPathComponent:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]] URLByAppendingPathComponent:kHITPPlugInsFolder];
         if ([self directoryUsableAtURL:URL]) {
             [URLs addObject:URL];
         } else {
