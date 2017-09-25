@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  ADPass
+
+  Created by Yoann Gini on 24/09/2017.
+  Copyright © 2017 Yoann Gini. All rights reserved.
+*/
+
+
+// `%ld` is the format used to display the number of days before password expire.
+// To show `Your password will expire in 42d` use format `Your password will expire in %ldd`
+
+"willExpireFormat" = "🔐 📆 %ld";
+"tooltip" = "Delay before your password expire, change it before!";
+"disabledTooltip" = "Your IT infrastructure isn't available. Current info is based on the last recorded value.";
