@@ -13,3 +13,7 @@
 "willExpireFormat" = "Password expire in %ldd";
 "tooltip" = "Delay before your password expire, change it before!";
 "disabledTooltip" = "Your IT infrastructure isn't available. Current info is based on the last recorded value and you can't change your password.";
+
+"notificationTitle" = "Password is about to expire!";
+"notificationMessageFormat" = "Your password will expire on %@. Change it before!";
+"notificationOfflineMessageFormat" = "Your password will expire on %@. Come back on your corporate network and change it before!";
