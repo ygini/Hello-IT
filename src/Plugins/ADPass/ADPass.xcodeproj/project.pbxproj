@@ -6,9 +6,22 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F83294B71F77308C009DA574 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83294B61F77308C009DA574 /* HITDevKit.framework */; };
+		F83294BA1F77313D009DA574 /* HITPADPass.m in Sources */ = {isa = PBXBuildFile; fileRef = F83294B91F77313D009DA574 /* HITPADPass.m */; };
+		F83294BC1F773275009DA574 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83294BB1F773275009DA574 /* OpenDirectory.framework */; };
+		F83294E61F77A8C9009DA574 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F83294E81F77A8C9009DA574 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F83294A51F773076009DA574 /* ADPass.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADPass.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		F83294A81F773076009DA574 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F83294B61F77308C009DA574 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-aoxdloudbtfseogpklvucsgyvrib/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
+		F83294B81F77313D009DA574 /* HITPADPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPADPass.h; sourceTree = "<group>"; };
+		F83294B91F77313D009DA574 /* HITPADPass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPADPass.m; sourceTree = "<group>"; };
+		F83294BB1F773275009DA574 /* OpenDirectory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenDirectory.framework; path = System/Library/Frameworks/OpenDirectory.framework; sourceTree = SDKROOT; };
+		F83294E71F77A8C9009DA574 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F83294E91F77A99A009DA574 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -16,6 +29,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F83294BC1F773275009DA574 /* OpenDirectory.framework in Frameworks */,
+				F83294B71F77308C009DA574 /* HITDevKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -27,6 +42,7 @@
 			children = (
 				F83294A71F773076009DA574 /* ADPass */,
 				F83294A61F773076009DA574 /* Products */,
+				F83294B51F77308C009DA574 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -42,8 +58,20 @@
 			isa = PBXGroup;
 			children = (
 				F83294A81F773076009DA574 /* Info.plist */,
+				F83294B81F77313D009DA574 /* HITPADPass.h */,
+				F83294B91F77313D009DA574 /* HITPADPass.m */,
+				F83294E81F77A8C9009DA574 /* Localizable.strings */,
 			);
 			path = ADPass;
+			sourceTree = "<group>";
+		};
+		F83294B51F77308C009DA574 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F83294BB1F773275009DA574 /* OpenDirectory.framework */,
+				F83294B61F77308C009DA574 /* HITDevKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,6 +115,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				fr,
 			);
 			mainGroup = F832949C1F773076009DA574;
 			productRefGroup = F83294A61F773076009DA574 /* Products */;
@@ -103,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F83294E61F77A8C9009DA574 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,16 +143,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F83294BA1F77313D009DA574 /* HITPADPass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F83294E81F77A8C9009DA574 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F83294E71F77A8C9009DA574 /* en */,
+				F83294E91F77A99A009DA574 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F83294A91F773076009DA574 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -171,6 +215,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

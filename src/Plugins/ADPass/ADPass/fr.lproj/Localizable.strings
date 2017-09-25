@@ -10,6 +10,6 @@
 // `%ld` is the format used to display the number of days before password expire.
 // To show `Your password will expire in 42d` use format `Your password will expire in %ldd`
 
-"willExpireFormat" = "🔐 📆 %ld";
-"tooltip" = "Delay before your password expire, change it before!";
-"disabledTooltip" = "Your IT infrastructure isn't available. Current info is based on the last recorded value.";
+"willExpireFormat" = "MDP expire dans %ldj";
+"tooltip" = "Nombre de jours avant que votre mot de passe ne change, pensez à le changer avant !";
+"disabledTooltip" = "Votre système d'information est injoignable. L'information actuelle est basée sur la dernière valeur enregistrée et vous ne pouvez pas changer votre mot de passe.";
