@@ -115,10 +115,15 @@
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
     long daysBeforeExpiry = (long)[components day];
     self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
-    self.menuItem.enabled = self.lastADRequestSucceded;
     
-    self.menuItem.toolTip = self.lastADRequestSucceded ? self.tooltip : self.offlineTooltip;
-    
+    if (self.lastADRequestSucceded) {
+        self.menuItem.target = self;
+        self.menuItem.toolTip = self.tooltip;
+    } else {
+        self.menuItem.target = nil;
+        self.menuItem.toolTip = self.offlineTooltip;
+    }
+        
     if (daysBeforeExpiry <= self.alertXDaysBefore) {
         NSDate *dateOfLastNotification = [[NSUserDefaults standardUserDefaults] objectForKey:kHITPADPassLastNotifKey];
         
