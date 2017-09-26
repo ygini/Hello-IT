@@ -24,7 +24,7 @@
 
 #define kHITPADPassAlertXDaysBefore @"alertXDaysBefore"
 
-@interface HITPADPass ()
+@interface HITPADPass () <NSUserNotificationCenterDelegate>
 
 @property NSDate *passwordExpiryDate;
 @property BOOL lastADRequestSucceded;
@@ -49,6 +49,8 @@
 {
     self = [super initWithSettings:settings];
     if (self) {
+        [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
+        
         _alertXDaysBefore = [[settings objectForKey:kHITPADPassAlertXDaysBefore] integerValue];
         
         if (_alertXDaysBefore == 0) {
@@ -137,15 +139,10 @@
             notifNeeded = YES;
         }
         
-        if (notifNeeded) {
-            NSDateComponents* components = [[NSCalendar  currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
-            
-            components.hour = 10;
-            components.minute = 00;
-            
-            NSDate* deliveryDate = [[NSCalendar  currentCalendar] dateFromComponents:components];
-            
-            [self sendUserNotificationWithDeliveryDate:deliveryDate];
+        NSDateComponents* components = [[NSCalendar  currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
+        
+        if (components.hour >= 10 && notifNeeded) {
+            [self sendUserNotification];
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
         }
     }
@@ -205,11 +202,12 @@
     }
 }
 
-- (void)sendUserNotificationWithDeliveryDate:(NSDate*)deliveryDate {
+- (void)sendUserNotification {
     asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Notification to change AD password is requested.");
     NSUserNotification *notification = [NSUserNotification new];
     
-    notification.deliveryDate = deliveryDate;
+    notification.identifier = [[NSBundle bundleForClass:[self class]] bundleIdentifier];
+    
     notification.title = self.notificationTitle;
     NSString *infoTextFormat = self.lastADRequestSucceded ? self.notificationMessageFormat : self.notificationOfflineMessageFormat;
     
@@ -221,6 +219,12 @@
     notification.informativeText = [NSString stringWithFormat:infoTextFormat, stringDate];
     
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    if ([notification.identifier isEqualToString:[[NSBundle bundleForClass:[self class]] bundleIdentifier]] && notification.activationType != NSUserNotificationActivationTypeNone) {
+        [self mainAction:notification];
+    }
 }
 
 @end
