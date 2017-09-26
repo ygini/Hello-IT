@@ -110,11 +110,17 @@
 
 - (void)periodicAction:(NSTimer *)timer {
     [self getPasswordExpiryDate];
-    [self updateTitle];
+    if (self.passwordExpiryDate) {
+        self.menuItem.hidden = NO;
+        [self updateTitle];
+    } else {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "No AD Password expiry date found, hidding menu item.");
+        self.menuItem.hidden = YES;
+    }
+    
 }
 
 - (void)updateTitle {
-    
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
     long daysBeforeExpiry = (long)[components day];
     self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
@@ -197,8 +203,9 @@
     } else {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Unable to reach AD, working with old expiry date for AD Password.");
         NSInteger expirySince1970 = [[NSUserDefaults standardUserDefaults] integerForKey:kHITPADPassExpiryTimeKey];
-        self.passwordExpiryDate = [NSDate dateWithTimeIntervalSince1970:expirySince1970];
+        self.passwordExpiryDate = expirySince1970 > 0 ? [NSDate dateWithTimeIntervalSince1970:expirySince1970] : nil;
         self.lastADRequestSucceded = NO;
+        
     }
 }
 
