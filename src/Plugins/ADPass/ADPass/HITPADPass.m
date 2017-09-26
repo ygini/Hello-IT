@@ -8,6 +8,7 @@
 
 #import "HITPADPass.h"
 #import <OpenDirectory/OpenDirectory.h>
+#import <asl.h>
 
 #define kHITPADPassExpiryTimeField @"msDS-UserPasswordExpiryTimeComputed"
 #define kHITPADPassExpiryTimeKey @"public.ad.pass.expirySince1970"
@@ -181,6 +182,7 @@
     
     // Thank you Microsoft to use Jan 1, 1601 at 00:00 UTC as reference date…
     if (expiryTime) {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date requested with success.");
         NSDateComponents *adRefenreceDateComponents = [[NSDateComponents alloc] init];
         [adRefenreceDateComponents setDay:1];
         [adRefenreceDateComponents setMonth:1];
@@ -196,6 +198,7 @@
         
         [[NSUserDefaults standardUserDefaults] setInteger:[self.passwordExpiryDate timeIntervalSince1970] forKey:kHITPADPassExpiryTimeKey];
     } else {
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Unable to reach AD, working with old expiry date for AD Password.");
         NSInteger expirySince1970 = [[NSUserDefaults standardUserDefaults] integerForKey:kHITPADPassExpiryTimeKey];
         self.passwordExpiryDate = [NSDate dateWithTimeIntervalSince1970:expirySince1970];
         self.lastADRequestSucceded = NO;
@@ -203,6 +206,7 @@
 }
 
 - (void)sendUserNotificationWithDeliveryDate:(NSDate*)deliveryDate {
+    asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Notification to change AD password is requested.");
     NSUserNotification *notification = [NSUserNotification new];
     
     notification.deliveryDate = deliveryDate;
