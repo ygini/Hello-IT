@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  ADPass
+
+  Created by Yoann Gini on 24/09/2017.
+  Copyright © 2017 Yoann Gini. All rights reserved.
+*/
+
+
+// `%ld` is the format used to display the number of days before password expire.
+// To show `Your password will expire in 42d` use format `Your password will expire in %ldd`
+
+"willExpireFormat" = "MDP expire dans %ldj";
+"tooltip" = "Nombre de jours avant que votre mot de passe ne change, pensez à le changer avant !";
+"disabledTooltip" = "Votre système d'information est injoignable. L'information actuelle est basée sur la dernière valeur enregistrée et vous ne pouvez pas changer votre mot de passe.";
+
+"notificationTitle" = "Votre mot de passe va expirer !";
+"notificationMessageFormat" = "Votre mot de passe expire le %@. Changez-le avant !";
+"notificationOfflineMessageFormat" = "Votre mot de passe expire le %@. Retournez sur votre réseau d'entreprise et changez-le avant la date butoire !";

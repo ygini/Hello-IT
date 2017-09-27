@@ -45,7 +45,7 @@
             _args = [settings objectForKey:kHITPOpenApplicationArgsArray];
             
             if (!_args) {
-                _args = @{};
+                _args = @[];
             }
         }
         

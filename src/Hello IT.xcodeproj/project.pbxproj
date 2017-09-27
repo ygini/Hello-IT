@@ -22,6 +22,7 @@
 		E1D068081B51D08E00567172 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1D068061B51D08E00567172 /* MainMenu.xib */; };
 		E1D068141B51D08F00567172 /* Hello_ITTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068131B51D08F00567172 /* Hello_ITTests.m */; };
 		E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D0681E1B51D4B500567172 /* HITPluginsManager.m */; };
+		F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F83294B31F773078009DA574 /* ADPass.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F8340B8C1C96CF9000C820D7 /* statusbar-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B781C96CF9000C820D7 /* statusbar-dark.png */; };
 		F8340B8D1C96CF9000C820D7 /* statusbar-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */; };
 		F8340B8E1C96CF9000C820D7 /* statusbar-error-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */; };
@@ -123,6 +124,20 @@
 			remoteGlobalIDString = E1D067F91B51D08E00567172;
 			remoteInfo = "Hello IT";
 		};
+		F83294B21F773078009DA574 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F83294AE1F773076009DA574 /* ADPass.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F83294A51F773076009DA574;
+			remoteInfo = ADPass;
+		};
+		F86CCC0A1F790D250043CF55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F83294AE1F773076009DA574 /* ADPass.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F83294A41F773076009DA574;
+			remoteInfo = ADPass;
+		};
 		F8F4E5761F1A73CC004E8789 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */;
@@ -195,6 +210,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */,
 				E14B67DA1B59110D00941A27 /* ScriptedItem.hitp in Copy Default Plugins */,
 				E14B67BB1B57888700941A27 /* OpenApplication.hitp in Copy Default Plugins */,
 				E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */,
@@ -242,6 +258,7 @@
 		E1D068131B51D08F00567172 /* Hello_ITTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Hello_ITTests.m; sourceTree = "<group>"; };
 		E1D0681D1B51D4B500567172 /* HITPluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginsManager.h; sourceTree = "<group>"; };
 		E1D0681E1B51D4B500567172 /* HITPluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPluginsManager.m; sourceTree = "<group>"; };
+		F83294AE1F773076009DA574 /* ADPass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ADPass.xcodeproj; path = ADPass/ADPass.xcodeproj; sourceTree = "<group>"; };
 		F8340B781C96CF9000C820D7 /* statusbar-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-dark.png"; sourceTree = "<group>"; };
 		F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-dark@2x.png"; sourceTree = "<group>"; };
 		F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-error-dark.png"; sourceTree = "<group>"; };
@@ -311,6 +328,7 @@
 		E17743301B51E6E600A5B406 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				F83294AE1F773076009DA574 /* ADPass.xcodeproj */,
 				E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */,
 				E17743751B51F19B00A5B406 /* Separator.xcodeproj */,
 				E17743941B51F2C900A5B406 /* Title.xcodeproj */,
@@ -435,6 +453,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		F83294AF1F773076009DA574 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F83294B31F773078009DA574 /* ADPass.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F86928FA1CA28B8800AB8E4C /* statusbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +506,7 @@
 			);
 			dependencies = (
 				F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */,
+				F86CCC0B1F790D250043CF55 /* PBXTargetDependency */,
 				F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */,
 				F8F4E57B1F1A73CC004E8789 /* PBXTargetDependency */,
 				F8F4E57D1F1A73CC004E8789 /* PBXTargetDependency */,
@@ -542,6 +569,10 @@
 			productRefGroup = E1D067FB1B51D08E00567172 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = F83294AF1F773076009DA574 /* Products */;
+					ProjectRef = F83294AE1F773076009DA574 /* ADPass.xcodeproj */;
+				},
 				{
 					ProductGroup = E1B2C8EE1B59351B005A9936 /* Products */;
 					ProjectRef = E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */;
@@ -658,6 +689,13 @@
 			remoteRef = E1B2C8F41B59351C005A9936 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F83294B31F773078009DA574 /* ADPass.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ADPass.hitp;
+			remoteRef = F83294B21F773078009DA574 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -743,6 +781,11 @@
 			isa = PBXTargetDependency;
 			target = E1D067F91B51D08E00567172 /* Hello IT */;
 			targetProxy = E1D0680E1B51D08F00567172 /* PBXContainerItemProxy */;
+		};
+		F86CCC0B1F790D250043CF55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ADPass;
+			targetProxy = F86CCC0A1F790D250043CF55 /* PBXContainerItemProxy */;
 		};
 		F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
