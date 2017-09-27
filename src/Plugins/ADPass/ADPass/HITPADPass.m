@@ -231,6 +231,7 @@
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
     if ([notification.identifier isEqualToString:[[NSBundle bundleForClass:[self class]] bundleIdentifier]] && notification.activationType != NSUserNotificationActivationTypeNone) {
         [self mainAction:notification];
+        [center removeDeliveredNotification:notification];
     }
 }
 
