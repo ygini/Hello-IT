@@ -54,32 +54,35 @@
         asl_log(NULL, NULL, ASL_LEVEL_WARNING, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                  @"content": @[
-                                                                          @{@"functionIdentifier": @"public.title",
-                                                                            @"settings": @{
-                                                                                    @"title": @"You Mac isn't managed, please call your IT support",
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.script.item",
-                                                                            @"settings": @{
-                                                                                    @"script": @"com.github.ygini.hello-it.ip.sh",
-                                                                                    @"skipForGlobalState": @YES,
-                                                                                    @"options": @[@"-m", @"2" ]
-                                                                                            
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.script.item",
-                                                                            @"settings": @{
-                                                                                    @"script": @"com.github.ygini.hello-it.hostname.sh",
-                                                                                    @"skipForGlobalState": @YES,
-                                                                                    @"args": @{
-                                                                                            @"format": @"%C (%H)"
+                                                                  @"functionIdentifier": @"public.submenu",
+                                                                  @"settings": @{
+                                                                          @"content": @[
+                                                                                  @{@"functionIdentifier": @"public.title",
+                                                                                    @"settings": @{
+                                                                                            @"title": @"You Mac isn't managed, please call your IT support",
                                                                                             }
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.separator"},
-                                                                          @{@"functionIdentifier": @"public.quit"}
-                                                                          ]
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.script.item",
+                                                                                    @"settings": @{
+                                                                                            @"script": @"com.github.ygini.hello-it.ip.sh",
+                                                                                            @"skipForGlobalState": @YES,
+                                                                                            @"options": @[@"-m", @"2" ]
+                                                                                            
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.script.item",
+                                                                                    @"settings": @{
+                                                                                            @"script": @"com.github.ygini.hello-it.hostname.sh",
+                                                                                            @"skipForGlobalState": @YES,
+                                                                                            @"args": @{
+                                                                                                    @"format": @"%C (%H)"
+                                                                                                    }
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.separator"},
+                                                                                  @{@"functionIdentifier": @"public.quit"}
+                                                                                  ]
+                                                                          }
                                                                   }];
 
     }
@@ -153,9 +156,7 @@
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)statusMenuState);
     }
     
-    NSString *iconTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
-    
-    if ([iconTitle length] == 0) {
+    if ([[self.statusMenuManager menuItem].title length] == 0) {
         NSString *imageName = nil;
         NSString *imageNameForDark = nil;
         BOOL tryDark = NO;
@@ -254,9 +255,14 @@
     if (oldStyleRootContent) {
         // We have pre 1.3 preferences, were root item is the settings for public.submenu instead of regular item settings
         // We need to rebuild the settings to fill 1.3+ needs, with root item being exactly like another item
-        
+        NSString *statusBarTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
         [compositeSettings setObject:@"public.submenu" forKey:kMenuItemFunctionIdentifier];
-        [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent} forKey:kMenuItemSettings];
+        
+        if (statusBarTitle) {
+            [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent, kMenuItemStatusBarTitle:statusBarTitle} forKey:kMenuItemSettings];
+        } else {
+            [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent} forKey:kMenuItemSettings];
+        }
         
     } else {
         // 1.3+ version support standard function and settings keys at root, allowing end IT to use custom functions more easily
