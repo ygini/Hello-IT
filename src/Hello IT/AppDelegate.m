@@ -156,9 +156,7 @@
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)statusMenuState);
     }
     
-    NSString *iconTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
-    
-    if ([iconTitle length] == 0) {
+    if ([[self.statusMenuManager menuItem].title length] == 0) {
         NSString *imageName = nil;
         NSString *imageNameForDark = nil;
         BOOL tryDark = NO;
@@ -257,9 +255,14 @@
     if (oldStyleRootContent) {
         // We have pre 1.3 preferences, were root item is the settings for public.submenu instead of regular item settings
         // We need to rebuild the settings to fill 1.3+ needs, with root item being exactly like another item
-        
+        NSString *statusBarTitle = [[NSUserDefaults standardUserDefaults] stringForKey:kMenuItemStatusBarTitle];
         [compositeSettings setObject:@"public.submenu" forKey:kMenuItemFunctionIdentifier];
-        [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent} forKey:kMenuItemSettings];
+        
+        if (statusBarTitle) {
+            [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent, kMenuItemStatusBarTitle:statusBarTitle} forKey:kMenuItemSettings];
+        } else {
+            [compositeSettings setObject:@{kMenuItemContent: oldStyleRootContent} forKey:kMenuItemSettings];
+        }
         
     } else {
         // 1.3+ version support standard function and settings keys at root, allowing end IT to use custom functions more easily
