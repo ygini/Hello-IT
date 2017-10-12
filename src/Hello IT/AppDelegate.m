@@ -54,32 +54,35 @@
         asl_log(NULL, NULL, ASL_LEVEL_WARNING, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                  @"content": @[
-                                                                          @{@"functionIdentifier": @"public.title",
-                                                                            @"settings": @{
-                                                                                    @"title": @"You Mac isn't managed, please call your IT support",
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.script.item",
-                                                                            @"settings": @{
-                                                                                    @"script": @"com.github.ygini.hello-it.ip.sh",
-                                                                                    @"skipForGlobalState": @YES,
-                                                                                    @"options": @[@"-m", @"2" ]
-                                                                                            
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.script.item",
-                                                                            @"settings": @{
-                                                                                    @"script": @"com.github.ygini.hello-it.hostname.sh",
-                                                                                    @"skipForGlobalState": @YES,
-                                                                                    @"args": @{
-                                                                                            @"format": @"%C (%H)"
+                                                                  @"functionIdentifier": @"public.submenu",
+                                                                  @"settings": @{
+                                                                          @"content": @[
+                                                                                  @{@"functionIdentifier": @"public.title",
+                                                                                    @"settings": @{
+                                                                                            @"title": @"You Mac isn't managed, please call your IT support",
                                                                                             }
-                                                                                    }
-                                                                            },
-                                                                          @{@"functionIdentifier": @"public.separator"},
-                                                                          @{@"functionIdentifier": @"public.quit"}
-                                                                          ]
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.script.item",
+                                                                                    @"settings": @{
+                                                                                            @"script": @"com.github.ygini.hello-it.ip.sh",
+                                                                                            @"skipForGlobalState": @YES,
+                                                                                            @"options": @[@"-m", @"2" ]
+                                                                                            
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.script.item",
+                                                                                    @"settings": @{
+                                                                                            @"script": @"com.github.ygini.hello-it.hostname.sh",
+                                                                                            @"skipForGlobalState": @YES,
+                                                                                            @"args": @{
+                                                                                                    @"format": @"%C (%H)"
+                                                                                                    }
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.separator"},
+                                                                                  @{@"functionIdentifier": @"public.quit"}
+                                                                                  ]
+                                                                          }
                                                                   }];
 
     }
