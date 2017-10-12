@@ -105,6 +105,7 @@
 				TargetAttributes = {
 					F83294A41F773076009DA574 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -269,6 +270,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
 				INFOPLIST_FILE = ADPass/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.ygini.hitp.ADPass;
@@ -282,6 +284,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
 				INFOPLIST_FILE = ADPass/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.ygini.hitp.ADPass;

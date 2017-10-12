@@ -98,6 +98,8 @@
 				TargetAttributes = {
 					E12F1E3F1B52355B005A4418 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = CRXPBZF3N4;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -254,11 +256,15 @@
 		E12F1E481B52355B005A4418 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
 				INFOPLIST_FILE = TestHTTP/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.hitp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = hitp;
 			};
@@ -267,11 +273,15 @@
 		E12F1E491B52355B005A4418 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
 				INFOPLIST_FILE = TestHTTP/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.hitp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = hitp;
 			};
