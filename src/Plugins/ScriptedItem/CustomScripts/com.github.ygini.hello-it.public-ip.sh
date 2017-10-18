@@ -17,16 +17,18 @@
 mode=0
 public_ip_url="https://ip.abelionni.com/script/"
 
-while getopts "m:u:" o; do
-	case "${o}" in
-		m)
-			mode=${OPTARG}
-			;;
-		u)
-			public_ip_url=${OPTARG}
-			;;
-	esac
-done
+function handleOptions {
+    while getopts "m:u:" o; do
+        case "${o}" in
+            m)
+                mode=${OPTARG}
+                ;;
+            u)
+                public_ip_url=${OPTARG}
+                ;;
+        esac
+    done
+}
 	
 function handleStateUpdate {
 	mode=$1

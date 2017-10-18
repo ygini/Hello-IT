@@ -17,16 +17,18 @@
 mode=0
 mainBSDInterface=$(route -n get 8.8.8.8 | grep "interface: " | awk -F ": " '{print $2}')
 
-while getopts "m:i:" o; do
-	case "${o}" in
-		m)
-			mode=${OPTARG}
-			;;
-		i)
-			mainBSDInterface=${OPTARG}
-			;;
-	esac
-done
+function handleOptions {
+	while getopts "m:i:" o; do
+		case "${o}" in
+			m)
+				mode=${OPTARG}
+				;;
+			i)
+				mainBSDInterface=${OPTARG}
+				;;
+		esac
+	done
+}
 	
 function handleStateUpdate {
 	mode=$1

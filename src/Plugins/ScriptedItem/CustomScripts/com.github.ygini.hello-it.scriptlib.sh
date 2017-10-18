@@ -92,6 +92,11 @@ function debugLog {
     echo "hitp-log-debug: $1"
 }
 
+# override this function if you need to parse your options array before everything else
+function handleOptions {
+:
+}
+
 # override this function to specify what to do when the user clic on your menu item
 function onClickAction {
 :
@@ -135,6 +140,7 @@ function main {
 	if [ "$HELLO_IT_ARGS_AVAILABLE" == "yes" ] 
 	then
 		options=("$HELLO_IT_ARGS")
+        handleOptions $options
 	fi
 	
 	case "$run_option" in
