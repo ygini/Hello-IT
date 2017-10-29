@@ -21,6 +21,8 @@
 #define kHITPADPassNotifTitle @"notificationTitle"
 #define kHITPADPassNotifMessageFormat @"notificationMessageFormat"
 #define kHITPADPassNotifOfflineMessageFormat @"notificationOfflineMessageFormat"
+#define kHITPADPassNotifChangePasswordTitle @"notificationChangePasswordTitle"
+#define kHITPADPassNotifLaterTitle @"notificationLaterTitle"
 
 #define kHITPADPassAlertXDaysBefore @"alertXDaysBefore"
 
@@ -38,6 +40,8 @@
 @property NSString *notificationTitle;
 @property NSString *notificationMessageFormat;
 @property NSString *notificationOfflineMessageFormat;
+@property NSString *notificationChangePasswordTitle;
+@property NSString *notificationLaterTitle;
 
 @property NSInteger alertXDaysBefore;
 
@@ -82,10 +86,14 @@
         NSString *defaultNotificationTitle = @"🔐 📆 ⚠️";
         NSString *defaultNotificationMessageFormat = @"Your password will expire on %@. Change it before!";
         NSString *defaultNotificationOfflineMessageFormat = @"Your password will expire on %@. Come back on your corporate network and change it before!";
+        NSString *defaultNotificationChangePasswordTitle = @"🔑";
+        NSString *defaultNotificationLaterTitle = @"⏰";
         
         _notificationTitle = [settings objectForKey:kHITPADPassNotifTitle];
         _notificationMessageFormat = [settings objectForKey:kHITPADPassNotifMessageFormat];
         _notificationOfflineMessageFormat = [settings objectForKey:kHITPADPassNotifOfflineMessageFormat];
+        _notificationChangePasswordTitle = [settings objectForKey:kHITPADPassNotifChangePasswordTitle];
+        _notificationLaterTitle = [settings objectForKey:kHITPADPassNotifLaterTitle];
         
         if ([_notificationTitle length] == 0) {
             _notificationTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifTitle value:defaultNotificationTitle table:nil];
@@ -98,8 +106,15 @@
         if ([_notificationOfflineMessageFormat length] == 0) {
             _notificationOfflineMessageFormat = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifOfflineMessageFormat value:defaultNotificationOfflineMessageFormat table:nil];
         }
-
-
+        
+        if ([_notificationChangePasswordTitle length] == 0) {
+            _notificationChangePasswordTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifChangePasswordTitle value:defaultNotificationOfflineMessageFormat table:nil];
+        }
+        
+        if ([_notificationLaterTitle length] == 0) {
+            _notificationLaterTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifLaterTitle value:defaultNotificationOfflineMessageFormat table:nil];
+        }
+        
     }
     return self;
 }
@@ -215,6 +230,10 @@
     notification.title = self.notificationTitle;
     NSString *infoTextFormat = self.lastADRequestSucceded ? self.notificationMessageFormat : self.notificationOfflineMessageFormat;
     
+    notification.hasActionButton = YES;
+    notification.actionButtonTitle = self.notificationChangePasswordTitle;
+    notification.otherButtonTitle = self.notificationLaterTitle;
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -229,6 +248,10 @@
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
     [self mainAction:notification];
     [center removeDeliveredNotification:notification];
+}
+
+-(BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(nonnull NSUserNotification *)notification {
+    return YES;
 }
 
 @end

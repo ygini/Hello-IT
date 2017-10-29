@@ -17,3 +17,5 @@
 "notificationTitle" = "Votre mot de passe va expirer !";
 "notificationMessageFormat" = "Votre mot de passe expire le %@. Changez-le avant !";
 "notificationOfflineMessageFormat" = "Votre mot de passe expire le %@. Retournez sur votre réseau d'entreprise et changez-le avant la date butoire !";
+"notificationChangePasswordTitle" = "Maintenant";
+"notificationLaterTitle" = "Plus tard";

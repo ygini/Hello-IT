@@ -17,3 +17,5 @@
 "notificationTitle" = "Password is about to expire!";
 "notificationMessageFormat" = "Your password will expire on %@. Change it before!";
 "notificationOfflineMessageFormat" = "Your password will expire on %@. Come back on your corporate network and change it before!";
+"notificationChangePasswordTitle" = "Let's do it";
+"notificationLaterTitle" = "Later";
