@@ -149,7 +149,6 @@
         
         if (components.hour >= 10 && notifNeeded) {
             [self sendUserNotification];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
         }
     }
 }
@@ -213,8 +212,6 @@
     asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Notification to change AD password is requested.");
     NSUserNotification *notification = [NSUserNotification new];
     
-    notification.identifier = [[NSBundle bundleForClass:[self class]] bundleIdentifier];
-    
     notification.title = self.notificationTitle;
     NSString *infoTextFormat = self.lastADRequestSucceded ? self.notificationMessageFormat : self.notificationOfflineMessageFormat;
     
@@ -226,13 +223,12 @@
     notification.informativeText = [NSString stringWithFormat:infoTextFormat, stringDate];
     
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
-    if ([notification.identifier isEqualToString:[[NSBundle bundleForClass:[self class]] bundleIdentifier]] && notification.activationType != NSUserNotificationActivationTypeNone) {
-        [self mainAction:notification];
-        [center removeDeliveredNotification:notification];
-    }
+    [self mainAction:notification];
+    [center removeDeliveredNotification:notification];
 }
 
 @end
