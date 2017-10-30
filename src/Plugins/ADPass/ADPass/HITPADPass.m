@@ -108,11 +108,11 @@
         }
         
         if ([_notificationChangePasswordTitle length] == 0) {
-            _notificationChangePasswordTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifChangePasswordTitle value:defaultNotificationOfflineMessageFormat table:nil];
+            _notificationChangePasswordTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifChangePasswordTitle value:defaultNotificationChangePasswordTitle table:nil];
         }
         
         if ([_notificationLaterTitle length] == 0) {
-            _notificationLaterTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifLaterTitle value:defaultNotificationOfflineMessageFormat table:nil];
+            _notificationLaterTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifLaterTitle value:defaultNotificationLaterTitle table:nil];
         }
         
     }
