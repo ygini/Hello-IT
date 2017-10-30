@@ -45,4 +45,23 @@
     self.allowedToRun = NO;
 }
 
+- (NSString*)localizedString:(id)dictionaryOrArray {
+    if ([dictionaryOrArray isKindOfClass:[NSDictionary class]]) {
+        NSString *selectedValue = nil;
+        
+        for (NSString *localIdentifier in @[
+                                            [[NSLocale currentLocale] localeIdentifier],
+                                            [[NSLocale currentLocale] languageCode],
+                                            @"en"]) {
+            selectedValue = [dictionaryOrArray objectForKey:localIdentifier];
+            if (selectedValue) {
+                break;
+            }
+        }
+        
+        return selectedValue;
+    } else {
+        return dictionaryOrArray;
+    }
+}
 @end

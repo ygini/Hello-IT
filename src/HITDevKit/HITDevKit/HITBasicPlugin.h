@@ -16,6 +16,8 @@
 
 - (instancetype)initWithSettings:(NSDictionary*)settings;
 
+- (NSString*)localizedString:(id)dictionaryOrArray;
+
 @end
 
 @interface HITBasicPlugin (MustBeDefinedInSubclass)
