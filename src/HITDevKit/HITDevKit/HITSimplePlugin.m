@@ -13,7 +13,7 @@
 @implementation HITSimplePlugin
 
 -(NSMenuItem *)prepareNewMenuItem {
-    NSString *title = [self.settings objectForKey:kHITSimplePluginTitleKey];
+    NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
     if (!title) {
         title = @"";
     }

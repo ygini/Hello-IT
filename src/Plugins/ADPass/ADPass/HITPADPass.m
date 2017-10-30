@@ -21,6 +21,8 @@
 #define kHITPADPassNotifTitle @"notificationTitle"
 #define kHITPADPassNotifMessageFormat @"notificationMessageFormat"
 #define kHITPADPassNotifOfflineMessageFormat @"notificationOfflineMessageFormat"
+#define kHITPADPassNotifChangePasswordTitle @"notificationChangePasswordTitle"
+#define kHITPADPassNotifLaterTitle @"notificationLaterTitle"
 
 #define kHITPADPassAlertXDaysBefore @"alertXDaysBefore"
 
@@ -38,6 +40,8 @@
 @property NSString *notificationTitle;
 @property NSString *notificationMessageFormat;
 @property NSString *notificationOfflineMessageFormat;
+@property NSString *notificationChangePasswordTitle;
+@property NSString *notificationLaterTitle;
 
 @property NSInteger alertXDaysBefore;
 
@@ -82,10 +86,14 @@
         NSString *defaultNotificationTitle = @"🔐 📆 ⚠️";
         NSString *defaultNotificationMessageFormat = @"Your password will expire on %@. Change it before!";
         NSString *defaultNotificationOfflineMessageFormat = @"Your password will expire on %@. Come back on your corporate network and change it before!";
+        NSString *defaultNotificationChangePasswordTitle = @"🔑";
+        NSString *defaultNotificationLaterTitle = @"⏰";
         
         _notificationTitle = [settings objectForKey:kHITPADPassNotifTitle];
         _notificationMessageFormat = [settings objectForKey:kHITPADPassNotifMessageFormat];
         _notificationOfflineMessageFormat = [settings objectForKey:kHITPADPassNotifOfflineMessageFormat];
+        _notificationChangePasswordTitle = [settings objectForKey:kHITPADPassNotifChangePasswordTitle];
+        _notificationLaterTitle = [settings objectForKey:kHITPADPassNotifLaterTitle];
         
         if ([_notificationTitle length] == 0) {
             _notificationTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifTitle value:defaultNotificationTitle table:nil];
@@ -98,8 +106,15 @@
         if ([_notificationOfflineMessageFormat length] == 0) {
             _notificationOfflineMessageFormat = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifOfflineMessageFormat value:defaultNotificationOfflineMessageFormat table:nil];
         }
-
-
+        
+        if ([_notificationChangePasswordTitle length] == 0) {
+            _notificationChangePasswordTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifChangePasswordTitle value:defaultNotificationChangePasswordTitle table:nil];
+        }
+        
+        if ([_notificationLaterTitle length] == 0) {
+            _notificationLaterTitle = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNotifLaterTitle value:defaultNotificationLaterTitle table:nil];
+        }
+        
     }
     return self;
 }
@@ -149,7 +164,6 @@
         
         if (components.hour >= 10 && notifNeeded) {
             [self sendUserNotification];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
         }
     }
 }
@@ -213,10 +227,12 @@
     asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Notification to change AD password is requested.");
     NSUserNotification *notification = [NSUserNotification new];
     
-    notification.identifier = [[NSBundle bundleForClass:[self class]] bundleIdentifier];
-    
     notification.title = self.notificationTitle;
     NSString *infoTextFormat = self.lastADRequestSucceded ? self.notificationMessageFormat : self.notificationOfflineMessageFormat;
+    
+    notification.hasActionButton = YES;
+    notification.actionButtonTitle = self.notificationChangePasswordTitle;
+    notification.otherButtonTitle = self.notificationLaterTitle;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
@@ -226,13 +242,16 @@
     notification.informativeText = [NSString stringWithFormat:infoTextFormat, stringDate];
     
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
-    if ([notification.identifier isEqualToString:[[NSBundle bundleForClass:[self class]] bundleIdentifier]] && notification.activationType != NSUserNotificationActivationTypeNone) {
-        [self mainAction:notification];
-        [center removeDeliveredNotification:notification];
-    }
+    [self mainAction:notification];
+    [center removeDeliveredNotification:notification];
+}
+
+-(BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(nonnull NSUserNotification *)notification {
+    return YES;
 }
 
 @end
