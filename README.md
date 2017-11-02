@@ -8,9 +8,9 @@ Hello-IT is a simple menu for the menu bar fully configurable by the IT departme
 
 ![Application Screenshot](/Docs/screenshot.png?raw=true "Hello IT")
 
-You can find Hello IT release and preview version at https://github.com/ygini/Hello-IT/releases
+You can find Hello IT release and preview version at [on the github release page](https://github.com/ygini/Hello-IT/releases)
 
-You will learn all needed informations on the [Wiki][https://github.com/ygini/Hello-IT/wiki]
+You will learn all needed informations on the [Wiki](https://github.com/ygini/Hello-IT/wiki)
 
-Also, note that you will find an AutoPkg recipe to keep Hello-IT up to date on [Yoann's recipes repo][https://github.com/autopkg/ygini-recipes]
+Also, note that you will find an AutoPkg recipe to keep Hello-IT up to date on [Yoann's recipes repo](https://github.com/autopkg/ygini-recipes)
 
