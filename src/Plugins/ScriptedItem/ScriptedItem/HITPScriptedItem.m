@@ -15,6 +15,7 @@
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
 #define kHITSimplePluginTitleKey @"title"
+#define kHITPDenyUserWritableScript @"denyUserWritableScript"
 
 #import <asl.h>
 
@@ -42,7 +43,12 @@
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
-            _scriptChecked = YES;
+            if ([[NSFileManager defaultManager] isWritableFileAtPath:_script] && [[NSUserDefaults standardUserDefaults] boolForKey:kHITPDenyUserWritableScript]) {
+                _scriptChecked = NO;
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+            } else {
+                _scriptChecked = YES;
+            }
         } else {
             _scriptChecked = NO;
             asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
