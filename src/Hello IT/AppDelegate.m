@@ -19,6 +19,7 @@
 #define kMenuItemStatusBarTitle @"title"
 #define kMenuItemContent @"content"
 #define kMenuItemSettings @"settings"
+#define kMenuItemAllowSubdomains @"allowSubdomains"
 
 @interface AppDelegate ()
 
@@ -272,25 +273,28 @@
         
     }
     
-    // HIT support composed menu item, all user's preferences starting with "bundleID." will be loaded as first item
-    NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@"."]]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-        return [obj2 compare:obj1];
-    }];
+    BOOL allowSubdomains = [[NSUserDefaults standardUserDefaults] boolForKey:kMenuItemAllowSubdomains];
     
-    NSMutableArray *updatedContent = [[[compositeSettings objectForKey:kMenuItemSettings] objectForKey:kMenuItemContent] mutableCopy];
-    
-    for (NSString *domainName in relatedDomainNames) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
-        NSMutableDictionary *subDomain = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName] mutableCopy];
+    if (allowSubdomains) {
+        // HIT support composed menu item, all user's preferences starting with "bundleID." will be loaded as first item
+        NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@"."]]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+            return [obj2 compare:obj1];
+        }];
         
-        [updatedContent insertObject:subDomain
-                             atIndex:0];
+        NSMutableArray *updatedContent = [[[compositeSettings objectForKey:kMenuItemSettings] objectForKey:kMenuItemContent] mutableCopy];
+        
+        for (NSString *domainName in relatedDomainNames) {
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
+            NSMutableDictionary *subDomain = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName] mutableCopy];
+            
+            [updatedContent insertObject:subDomain
+                                 atIndex:0];
+        }
+        
+        NSMutableDictionary *rootItemSettings = [[compositeSettings objectForKey:kMenuItemSettings] mutableCopy];
+        [rootItemSettings setObject:updatedContent forKey:kMenuItemContent];
+        [compositeSettings setObject:rootItemSettings forKey:kMenuItemSettings];
     }
-    
-    NSMutableDictionary *rootItemSettings = [[compositeSettings objectForKey:kMenuItemSettings] mutableCopy];
-    [rootItemSettings setObject:updatedContent forKey:kMenuItemContent];
-    [compositeSettings setObject:rootItemSettings forKey:kMenuItemSettings];
-
     
     if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
         NSObject<HITPluginProtocol> *observablePluginInstance = self.statusMenuManager;
