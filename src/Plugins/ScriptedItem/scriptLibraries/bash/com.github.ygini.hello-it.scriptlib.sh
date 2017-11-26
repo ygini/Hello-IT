@@ -1,18 +1,37 @@
 #!/bin/bash
 
-# set to 0 or 1 when script network settings is set to yes.
-HELLO_IT_NETWORK_STATE=
+### Following function can be overrided by scripts ###
 
-# path of the temporary plist file representing the args.
-HELLO_IT_PLIST_PATH=
+# override this function if you need to parse your options array before everything else
+function handleOptions {
+:
+}
+
+# override this function to specify what to do when the user clic on your menu item
+function onClickAction {
+:
+}
+
+# override this function to specify what to do when the network change
+function onNetworkAction {
+:
+}
+
+# override this function to specify what to do when the script is on a periodic run
+function fromCronAction {
+:
+}
+
+# override this function to specify the item title when UI is loaded (optional, use it
+# when your title is always dynamic and can't have a default value). For default value
+# use the title key in Hello IT's settings.
+function setTitleAction {
+:
+}
+
+### Following function can be called but must not be overrided by scripts ###
 
 STATE=("ok" "warning" "error" "unavailable" "none")
-
-# usage: updateTitle "My new title"
-# first arg only will be used as new title, don't forget quotes 
-function updateTitle {
-    echo "hitp-title: $1"
-}
 
 # usage: updateState ${STATE[0]}
 # supported states are managed by the STATE array
@@ -23,6 +42,12 @@ function updateTitle {
 # ${STATE[4]} --> No state to display (Nothing at all)
 function updateState {
     echo "hitp-state: $1"
+}
+
+# usage: updateTitle "My new title"
+# first arg only will be used as new title, don't forget quotes
+function updateTitle {
+echo "hitp-title: $1"
 }
 
 # usage: setEnabled "YES"
@@ -92,59 +117,17 @@ function debugLog {
     echo "hitp-log-debug: $1"
 }
 
-# override this function if you need to parse your options array before everything else
-function handleOptions {
-:
-}
-
-# override this function to specify what to do when the user clic on your menu item
-function onClickAction {
-:
-}
-
-# override this function to specify what to do when the network change
-function onNetworkAction {
-:
-}
-
-# override this function to specify what to do when the script is on a periodic run
-function fromCronAction {
-:
-}
-
-# override this function to specify the item title when UI is loaded (optional, use it
-# when your title is always dynamic and can't have a default value). For default value
-# use the title key in Hello IT's settings.
-function setTitleAction {
-:
-}
+### Following function must not be called or overrided by scripts ###
 
 # this function contain all code needed to understand the current context from Hello IT
 # and will call Action functions previously defined. Just override the previous function
 # and call the main function at the end of your script and you will be set.
 function main {
 	run_option=$1
-	arg_garbage=0
-	
-	if [ "$HELLO_IT_NETWORK_INFO_AVAILABLE" == "yes" ] 
+
+	if [ "$HELLO_IT_OPTIONS_AVAILABLE" == "yes" ]
 	then
-		target_index=$(echo "$#-$arg_garbage" | bc)
-		HELLO_IT_NETWORK_STATE=${@:$target_index}
-		((arg_garbage+=1))
-	fi
-	
-	if [ "$HELLO_IT_BASE64_AVAILABLE" == "yes" ] 
-	then
-		target_index=$(echo "$#-$arg_garbage" | bc)
-		base64=${@:$target_index:1}
-		((arg_garbage+=1))
-		HELLO_IT_PLIST_PATH=$(mktemp)
-		echo "$base64" | openssl base64 -d -A > $HELLO_IT_PLIST_PATH
-	fi
-	
-	if [ "$HELLO_IT_ARGS_AVAILABLE" == "yes" ] 
-	then
-		options=("$HELLO_IT_ARGS")
+		options=("$HELLO_IT_OPTIONS")
         handleOptions $options
 	fi
 	
@@ -167,9 +150,5 @@ function main {
             exit 1
         ;;
 	esac
-	
-	if [ -f "$HELLO_IT_PLIST_PATH" ]
-	then
-		rm "$HELLO_IT_PLIST_PATH"
-	fi
+
 }
