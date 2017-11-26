@@ -102,6 +102,11 @@ function onClickAction {
 :
 }
 
+# override this function to specify what to do when the network change
+function onNetworkAction {
+:
+}
+
 # override this function to specify what to do when the script is on a periodic run
 function fromCronAction {
 :
@@ -153,8 +158,11 @@ function main {
 		title)
 			setTitleAction $options
 		;;
+		network)
+			onNetworkAction $options
+		;;
 		*)
-            echo "Usage: $0 {run|periodic-run|setTitleAction}"
+            echo "Usage: $0 {run|periodic-run|network|title}"
             echo "$run_option not recognized"
             exit 1
         ;;

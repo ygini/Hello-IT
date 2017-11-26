@@ -47,6 +47,10 @@ function setTitleAction {
     updateTitleWithArgs "$@"
 }
 
+function onNetworkAction {
+	updateTitleWithArgs "$@"
+}
+
 main "$@"
 
 exit 0
