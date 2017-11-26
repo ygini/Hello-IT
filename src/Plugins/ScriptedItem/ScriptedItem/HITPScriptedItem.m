@@ -304,7 +304,7 @@
 
 -(void)generalNetworkStateUpdate:(BOOL)state {
     self.generalNetworkState = state;
-    [self mainAction:self];
+    [self runScriptWithCommand:@"network"];
 }
 
 @end
