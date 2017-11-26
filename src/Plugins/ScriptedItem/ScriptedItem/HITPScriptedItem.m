@@ -124,6 +124,13 @@
     [self runScriptWithCommand:@"title"];
 }
 
+-(void)generalNetworkStateUpdate:(BOOL)state {
+    self.generalNetworkState = state;
+    if (self.isNetworkRelated) {
+        [self runScriptWithCommand:@"network"];
+    }
+}
+
 - (void)runScriptWithCommand:(NSString*)command {
     if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -300,11 +307,6 @@
             asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     });
-}
-
--(void)generalNetworkStateUpdate:(BOOL)state {
-    self.generalNetworkState = state;
-    [self runScriptWithCommand:@"network"];
 }
 
 @end
