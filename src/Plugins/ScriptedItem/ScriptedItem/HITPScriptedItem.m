@@ -99,7 +99,7 @@
 -(NSMenuItem *)prepareNewMenuItem {
     NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
     if (!title) {
-        title = @"…";
+        title = @"Title error";
     }
     
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
