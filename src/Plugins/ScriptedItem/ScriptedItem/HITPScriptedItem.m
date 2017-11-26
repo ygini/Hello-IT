@@ -17,6 +17,13 @@
 #define kHITSimplePluginTitleKey @"title"
 #define kHITPDenyUserWritableScript @"denyUserWritableScript"
 
+#ifdef DEBUG
+#warning This static path to the development custom scripts must be replaced by something smart
+#define kHITPCustomScriptsPath @"/Users/ygi/Sources/Public/Hello-IT/src/Plugins/ScriptedItem/CustomScripts"
+#else
+#define kHITPCustomScriptsPath @"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
+#endif
+
 #import <asl.h>
 
 @interface HITPScriptedItem ()
@@ -34,16 +41,20 @@
     self = [super initWithSettings:settings];
     if (self) {
         _script = [[settings objectForKey:kHITPSubCommandScriptPath] stringByExpandingTildeInPath];
-        
+
         if ([_script length] == 0) {
-            _script = [[NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
+            _script = [[NSString stringWithFormat:kHITPCustomScriptsPath] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
         }
         
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
             if ([[NSFileManager defaultManager] isWritableFileAtPath:_script] && [[NSUserDefaults standardUserDefaults] boolForKey:kHITPDenyUserWritableScript]) {
+#ifdef DEBUG
+                _scriptChecked = YES;
+#else
                 _scriptChecked = NO;
+#endif
                 asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
             } else {
                 _scriptChecked = YES;
@@ -108,8 +119,14 @@
             
             NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
             
-            [environment setObject:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
+            [environment setObject:kHITPCustomScriptsPath
                             forKey:@"HELLO_IT_SCRIPT_FOLDER"];
+            
+            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/bash"]
+                            forKey:@"HELLO_IT_SCRIPT_SH_LIBRARY"];
+            
+            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/python"]
+                            forKey:@"HELLO_IT_SCRIPT_PYTHON_LIBRARY"];
             
             NSMutableArray *finalArgs = [NSMutableArray new];
             
