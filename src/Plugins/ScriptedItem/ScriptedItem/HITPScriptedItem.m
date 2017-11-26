@@ -29,7 +29,7 @@
 @interface HITPScriptedItem ()
 @property NSString *script;
 @property BOOL scriptChecked;
-@property BOOL isNetworkRelated;
+@property BOOL network;
 @property BOOL generalNetworkState;
 @property NSArray *options;
 @end
@@ -40,6 +40,7 @@
 {
     self = [super initWithSettings:settings];
     if (self) {
+        _network = [[settings objectForKey:kHITPSubCommandNetworkRelated] boolValue];
         _script = [[settings objectForKey:kHITPSubCommandScriptPath] stringByExpandingTildeInPath];
 
         if ([_script length] == 0) {
@@ -77,6 +78,10 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p, script:%@, checked:%@, network: %@>", self.className, self, self.script, self.scriptChecked ? @"YES" : @"NO", self.network ? @"YES" : @"NO"];
+}
+
+- (BOOL)isNetworkRelated {
+    return self.network;
 }
 
 -(NSMenuItem *)prepareNewMenuItem {
