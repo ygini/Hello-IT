@@ -8,11 +8,14 @@
 
 #import "HITBasicPlugin.h"
 
+#define kHITPPptionalDisplay @"optionalDisplay"
+
 @interface HITBasicPlugin () {
     NSMenuItem *_menuItem;
 }
 
 @property BOOL allowedToRun;
+@property BOOL optionalDisplay;
 
 @end
 
@@ -29,6 +32,8 @@
     if (self) {
         _allowedToRun = YES;
         _settings = settings;
+        
+        _optionalDisplay = [[settings objectForKey:kHITPPptionalDisplay] boolValue];
     }
     return self;
 }
@@ -36,6 +41,7 @@
 -(NSMenuItem *)menuItem {
     if (!_menuItem) {
          _menuItem = [self prepareNewMenuItem];
+        _menuItem.representedObject = self;
     }
     
     return _menuItem;

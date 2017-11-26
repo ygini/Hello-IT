@@ -21,12 +21,13 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
 };
 
 
-@interface HITPSubMenu ()
+@interface HITPSubMenu () <NSMenuDelegate>
 @property NSArray *content;
 @property NSMutableArray *subPluginInstances;
 @property NSMutableArray *observedSubPluginInstances;
 @property id<HITPluginsManagerProtocol> pluginsManager;
 @property HITPSubMenuSortScenario stateSortScenario;
+@property BOOL lastCheckWasWithOptionalDisplay;
 @end
 
 @implementation HITPSubMenu
@@ -60,6 +61,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     menuItem.target = nil;
     
     NSMenu *menu = [[NSMenu alloc] init];
+    menu.delegate = self;
     self.subPluginInstances = [NSMutableArray new];
     self.observedSubPluginInstances = [NSMutableArray new];
     
@@ -113,9 +115,35 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
         }
     }
     
+    [self updateHiddenStateBasedOnRequiredKeysOnIn:menu];
+    
     asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu ready");
     menuItem.submenu = menu;
     return menuItem;
+}
+
+- (void)updateHiddenStateBasedOnRequiredKeysOnIn:(NSMenu*)menu {
+    self.lastCheckWasWithOptionalDisplay = (([NSEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask);
+    [self updateHiddenStateBasedLastCheckResult:menu];
+}
+
+- (void)updateHiddenStateBasedLastCheckResult:(NSMenu*)menu {
+    for (NSMenuItem *menuItem in menu.itemArray) {
+        id <HITPluginProtocol> pluginInstance = menuItem.representedObject;
+        if ([pluginInstance respondsToSelector:@selector(optionalDisplay)]) {
+            if (pluginInstance.optionalDisplay) {
+                if (self.lastCheckWasWithOptionalDisplay) {
+                    menuItem.hidden = NO;
+                } else {
+                    menuItem.hidden = YES;
+                }
+            }
+        }
+        
+        if ([pluginInstance isKindOfClass:[HITPSubMenu class]]) {
+            ((HITPSubMenu*)pluginInstance).lastCheckWasWithOptionalDisplay = self.lastCheckWasWithOptionalDisplay;
+        }
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -137,7 +165,6 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
             else if (substate&HITPluginTestStateWarning) self.testState = HITPluginTestStateWarning;
             else if (substate&HITPluginTestStateUnavailable) self.testState = HITPluginTestStateUnavailable;
             else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
-
         }
 
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu state has changed for %lu.", (unsigned long)self.testState);
@@ -153,6 +180,19 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     for (id<HITPluginProtocol> pluginInstance in self.subPluginInstances) {
         [pluginInstance stopAndPrepareForRelease];
     }
+}
+
+#pragma mark - NSMenuDelegate
+
+- (void)menuWillOpen:(NSMenu *)menu {
+    if (!menu.supermenu) {
+        [self updateHiddenStateBasedOnRequiredKeysOnIn:menu];
+    } else {
+        [self updateHiddenStateBasedLastCheckResult:menu];
+    }
+}
+
+- (void)menuDidClose:(NSMenu *)menu {
 }
 
 @end
