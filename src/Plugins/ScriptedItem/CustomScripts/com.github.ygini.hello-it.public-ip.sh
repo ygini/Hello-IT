@@ -12,7 +12,7 @@
 # 1: show IP if available, specify if not, no $STATE
 # 2: show IP if available, specify if not, use $STATE
 
-. "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
+. "$HELLO_IT_SCRIPT_SH_LIBRARY/com.github.ygini.hello-it.scriptlib.sh"
 
 mode=0
 public_ip_url="https://ip.abelionni.com/script/"
