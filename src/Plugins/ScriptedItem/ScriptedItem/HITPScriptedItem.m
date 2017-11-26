@@ -75,6 +75,10 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, script:%@, checked:%@, network: %@>", self.className, self, self.script, self.scriptChecked ? @"YES" : @"NO", self.network ? @"YES" : @"NO"];
+}
+
 -(NSMenuItem *)prepareNewMenuItem {
     NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
     if (!title) {
