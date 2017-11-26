@@ -22,7 +22,6 @@
 @interface HITPScriptedItem ()
 @property NSString *script;
 @property BOOL scriptChecked;
-@property NSString *base64PlistArgs;
 @property BOOL isNetworkRelated;
 @property BOOL generalNetworkState;
 @property NSArray *options;
@@ -58,38 +57,7 @@
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
         if (args) {
-            NSError *error = nil;
-            NSData *plistArgs = [NSPropertyListSerialization dataWithPropertyList:args
-                                                                           format:NSPropertyListXMLFormat_v1_0
-                                                                          options:0
-                                                                            error:&error];
-            
-            if (error) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Unable to convert args to plist %s", [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
-            }
-            
-            
-            SecTransformRef transform = SecEncodeTransformCreate(kSecBase64Encoding, NULL);
-            
-            NSData *base64Data = nil;
-            CFErrorRef cfError = NULL;
-            if (SecTransformSetAttribute(transform, kSecTransformInputAttributeName, (__bridge CFTypeRef)(plistArgs), &cfError)) {
-                base64Data = (NSData *)CFBridgingRelease(SecTransformExecute(transform, NULL));
-            } else {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Untable to encode plist to base64 string %s", [[(__bridge NSError*)cfError description] cStringUsingEncoding:NSUTF8StringEncoding]);
-                CFRelease(cfError);
-            }
-			
-            CFRelease(transform);
-            
-            _base64PlistArgs = [[NSString alloc] initWithData:base64Data
-                                                     encoding:NSASCIIStringEncoding];
-            
-            
-            self.isNetworkRelated = [[settings objectForKey:kHITPSubCommandNetworkRelated] boolValue];
-            
-        } else {
-            _base64PlistArgs = @"";
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Args options to be sent in base64 format isn't supported anymore by scripted items. Use options instead");
         }
         
     }
@@ -148,10 +116,11 @@
             [finalArgs addObject:command];
             
             if ([self.options count] > 0) {
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
                 [finalArgs addObjectsFromArray:self.options];
                 
                 [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_ARGS_AVAILABLE"];
+                                forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
                 
                 NSMutableString *args = [NSMutableString new];
                 
@@ -161,27 +130,7 @@
                 }
                 
                 [environment setObject:args
-                                forKey:@"HELLO_IT_ARGS"];
-                
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
-            }
-            
-            if ([self.base64PlistArgs length] > 0) {
-                [finalArgs addObject:self.base64PlistArgs];
-                
-                [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_BASE64_AVAILABLE"];
-                
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding base64 plist encoded as arguments");
-            }
-            
-            if (self.isNetworkRelated) {
-                [finalArgs addObject:self.generalNetworkState ? @"1" : @"0"];
-                
-                [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_NETWORK_INFO_AVAILABLE"];
-                
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding network state as arguments");
+                                forKey:@"HELLO_IT_OPTIONS"];
             }
             
             [task setEnvironment:environment];
