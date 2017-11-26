@@ -157,6 +157,9 @@
                 
                 [environment setObject:args
                                 forKey:@"HELLO_IT_OPTIONS"];
+            } else {
+                [environment setObject:@"no"
+                                forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
             }
             
             [environment setObject:self.generalNetworkState ? @"yes" : @"no"
