@@ -47,7 +47,7 @@ function updateState {
 # usage: updateTitle "My new title"
 # first arg only will be used as new title, don't forget quotes
 function updateTitle {
-echo "hitp-title: $1"
+    echo "hitp-title: $1"
 }
 
 # usage: setEnabled "YES"
@@ -150,5 +150,4 @@ function main {
             exit 1
         ;;
 	esac
-
 }
