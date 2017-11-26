@@ -145,7 +145,6 @@
 }
 
 - (void)updateStatusItem {
-    
     if (!self.menuOK) {
         return;
     }
@@ -188,17 +187,16 @@
             imageNameForDark = [imageName stringByAppendingString:@"-dark"];
         }
         
-
         NSString *customStatusBarIconBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"];
 
-        
-        NSString *finalPath = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:@"png"];
+        NSString *finalPath = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:@"tiff"];
         
         NSString *finalPathForDark = nil;
         if (tryDark) {
-            finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"png"];
+            finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"tiff"];
             asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPathForDark cStringUsingEncoding:NSUTF8StringEncoding]);
         }
+        
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPath cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
