@@ -133,6 +133,9 @@
                                 forKey:@"HELLO_IT_OPTIONS"];
             }
             
+            [environment setObject:self.generalNetworkState ? @"yes" : @"no"
+                            forKey:@"HELLO_IT_NETWORK_TEST"];
+            
             [task setEnvironment:environment];
             [task setArguments:finalArgs];
             
