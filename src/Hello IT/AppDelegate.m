@@ -29,8 +29,8 @@
 @property NSMutableArray *pluginInstances;
 @property Reachability *reachability;
 
-@property id notificationOjectForInterfaceTheme;
-@property id notificationOjectForMDMUpdate;
+@property id notificationObjectForInterfaceTheme;
+@property id notificationObjectForMDMUpdate;
 
 @property BOOL menuOK;
 
@@ -92,7 +92,7 @@
         asl_set_filter(NULL, ASL_FILTER_MASK_UPTO([[NSUserDefaults standardUserDefaults] integerForKey:@"loglevel"]));
     }
     
-    self.notificationOjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
+    self.notificationObjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
                                                                                                       object:nil
                                                                                                        queue:nil
                                                                                                   usingBlock:^(NSNotification * _Nonnull note) {
@@ -114,7 +114,7 @@
     self.reachability = [Reachability reachabilityWithHostname:@"captive.apple.com"];
     [self.reachability startNotifier];
     
-    self.notificationOjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
+    self.notificationObjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
                                                                                                            object:nil
                                                                                                             queue:nil
                                                                                                        usingBlock:^(NSNotification * _Nonnull note) {
@@ -126,8 +126,8 @@
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForMDMUpdate];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForInterfaceTheme];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMDMUpdate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForInterfaceTheme];
 }
 
 - (void)reloadHelloIT {
