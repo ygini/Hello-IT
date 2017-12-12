@@ -15,14 +15,21 @@
 #define kHITPSubCommandArgs @"args"
 #define kHITPSubCommandNetworkRelated @"network"
 #define kHITSimplePluginTitleKey @"title"
+#define kHITPDenyUserWritableScript @"denyUserWritableScript"
+
+#ifdef DEBUG
+#warning This static path to the development custom scripts must be replaced by something smart
+#define kHITPCustomScriptsPath @"/Users/ygi/Sources/Public/Hello-IT/src/Plugins/ScriptedItem/CustomScripts"
+#else
+#define kHITPCustomScriptsPath @"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
+#endif
 
 #import <asl.h>
 
 @interface HITPScriptedItem ()
 @property NSString *script;
 @property BOOL scriptChecked;
-@property NSString *base64PlistArgs;
-@property BOOL isNetworkRelated;
+@property BOOL network;
 @property BOOL generalNetworkState;
 @property NSArray *options;
 @end
@@ -33,16 +40,26 @@
 {
     self = [super initWithSettings:settings];
     if (self) {
+        _network = [[settings objectForKey:kHITPSubCommandNetworkRelated] boolValue];
         _script = [[settings objectForKey:kHITPSubCommandScriptPath] stringByExpandingTildeInPath];
-        
+
         if ([_script length] == 0) {
-            _script = [[NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
+            _script = [[NSString stringWithFormat:kHITPCustomScriptsPath] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
         }
         
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
-            _scriptChecked = YES;
+            if ([[NSFileManager defaultManager] isWritableFileAtPath:_script] && [[NSUserDefaults standardUserDefaults] boolForKey:kHITPDenyUserWritableScript]) {
+#ifdef DEBUG
+                _scriptChecked = YES;
+#else
+                _scriptChecked = NO;
+#endif
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+            } else {
+                _scriptChecked = YES;
+            }
         } else {
             _scriptChecked = NO;
             asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -52,48 +69,25 @@
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
         if (args) {
-            NSError *error = nil;
-            NSData *plistArgs = [NSPropertyListSerialization dataWithPropertyList:args
-                                                                           format:NSPropertyListXMLFormat_v1_0
-                                                                          options:0
-                                                                            error:&error];
-            
-            if (error) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Unable to convert args to plist %s", [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
-            }
-            
-            
-            SecTransformRef transform = SecEncodeTransformCreate(kSecBase64Encoding, NULL);
-            
-            NSData *base64Data = nil;
-            CFErrorRef cfError = NULL;
-            if (SecTransformSetAttribute(transform, kSecTransformInputAttributeName, (__bridge CFTypeRef)(plistArgs), &cfError)) {
-                base64Data = (NSData *)CFBridgingRelease(SecTransformExecute(transform, NULL));
-            } else {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Untable to encode plist to base64 string %s", [[(__bridge NSError*)cfError description] cStringUsingEncoding:NSUTF8StringEncoding]);
-                CFRelease(cfError);
-            }
-			
-            CFRelease(transform);
-            
-            _base64PlistArgs = [[NSString alloc] initWithData:base64Data
-                                                     encoding:NSASCIIStringEncoding];
-            
-            
-            self.isNetworkRelated = [[settings objectForKey:kHITPSubCommandNetworkRelated] boolValue];
-            
-        } else {
-            _base64PlistArgs = @"";
+            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Args options to be sent in base64 format isn't supported anymore by scripted items. Use options instead");
         }
         
     }
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, script:%@, checked:%@, network: %@>", self.className, self, self.script, self.scriptChecked ? @"YES" : @"NO", self.network ? @"YES" : @"NO"];
+}
+
+- (BOOL)isNetworkRelated {
+    return self.network;
+}
+
 -(NSMenuItem *)prepareNewMenuItem {
     NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
     if (!title) {
-        title = @"…";
+        title = @"Title error";
     }
     
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
@@ -118,6 +112,13 @@
     [self runScriptWithCommand:@"title"];
 }
 
+-(void)generalNetworkStateUpdate:(BOOL)state {
+    self.generalNetworkState = state;
+    if (self.isNetworkRelated) {
+        [self runScriptWithCommand:@"network"];
+    }
+}
+
 - (void)runScriptWithCommand:(NSString*)command {
     if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -127,18 +128,25 @@
             
             NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
             
-            [environment setObject:@"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
+            [environment setObject:kHITPCustomScriptsPath
                             forKey:@"HELLO_IT_SCRIPT_FOLDER"];
+            
+            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/bash"]
+                            forKey:@"HELLO_IT_SCRIPT_SH_LIBRARY"];
+            
+            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/python"]
+                            forKey:@"HELLO_IT_SCRIPT_PYTHON_LIBRARY"];
             
             NSMutableArray *finalArgs = [NSMutableArray new];
             
             [finalArgs addObject:command];
             
             if ([self.options count] > 0) {
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
                 [finalArgs addObjectsFromArray:self.options];
                 
                 [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_ARGS_AVAILABLE"];
+                                forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
                 
                 NSMutableString *args = [NSMutableString new];
                 
@@ -148,28 +156,14 @@
                 }
                 
                 [environment setObject:args
-                                forKey:@"HELLO_IT_ARGS"];
-                
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
+                                forKey:@"HELLO_IT_OPTIONS"];
+            } else {
+                [environment setObject:@"no"
+                                forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
             }
             
-            if ([self.base64PlistArgs length] > 0) {
-                [finalArgs addObject:self.base64PlistArgs];
-                
-                [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_BASE64_AVAILABLE"];
-                
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding base64 plist encoded as arguments");
-            }
-            
-            if (self.isNetworkRelated) {
-                [finalArgs addObject:self.generalNetworkState ? @"1" : @"0"];
-                
-                [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_NETWORK_INFO_AVAILABLE"];
-                
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding network state as arguments");
-            }
+            [environment setObject:self.generalNetworkState ? @"yes" : @"no"
+                            forKey:@"HELLO_IT_NETWORK_TEST"];
             
             [task setEnvironment:environment];
             [task setArguments:finalArgs];
@@ -294,11 +288,6 @@
             asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     });
-}
-
--(void)generalNetworkStateUpdate:(BOOL)state {
-    self.generalNetworkState = state;
-    [self mainAction:self];
 }
 
 @end

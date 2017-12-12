@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E14B67D91B5905B900941A27 /* HITPScriptedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E14B67D81B5905B900941A27 /* HITPScriptedItem.m */; };
 		E1B2C91F1B594C69005A9936 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B2C91E1B594C69005A9936 /* HITDevKit.framework */; };
+		F84606021FCAC1FC0021DD89 /* scriptLibraries in Resources */ = {isa = PBXBuildFile; fileRef = F84606011FCAC1FC0021DD89 /* scriptLibraries */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		E14B67D71B5905B900941A27 /* HITPScriptedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPScriptedItem.h; sourceTree = "<group>"; };
 		E14B67D81B5905B900941A27 /* HITPScriptedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPScriptedItem.m; sourceTree = "<group>"; };
 		E1B2C91E1B594C69005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
+		F84606011FCAC1FC0021DD89 /* scriptLibraries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scriptLibraries; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +36,7 @@
 		E14B67BC1B59059000941A27 = {
 			isa = PBXGroup;
 			children = (
+				F84606011FCAC1FC0021DD89 /* scriptLibraries */,
 				E1B2C91E1B594C69005A9936 /* HITDevKit.framework */,
 				E14B67C71B59059000941A27 /* ScriptedItem */,
 				E14B67C61B59059000941A27 /* Products */,
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F84606021FCAC1FC0021DD89 /* scriptLibraries in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

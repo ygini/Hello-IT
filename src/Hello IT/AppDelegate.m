@@ -19,6 +19,7 @@
 #define kMenuItemStatusBarTitle @"title"
 #define kMenuItemContent @"content"
 #define kMenuItemSettings @"settings"
+#define kMenuItemAllowSubdomains @"allowSubdomains"
 
 @interface AppDelegate ()
 
@@ -28,8 +29,8 @@
 @property NSMutableArray *pluginInstances;
 @property Reachability *reachability;
 
-@property id notificationOjectForInterfaceTheme;
-@property id notificationOjectForMDMUpdate;
+@property id notificationObjectForInterfaceTheme;
+@property id notificationObjectForMDMUpdate;
 
 @property BOOL menuOK;
 
@@ -91,7 +92,7 @@
         asl_set_filter(NULL, ASL_FILTER_MASK_UPTO([[NSUserDefaults standardUserDefaults] integerForKey:@"loglevel"]));
     }
     
-    self.notificationOjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
+    self.notificationObjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
                                                                                                       object:nil
                                                                                                        queue:nil
                                                                                                   usingBlock:^(NSNotification * _Nonnull note) {
@@ -113,7 +114,7 @@
     self.reachability = [Reachability reachabilityWithHostname:@"captive.apple.com"];
     [self.reachability startNotifier];
     
-    self.notificationOjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
+    self.notificationObjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
                                                                                                            object:nil
                                                                                                             queue:nil
                                                                                                        usingBlock:^(NSNotification * _Nonnull note) {
@@ -125,8 +126,8 @@
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForMDMUpdate];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationOjectForInterfaceTheme];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMDMUpdate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForInterfaceTheme];
 }
 
 - (void)reloadHelloIT {
@@ -144,7 +145,6 @@
 }
 
 - (void)updateStatusItem {
-    
     if (!self.menuOK) {
         return;
     }
@@ -187,17 +187,16 @@
             imageNameForDark = [imageName stringByAppendingString:@"-dark"];
         }
         
-
         NSString *customStatusBarIconBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"];
 
-        
-        NSString *finalPath = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:@"png"];
+        NSString *finalPath = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageName] stringByAppendingPathExtension:@"tiff"];
         
         NSString *finalPathForDark = nil;
         if (tryDark) {
-            finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"png"];
+            finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"tiff"];
             asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPathForDark cStringUsingEncoding:NSUTF8StringEncoding]);
         }
+        
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPath cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
@@ -272,25 +271,28 @@
         
     }
     
-    // HIT support composed menu item, all user's preferences starting with "bundleID." will be loaded as first item
-    NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@"."]]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-        return [obj2 compare:obj1];
-    }];
+    BOOL allowSubdomains = [[NSUserDefaults standardUserDefaults] boolForKey:kMenuItemAllowSubdomains];
     
-    NSMutableArray *updatedContent = [[[compositeSettings objectForKey:kMenuItemSettings] objectForKey:kMenuItemContent] mutableCopy];
-    
-    for (NSString *domainName in relatedDomainNames) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
-        NSMutableDictionary *subDomain = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName] mutableCopy];
+    if (allowSubdomains) {
+        // HIT support composed menu item, all user's preferences starting with "bundleID." will be loaded as first item
+        NSArray *relatedDomainNames = [[[[NSUserDefaults standardUserDefaults] persistentDomainNames] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@"."]]] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+            return [obj2 compare:obj1];
+        }];
         
-        [updatedContent insertObject:subDomain
-                             atIndex:0];
+        NSMutableArray *updatedContent = [[[compositeSettings objectForKey:kMenuItemSettings] objectForKey:kMenuItemContent] mutableCopy];
+        
+        for (NSString *domainName in relatedDomainNames) {
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
+            NSMutableDictionary *subDomain = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName] mutableCopy];
+            
+            [updatedContent insertObject:subDomain
+                                 atIndex:0];
+        }
+        
+        NSMutableDictionary *rootItemSettings = [[compositeSettings objectForKey:kMenuItemSettings] mutableCopy];
+        [rootItemSettings setObject:updatedContent forKey:kMenuItemContent];
+        [compositeSettings setObject:rootItemSettings forKey:kMenuItemSettings];
     }
-    
-    NSMutableDictionary *rootItemSettings = [[compositeSettings objectForKey:kMenuItemSettings] mutableCopy];
-    [rootItemSettings setObject:updatedContent forKey:kMenuItemContent];
-    [compositeSettings setObject:rootItemSettings forKey:kMenuItemSettings];
-
     
     if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
         NSObject<HITPluginProtocol> *observablePluginInstance = self.statusMenuManager;

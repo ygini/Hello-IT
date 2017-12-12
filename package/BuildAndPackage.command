@@ -7,6 +7,8 @@ DEVELOPER_ID_INSTALLER=${CUSTOM_DEVELOPER_ID_INSTALLER:-${DEFAULT_DEVELOPER_ID_I
 
 echo "Packaging will use ${DEVELOPER_ID_INSTALLER}"
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 GIT_ROOT_DIR="$(git rev-parse --show-toplevel)"
 PROJECT_DIR="${GIT_ROOT_DIR}/src"
 BUILT_PRODUCTS_DIR="$(mktemp -d)"

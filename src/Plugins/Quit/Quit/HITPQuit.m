@@ -11,7 +11,13 @@
 @implementation HITPQuit
 
 -(NSMenuItem *)prepareNewMenuItem {
-    NSMenuItem *exitItem = [[NSMenuItem alloc] initWithTitle:[[NSBundle bundleForClass:[self class]] localizedStringForKey:@"QUIT_SERVICE" value:@"" table:nil]
+    NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
+
+    if ([title length] == 0) {
+        title = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"QUIT_SERVICE" value:@"" table:nil];
+    }
+    
+    NSMenuItem *exitItem = [[NSMenuItem alloc] initWithTitle:title
                                                       action:@selector(terminate:)
                                                keyEquivalent:@""];
     exitItem.target = NSApp;

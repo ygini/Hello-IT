@@ -3,7 +3,7 @@
 # At each click, the script change the current controlstip
 # state (full or mixed).
 
-. "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
+. "$HELLO_IT_SCRIPT_SH_LIBRARY/com.github.ygini.hello-it.scriptlib.sh"
 
 function doesControlStripIsCurrentlyFull {
 	returnCode=$(defaults read com.apple.touchbar.agent PresentationModeGlobal 2>/dev/null | grep fullControlStrip | wc -l | bc)

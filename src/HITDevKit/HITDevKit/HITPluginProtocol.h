@@ -28,11 +28,11 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 @required
 + (id<HITPluginProtocol>)newPlugInInstanceWithSettings:(NSDictionary*)settings;
 - (NSMenuItem*)menuItem;
-
 @property (readonly) BOOL allowedToRun;
 - (void)stopAndPrepareForRelease;
 
 @optional
+@property (readonly) BOOL optionalDisplay;
 - (HITPluginTestState)testState;
 - (BOOL)skipForGlobalState;
 
