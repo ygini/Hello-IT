@@ -55,9 +55,9 @@
     if (self) {
         [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
         
-        _alertXDaysBefore = [[settings objectForKey:kHITPADPassAlertXDaysBefore] integerValue];
-        
-        if (_alertXDaysBefore == 0) {
+        if ([settings.allKeys containsObject:kHITPADPassAlertXDaysBefore]) {
+            _alertXDaysBefore = [[settings objectForKey:kHITPADPassAlertXDaysBefore] integerValue];
+        } else {
             _alertXDaysBefore = 15;
         }
         
