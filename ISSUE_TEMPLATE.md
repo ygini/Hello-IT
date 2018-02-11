@@ -3,7 +3,7 @@
 Hello-IT version:
 macOS version:
 Preferences deployed via: Configuration Profile - MCX - defaults - dropped plist
-Preferences targetting: user - device
+Preferences targeting: user - device
 
 # Setup goal
 
@@ -15,11 +15,11 @@ Please, explain with technical details your issue.
 
 # Related logs
 
-If possible, share the Hello-IT logs available in the console when this issue occure.
+If possible, share the Hello-IT logs available in the console when this issue occurs.
 
 # Requested solution
 
-If you want, you can describe the ideal solution for this issue (but we might not follow it)
+If you want, you can describe the ideal solution for this issue (but we might not follow it).
 
 # Notes
 
