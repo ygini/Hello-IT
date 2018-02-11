@@ -212,7 +212,8 @@
         NSRange limiterRange = [request rangeOfString:@":"];
         NSString *key = [[[request substringToIndex:limiterRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
         NSString *value = [[request substringFromIndex:limiterRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
+        value = [value stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+
         if ([key isEqualToString:@"hitp-title"]) {
             self.menuItem.title = value;
             

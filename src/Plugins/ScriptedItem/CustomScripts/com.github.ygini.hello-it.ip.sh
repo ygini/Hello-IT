@@ -74,7 +74,7 @@ function updateTitleWithArgs {
 	else
 		updateTitle "Local IP: $ipAddress"
 		handleStateUpdate $mode ${STATE[0]}
-    	updateTooltip "Having an IP address doesn't mean you've Internet access"
+    	updateTooltip "Having an IP address doesn't mean you've Internet access\nClick to copy your IP to the pasteboard"
 	fi
 
 }
