@@ -13,7 +13,7 @@ If clicked, it will open an email in the app set to handle emails. It will pre-f
     <key>settings</key>
         <dict>
             <key>script</key>
-            <string>com.github.ygini.hello-it.computerdetails.emailcomputerinfo.sh</string>
+            <string>com.github.wardsparadox.hello-it.computerdetails.emailcomputerinfo.sh</string>
             <key>title</key>
             <string>emailcomputerinfo</string>
         </dict>

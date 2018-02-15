@@ -12,7 +12,7 @@ Provides user with name of manifest currently in use by the computer. Useful for
       <key>settings</key>
       <dict>
         <key>script</key>
-        <string>com.github.ygini.hello-it.munki.manifestname.sh</string>
+        <string>com.github.wardsparadox.hello-it.munki.manifestname.sh</string>
         <key>title</key>
         <string>manifestname</string>
       </dict>

@@ -14,7 +14,7 @@ Displays macOS Version in Hello-IT. Updated to use the hitp shell lib.
         <key>settings</key>
             <dict>
                 <key>script</key>
-                <string>com.github.ygini.hello-it.computerdetails.macOSversion.sh</string>
+                <string>com.github.wardsparadox.hello-it.computerdetails.macOSversion.sh</string>
                 <key>title</key>
                 <string>macOSversion</string>
             </dict>

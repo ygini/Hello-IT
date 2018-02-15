@@ -14,7 +14,7 @@ If
         <key>settings</key>
             <dict>
                 <key>script</key>
-                <string>com.github.ygini.hello-it.computerdetails.storagespace.sh</string>
+                <string>com.github.wardsparadox.hello-it.computerdetails.storagespace.sh</string>
                 <key>title</key>
                 <string>storagespace</string>
             </dict>

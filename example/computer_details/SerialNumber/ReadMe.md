@@ -14,7 +14,7 @@ Displays serial number in Hello-IT, UUID in tooltip. Updated to use the hitp she
         <key>settings</key>
             <dict>
                 <key>script</key>
-                <string>com.github.ygini.hello-it.computerdetails.serialnumber.sh</string>
+                <string>com.github.wardsparadox.hello-it.computerdetails.serialnumber.sh</string>
                 <key>title</key>
                 <string>SNInfo</string>
             </dict>

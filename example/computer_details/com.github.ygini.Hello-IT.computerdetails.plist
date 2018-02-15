@@ -16,7 +16,7 @@
           <key>settings</key>
           <dict>
             <key>script</key>
-            <string>com.github.ygini.hello-it.computerdetails.serialnumber.sh</string>
+            <string>com.github.wardsparadox.hello-it.computerdetails.serialnumber.sh</string>
             <key>title</key>
             <string>serialnumber</string>
           </dict>
@@ -27,7 +27,7 @@
           <key>settings</key>
           <dict>
             <key>script</key>
-            <string>com.github.ygini.hello-it.computerdetails.macOSversion.sh</string>
+            <string>com.github.wardsparadox.hello-it.computerdetails.macOSversion.sh</string>
             <key>title</key>
             <string>modelinfo</string>
           </dict>
@@ -38,7 +38,7 @@
           <key>settings</key>
           <dict>
             <key>script</key>
-            <string>com.github.ygini.hello-it.computerdetails.macOSversion.sh</string>
+            <string>com.github.wardsparadox.hello-it.computerdetails.macOSversion.sh</string>
             <key>title</key>
             <string>macOSversion</string>
           </dict>
