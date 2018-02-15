@@ -12,7 +12,7 @@ Provides user feedback as to how many Managed Software Center updates are availa
       <key>settings</key>
       <dict>
         <key>script</key>
-        <string>com.github.ygini.hello-it.munki.pendingmscupdates.sh</string>
+        <string>com.github.wardsparadox.hello-it.munki.pendingmscupdates.sh</string>
         <key>periodic-run</key>
         <integer>360</integer>
         <key>title</key>

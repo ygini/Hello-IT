@@ -1,6 +1,6 @@
 ## SMART Status
 ---
-##### Script based on: [Emily K/smashism](https://www.github.com/Emily K/smashism)
+##### Script based on: [Emily K/smashism](https://www.github.com/smashism)
 ##### Updated by [Zack McCauley](https://www.github.com/wardsparadox)
 
 
@@ -17,7 +17,7 @@ Otherwise: Red
         <key>settings</key>
             <dict>
                 <key>script</key>
-                <string>com.github.ygini.hello-it.computerdetails.smartstatus.sh</string>
+                <string>com.github.wardsparadox.hello-it.computerdetails.smartstatus.sh</string>
                 <key>title</key>
                 <string>smartstatus</string>
             </dict>
