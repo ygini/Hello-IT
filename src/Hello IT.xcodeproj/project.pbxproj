@@ -43,7 +43,6 @@
 		F8340B9D1C96CF9000C820D7 /* statusbar-warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */; };
 		F8340B9E1C96CF9000C820D7 /* statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8A1C96CF9000C820D7 /* statusbar.png */; };
 		F8340B9F1C96CF9000C820D7 /* statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */; };
-		F886D20D20C85967005215F8 /* CachetHQComponent.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8B6574820C727E7009F31B6 /* CachetHQComponent.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 /* End PBXBuildFile section */
 
@@ -139,19 +138,12 @@
 			remoteGlobalIDString = F83294A41F773076009DA574;
 			remoteInfo = ADPass;
 		};
-		F886D20920C8595A005215F8 /* PBXContainerItemProxy */ = {
+		F8D61B8920C8731A00DE2453 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F8B6574320C727E7009F31B6 /* CachetHQ.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = F8B6573920C727D7009F31B6;
-			remoteInfo = CachetHQ;
-		};
-		F8B6574720C727E7009F31B6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8B6574320C727E7009F31B6 /* CachetHQ.xcodeproj */;
+			containerPortal = F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8B6573A20C727D7009F31B6;
-			remoteInfo = CachetHQ;
+			remoteInfo = CachetHQComponent;
 		};
 		F8F4E5761F1A73CC004E8789 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -225,7 +217,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F886D20D20C85967005215F8 /* CachetHQComponent.hitp in Copy Default Plugins */,
 				F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */,
 				E14B67DA1B59110D00941A27 /* ScriptedItem.hitp in Copy Default Plugins */,
 				E14B67BB1B57888700941A27 /* OpenApplication.hitp in Copy Default Plugins */,
@@ -298,7 +289,7 @@
 		F89B59391DA7DC350028D75F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		F89B593A1DA7DC350028D75F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		F8B315891FA6BB1400839784 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
-		F8B6574320C727E7009F31B6 /* CachetHQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CachetHQ.xcodeproj; path = CachetHQ/CachetHQ.xcodeproj; sourceTree = "<group>"; };
+		F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CachetHQ.xcodeproj; path = CachetHQ/CachetHQ.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,7 +337,7 @@
 		E17743301B51E6E600A5B406 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				F8B6574320C727E7009F31B6 /* CachetHQ.xcodeproj */,
+				F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */,
 				F83294AE1F773076009DA574 /* ADPass.xcodeproj */,
 				E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */,
 				E17743751B51F19B00A5B406 /* Separator.xcodeproj */,
@@ -507,10 +498,10 @@
 			name = statusbar;
 			sourceTree = "<group>";
 		};
-		F8B6574420C727E7009F31B6 /* Products */ = {
+		F8D61B8620C8731A00DE2453 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F8B6574820C727E7009F31B6 /* CachetHQComponent.hitp */,
+				F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -532,7 +523,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				F886D20A20C8595A005215F8 /* PBXTargetDependency */,
 				F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */,
 				F86CCC0B1F790D250043CF55 /* PBXTargetDependency */,
 				F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */,
@@ -604,8 +594,8 @@
 					ProjectRef = F83294AE1F773076009DA574 /* ADPass.xcodeproj */;
 				},
 				{
-					ProductGroup = F8B6574420C727E7009F31B6 /* Products */;
-					ProjectRef = F8B6574320C727E7009F31B6 /* CachetHQ.xcodeproj */;
+					ProductGroup = F8D61B8620C8731A00DE2453 /* Products */;
+					ProjectRef = F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */;
 				},
 				{
 					ProductGroup = E1B2C8EE1B59351B005A9936 /* Products */;
@@ -730,11 +720,11 @@
 			remoteRef = F83294B21F773078009DA574 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F8B6574820C727E7009F31B6 /* CachetHQComponent.hitp */ = {
+		F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = CachetHQComponent.hitp;
-			remoteRef = F8B6574720C727E7009F31B6 /* PBXContainerItemProxy */;
+			remoteRef = F8D61B8920C8731A00DE2453 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -827,11 +817,6 @@
 			isa = PBXTargetDependency;
 			name = ADPass;
 			targetProxy = F86CCC0A1F790D250043CF55 /* PBXContainerItemProxy */;
-		};
-		F886D20A20C8595A005215F8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CachetHQ;
-			targetProxy = F886D20920C8595A005215F8 /* PBXContainerItemProxy */;
 		};
 		F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
