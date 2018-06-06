@@ -43,7 +43,7 @@
 		F8340B9D1C96CF9000C820D7 /* statusbar-warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */; };
 		F8340B9E1C96CF9000C820D7 /* statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8A1C96CF9000C820D7 /* statusbar.png */; };
 		F8340B9F1C96CF9000C820D7 /* statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */; };
-		F886D20D20C85967005215F8 /* CachetHQ.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8B6574820C727E7009F31B6 /* CachetHQ.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F886D20D20C85967005215F8 /* CachetHQComponent.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8B6574820C727E7009F31B6 /* CachetHQComponent.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 /* End PBXBuildFile section */
 
@@ -225,7 +225,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F886D20D20C85967005215F8 /* CachetHQ.hitp in Copy Default Plugins */,
+				F886D20D20C85967005215F8 /* CachetHQComponent.hitp in Copy Default Plugins */,
 				F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */,
 				E14B67DA1B59110D00941A27 /* ScriptedItem.hitp in Copy Default Plugins */,
 				E14B67BB1B57888700941A27 /* OpenApplication.hitp in Copy Default Plugins */,
@@ -510,7 +510,7 @@
 		F8B6574420C727E7009F31B6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F8B6574820C727E7009F31B6 /* CachetHQ.hitp */,
+				F8B6574820C727E7009F31B6 /* CachetHQComponent.hitp */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -730,10 +730,10 @@
 			remoteRef = F83294B21F773078009DA574 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F8B6574820C727E7009F31B6 /* CachetHQ.hitp */ = {
+		F8B6574820C727E7009F31B6 /* CachetHQComponent.hitp */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = CachetHQ.hitp;
+			path = CachetHQComponent.hitp;
 			remoteRef = F8B6574720C727E7009F31B6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
