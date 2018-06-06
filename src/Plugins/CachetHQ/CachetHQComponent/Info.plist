@@ -19,10 +19,10 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>HITPFunctionIdentifier</key>
-	<string>public.cachethq</string>
+	<string>public.cachethq.component</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2018 Yoann Gini (Open Source Project). All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string></string>
+	<string>CachetHQComponent</string>
 </dict>
 </plist>

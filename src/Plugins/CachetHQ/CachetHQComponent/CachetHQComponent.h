@@ -1,5 +1,5 @@
 //
-//  HITCachetHQ.h
+//  CachetHQComponent.h
 //  CachetHQ
 //
 //  Created by Yoann Gini on 05/06/2018.
@@ -10,6 +10,6 @@
 
 #import <HITDevKit/HITDevKit.h>
 
-@interface HITCachetHQ : HITPeriodicPlugin
+@interface CachetHQComponent : HITPeriodicPlugin
 
 @end
