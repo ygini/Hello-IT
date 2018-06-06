@@ -43,6 +43,7 @@
 		F8340B9D1C96CF9000C820D7 /* statusbar-warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */; };
 		F8340B9E1C96CF9000C820D7 /* statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8A1C96CF9000C820D7 /* statusbar.png */; };
 		F8340B9F1C96CF9000C820D7 /* statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */; };
+		F84238FF20C8748200FB5410 /* CachetHQComponent.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 /* End PBXBuildFile section */
 
@@ -131,6 +132,13 @@
 			remoteGlobalIDString = F83294A51F773076009DA574;
 			remoteInfo = ADPass;
 		};
+		F842390120C8748800FB5410 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B6573920C727D7009F31B6;
+			remoteInfo = CachetHQComponent;
+		};
 		F86CCC0A1F790D250043CF55 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F83294AE1F773076009DA574 /* ADPass.xcodeproj */;
@@ -217,6 +225,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				F84238FF20C8748200FB5410 /* CachetHQComponent.hitp in Copy Default Plugins */,
 				F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */,
 				E14B67DA1B59110D00941A27 /* ScriptedItem.hitp in Copy Default Plugins */,
 				E14B67BB1B57888700941A27 /* OpenApplication.hitp in Copy Default Plugins */,
@@ -523,6 +532,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F842390220C8748800FB5410 /* PBXTargetDependency */,
 				F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */,
 				F86CCC0B1F790D250043CF55 /* PBXTargetDependency */,
 				F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */,
@@ -812,6 +822,11 @@
 			isa = PBXTargetDependency;
 			target = E1D067F91B51D08E00567172 /* Hello IT */;
 			targetProxy = E1D0680E1B51D08F00567172 /* PBXContainerItemProxy */;
+		};
+		F842390220C8748800FB5410 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CachetHQComponent;
+			targetProxy = F842390120C8748800FB5410 /* PBXContainerItemProxy */;
 		};
 		F86CCC0B1F790D250043CF55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
