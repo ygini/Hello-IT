@@ -197,30 +197,52 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
 }
 
 - (void)updateSumarizedServicesState {
+    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Sumerizing CachetHQ states");
+    
     NSInteger worstState = 1;
     for (NSMenuItem *groupMenuItem in self.cachetHQMenu.itemArray) {
         NSInteger submenuWorstState = 1;
         
-        for (NSMenuItem *serviceMenuItem in groupMenuItem.menu.itemArray) {
+        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Working on group menu %s", [groupMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding]);
+        
+        for (NSMenuItem *serviceMenuItem in groupMenuItem.submenu.itemArray) {
             NSDictionary *serviceInfo = serviceMenuItem.representedObject;
             NSNumber *serviceStatus = [serviceInfo objectForKey:@"status"];
             
             NSInteger state = [serviceStatus integerValue];
+            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Working on group item %s with current state %ld", [serviceMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding], state);
+
             
             if (state > submenuWorstState) {
+                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Evaluated item state is worst than previous one for this group");
                 submenuWorstState = state;
             }
-
         }
         
+        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Updating group menu %s with state %ld", [groupMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding], submenuWorstState);
         [self updateMenuItem:groupMenuItem withCachetState:submenuWorstState];
 
         if (submenuWorstState > worstState) {
+            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Evaluated group state is worst than previous one for the global state");
             worstState = submenuWorstState;
         }
     }
-    
-    [self updateMenuItem:self.menuItem withCachetState:worstState];
+    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Updating global menu %s with state %ld", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], worstState);
+    switch (worstState) {
+        case 4:
+            self.testState = HITPluginTestStateError;
+            break;
+        case 3:
+        case 2:
+            self.testState = HITPluginTestStateWarning;
+            break;
+        case 1:
+            self.testState = HITPluginTestStateOK;
+            break;
+        default:
+            self.testState = HITPluginTestStateNone;
+            break;
+    }
 }
 
 - (void)updateMenuItem:(NSMenuItem*)menuItem withCachetState:(NSInteger)state {
