@@ -61,6 +61,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     menuItem.target = nil;
     
     NSMenu *menu = [[NSMenu alloc] init];
+    menu.autoenablesItems = FALSE;
     menu.delegate = self;
     self.subPluginInstances = [NSMutableArray new];
     self.observedSubPluginInstances = [NSMutableArray new];
