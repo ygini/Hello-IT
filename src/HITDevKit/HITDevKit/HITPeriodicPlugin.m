@@ -19,7 +19,11 @@
 {
     self = [super initWithSettings:settings];
     if (self) {
-        _repeat = [settings objectForKey:kHITPeriodicPluginRepeatKey];
+        if ([settings.allKeys containsObject:kHITPeriodicPluginRepeatKey]) {
+            _repeat = [settings objectForKey:kHITPeriodicPluginRepeatKey];
+        } else {
+            _repeat = @60;
+        }
         
         if ([_repeat intValue] > 0) {
             [self performSelector:@selector(setupCronJob)

@@ -15,6 +15,7 @@
 #define kHITPADPassLastNotifKey @"public.ad.pass.lastNotification"
 
 #define kHITPADPassWillExpireFormat @"willExpireFormat"
+#define kHITPADPassNeverExpireInfo @"neverExpireInfo"
 #define kHITPADPassTooltip @"tooltip"
 #define kHITPADPassOfflineTooltip @"offlineTooltip"
 
@@ -34,6 +35,7 @@
 @property NSString *localeTablePath;
 
 @property NSString *willExpireFormat;
+@property NSString *neverExpireInfo;
 @property NSString *tooltip;
 @property NSString *offlineTooltip;
 
@@ -55,22 +57,28 @@
     if (self) {
         [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
         
-        _alertXDaysBefore = [[settings objectForKey:kHITPADPassAlertXDaysBefore] integerValue];
-        
-        if (_alertXDaysBefore == 0) {
+        if ([settings.allKeys containsObject:kHITPADPassAlertXDaysBefore]) {
+            _alertXDaysBefore = [[settings objectForKey:kHITPADPassAlertXDaysBefore] integerValue];
+        } else {
             _alertXDaysBefore = 15;
         }
         
         NSString *defaultWillExpireFormat = @"🔐 📆 %ld";
+        NSString *defaultNeverExpireInfo = @"🔐 ∞";
         NSString *defaultTooltip = @"Delay before your password expire, change it before!";
         NSString *defaultOfflineTooltip = @"Your IT infrastructure isn't available. Current info is based on the last recorded value.";
         
         _willExpireFormat = [settings objectForKey:kHITPADPassWillExpireFormat];
+        _neverExpireInfo = [settings objectForKey:kHITPADPassNeverExpireInfo];
         _tooltip = [settings objectForKey:kHITPADPassTooltip];
         _offlineTooltip = [settings objectForKey:kHITPADPassOfflineTooltip];
         
         if ([_willExpireFormat length] == 0) {
             _willExpireFormat = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassWillExpireFormat value:defaultWillExpireFormat table:nil];
+        }
+        
+        if ([_neverExpireInfo length] == 0) {
+            _neverExpireInfo = [[NSBundle bundleForClass:[self class]] localizedStringForKey:kHITPADPassNeverExpireInfo value:defaultNeverExpireInfo table:nil];
         }
         
         if ([_tooltip length] == 0) {
@@ -138,7 +146,12 @@
 - (void)updateTitle {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
     long daysBeforeExpiry = (long)[components day];
-    self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
+    
+    if (daysBeforeExpiry == 10522613) {
+        self.menuItem.title = self.neverExpireInfo;
+    } else {
+        self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
+    }
     
     if (self.lastADRequestSucceded) {
         self.menuItem.target = self;
