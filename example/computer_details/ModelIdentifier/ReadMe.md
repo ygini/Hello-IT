@@ -14,7 +14,7 @@ Displays Model Info as title, Model Identifier in tooltip. Updated to use the hi
         <key>settings</key>
             <dict>
                 <key>script</key>
-                <string>com.github.ygini.hello-it.computerdetails.modelinfo.sh</string>
+                <string>com.github.wardsparadox.hello-it.computerdetails.modelinfo.sh</string>
                 <key>title</key>
                 <string>modelinfo</string>
             </dict>

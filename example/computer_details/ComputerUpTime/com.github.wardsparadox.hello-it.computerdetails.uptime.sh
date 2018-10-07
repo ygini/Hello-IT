@@ -1,7 +1,7 @@
 #!/bin/bash
 # Pending Updates Script for Managed Software Center
 ### The following line load the Hello IT bash script lib
-. "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
+. "$HELLO_IT_SCRIPT_SH_LIBRARY/com.github.ygini.hello-it.scriptlib.sh"
 
 # Alert if uptime greater than alertcount
 alertcount=15

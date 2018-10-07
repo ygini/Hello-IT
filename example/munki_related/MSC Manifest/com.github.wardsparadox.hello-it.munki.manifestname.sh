@@ -1,7 +1,7 @@
 #!/bin/bash
 # Show Manifest name from Munki
 ### The following line load the Hello IT bash script lib
-. "$HELLO_IT_SCRIPT_FOLDER/com.github.ygini.hello-it.scriptlib.sh"
+. "$HELLO_IT_SCRIPT_SH_LIBRARY/com.github.ygini.hello-it.scriptlib.sh"
 
 function onClickAction {
  /usr/bin/open /Applications/Managed\ Software\ Center.app

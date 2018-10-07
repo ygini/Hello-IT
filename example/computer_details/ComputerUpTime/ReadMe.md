@@ -15,7 +15,7 @@ Click to show a prompt to restart.
     <key>settings</key>
         <dict>
             <key>script</key>
-            <string>com.github.ygini.hello-it.computerdetails.uptime.sh</string>
+            <string>com.github.wardsparadox.hello-it.computerdetails.uptime.sh</string>
             <key>title</key>
             <string>uptime</string>
             <key>periodic-run</key>

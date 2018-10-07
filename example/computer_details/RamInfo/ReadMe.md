@@ -14,7 +14,7 @@ Displays Total Ram in Hello-IT. Updated to use the hitp shell lib.
         <key>settings</key>
             <dict>
                 <key>script</key>
-                <string>com.github.ygini.hello-it.computerdetails.raminfo.sh</string>
+                <string>com.github.wardsparadox.hello-it.computerdetails.raminfo.sh</string>
                 <key>title</key>
                 <string>raminfo</string>
             </dict>
