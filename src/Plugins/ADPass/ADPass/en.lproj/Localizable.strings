@@ -11,6 +11,7 @@
 // To show `Your password will expire in 42d` use format `Your password will expire in %ldd`
 
 "willExpireFormat" = "Password expire in %ldd";
+"neverExpireInfo" = "Your password does not expire";
 "tooltip" = "Delay before your password expire, change it before!";
 "disabledTooltip" = "Your IT infrastructure isn't available. Current info is based on the last recorded value and you can't change your password.";
 
