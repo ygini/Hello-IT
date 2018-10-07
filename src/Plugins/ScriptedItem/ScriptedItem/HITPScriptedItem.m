@@ -17,12 +17,12 @@
 #define kHITSimplePluginTitleKey @"title"
 #define kHITPDenyUserWritableScript @"denyUserWritableScript"
 
-#ifdef DEBUG
-#warning This static path to the development custom scripts must be replaced by something smart
-#define kHITPCustomScriptsPath @"/Users/ygi/Sources/Public/Hello-IT/src/Plugins/ScriptedItem/CustomScripts"
-#else
 #define kHITPCustomScriptsPath @"/Library/Application Support/com.github.ygini.hello-it/CustomScripts"
-#endif
+
+//#ifdef DEBUG
+//#warning This static path to the development custom scripts must be replaced by something smart
+//#define kHITPCustomScriptsPath @"/Users/ygi/Sources/Public/Hello-IT/src/Plugins/ScriptedItem/CustomScripts"
+//#endif
 
 #import <asl.h>
 

@@ -1,0 +1,408 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F811AD372149A0B700BD15AD /* CachetHQIncidents.m in Sources */ = {isa = PBXBuildFile; fileRef = F811AD362149A0B700BD15AD /* CachetHQIncidents.m */; };
+		F811AD382149A18600BD15AD /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6574B20C7284D009F31B6 /* HITDevKit.framework */; };
+		F8B6574C20C7284D009F31B6 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6574B20C7284D009F31B6 /* HITDevKit.framework */; };
+		F8B6574F20C7288C009F31B6 /* CachetHQComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B6574E20C7288C009F31B6 /* CachetHQComponent.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F811AD2F2149A07E00BD15AD /* CachetHQIncidents.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CachetHQIncidents.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
+		F811AD312149A07E00BD15AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F811AD352149A0B700BD15AD /* CachetHQIncidents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CachetHQIncidents.h; sourceTree = "<group>"; };
+		F811AD362149A0B700BD15AD /* CachetHQIncidents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CachetHQIncidents.m; sourceTree = "<group>"; };
+		F8B6573A20C727D7009F31B6 /* CachetHQComponent.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CachetHQComponent.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B6573D20C727D7009F31B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B6574B20C7284D009F31B6 /* HITDevKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HITDevKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B6574D20C7288C009F31B6 /* CachetHQComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CachetHQComponent.h; sourceTree = "<group>"; };
+		F8B6574E20C7288C009F31B6 /* CachetHQComponent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CachetHQComponent.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F811AD2C2149A07E00BD15AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F811AD382149A18600BD15AD /* HITDevKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B6573720C727D7009F31B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B6574C20C7284D009F31B6 /* HITDevKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F811AD302149A07E00BD15AD /* CachetHQIncidents */ = {
+			isa = PBXGroup;
+			children = (
+				F811AD312149A07E00BD15AD /* Info.plist */,
+				F811AD352149A0B700BD15AD /* CachetHQIncidents.h */,
+				F811AD362149A0B700BD15AD /* CachetHQIncidents.m */,
+			);
+			path = CachetHQIncidents;
+			sourceTree = "<group>";
+		};
+		F8B6573120C727D7009F31B6 = {
+			isa = PBXGroup;
+			children = (
+				F8B6573C20C727D7009F31B6 /* CachetHQComponent */,
+				F811AD302149A07E00BD15AD /* CachetHQIncidents */,
+				F8B6573B20C727D7009F31B6 /* Products */,
+				F8B6574A20C7284D009F31B6 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F8B6573B20C727D7009F31B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F8B6573A20C727D7009F31B6 /* CachetHQComponent.hitp */,
+				F811AD2F2149A07E00BD15AD /* CachetHQIncidents.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F8B6573C20C727D7009F31B6 /* CachetHQComponent */ = {
+			isa = PBXGroup;
+			children = (
+				F8B6573D20C727D7009F31B6 /* Info.plist */,
+				F8B6574D20C7288C009F31B6 /* CachetHQComponent.h */,
+				F8B6574E20C7288C009F31B6 /* CachetHQComponent.m */,
+			);
+			path = CachetHQComponent;
+			sourceTree = "<group>";
+		};
+		F8B6574A20C7284D009F31B6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8B6574B20C7284D009F31B6 /* HITDevKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F811AD2E2149A07E00BD15AD /* CachetHQIncidents */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F811AD342149A07E00BD15AD /* Build configuration list for PBXNativeTarget "CachetHQIncidents" */;
+			buildPhases = (
+				F811AD2B2149A07E00BD15AD /* Sources */,
+				F811AD2C2149A07E00BD15AD /* Frameworks */,
+				F811AD2D2149A07E00BD15AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CachetHQIncidents;
+			productName = CachetHQIncidents;
+			productReference = F811AD2F2149A07E00BD15AD /* CachetHQIncidents.hitp */;
+			productType = "com.apple.product-type.bundle";
+		};
+		F8B6573920C727D7009F31B6 /* CachetHQComponent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B6574020C727D7009F31B6 /* Build configuration list for PBXNativeTarget "CachetHQComponent" */;
+			buildPhases = (
+				F8B6573620C727D7009F31B6 /* Sources */,
+				F8B6573720C727D7009F31B6 /* Frameworks */,
+				F8B6573820C727D7009F31B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CachetHQComponent;
+			productName = CachetHQ;
+			productReference = F8B6573A20C727D7009F31B6 /* CachetHQComponent.hitp */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F8B6573220C727D7009F31B6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
+				TargetAttributes = {
+					F811AD2E2149A07E00BD15AD = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					F8B6573920C727D7009F31B6 = {
+						CreatedOnToolsVersion = 9.4;
+					};
+				};
+			};
+			buildConfigurationList = F8B6573520C727D7009F31B6 /* Build configuration list for PBXProject "CachetHQ" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F8B6573120C727D7009F31B6;
+			productRefGroup = F8B6573B20C727D7009F31B6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F8B6573920C727D7009F31B6 /* CachetHQComponent */,
+				F811AD2E2149A07E00BD15AD /* CachetHQIncidents */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F811AD2D2149A07E00BD15AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B6573820C727D7009F31B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F811AD2B2149A07E00BD15AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F811AD372149A0B700BD15AD /* CachetHQIncidents.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B6573620C727D7009F31B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B6574F20C7288C009F31B6 /* CachetHQComponent.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F811AD322149A07E00BD15AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
+				INFOPLIST_FILE = CachetHQIncidents/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ygini.CachetHQIncidents;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = hitp;
+			};
+			name = Debug;
+		};
+		F811AD332149A07E00BD15AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
+				INFOPLIST_FILE = CachetHQIncidents/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ygini.CachetHQIncidents;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = hitp;
+			};
+			name = Release;
+		};
+		F8B6573E20C727D7009F31B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F8B6573F20C727D7009F31B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F8B6574120C727D7009F31B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
+				INFOPLIST_FILE = CachetHQComponent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ygini.hitp.CachetHQ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = hitp;
+			};
+			name = Debug;
+		};
+		F8B6574220C727D7009F31B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = CRXPBZF3N4;
+				INFOPLIST_FILE = CachetHQComponent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ygini.hitp.CachetHQ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = hitp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F811AD342149A07E00BD15AD /* Build configuration list for PBXNativeTarget "CachetHQIncidents" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F811AD322149A07E00BD15AD /* Debug */,
+				F811AD332149A07E00BD15AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B6573520C727D7009F31B6 /* Build configuration list for PBXProject "CachetHQ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B6573E20C727D7009F31B6 /* Debug */,
+				F8B6573F20C727D7009F31B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B6574020C727D7009F31B6 /* Build configuration list for PBXNativeTarget "CachetHQComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B6574120C727D7009F31B6 /* Debug */,
+				F8B6574220C727D7009F31B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F8B6573220C727D7009F31B6 /* Project object */;
+}
