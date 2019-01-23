@@ -57,7 +57,7 @@
         
         for (NSString *localIdentifier in @[
                                             [[NSLocale currentLocale] localeIdentifier],
-                                            [[NSLocale currentLocale] languageCode],
+                                            [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode],
                                             @"en"]) {
             selectedValue = [dictionaryOrArray objectForKey:localIdentifier];
             if (selectedValue) {
