@@ -146,6 +146,13 @@
 			remoteGlobalIDString = F83294A41F773076009DA574;
 			remoteInfo = ADPass;
 		};
+		F8CF084221A729190070C049 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F811AD2F2149A07E00BD15AD;
+			remoteInfo = CachetHQIncidents;
+		};
 		F8D61B8920C8731A00DE2453 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */;
@@ -511,6 +518,7 @@
 			isa = PBXGroup;
 			children = (
 				F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */,
+				F8CF084321A729190070C049 /* CachetHQIncidents.hitp */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -730,6 +738,13 @@
 			remoteRef = F83294B21F773078009DA574 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F8CF084321A729190070C049 /* CachetHQIncidents.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CachetHQIncidents.hitp;
+			remoteRef = F8CF084221A729190070C049 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -791,7 +806,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
+			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

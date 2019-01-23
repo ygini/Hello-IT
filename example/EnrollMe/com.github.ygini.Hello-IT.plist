@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>content</key>
+        <array>
+			<dict>
+				<key>functionIdentifier</key>
+				<string>public.script.item</string>
+				<key>settings</key>
+				<dict>
+					<key>title</key>
+					<dict>
+						<key>fr</key>
+						<string>Enrôler votre Mac</string>
+						<key>en</key>
+						<string>Enroll this Mac</string>
+					</dict>
+					<key>script</key>
+					<string>com.github.ygini.enrollme.hello-it.sh</string>
+				</dict>
+			</dict>
+        </array>
+    </dict>
+</plist>
