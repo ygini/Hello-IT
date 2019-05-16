@@ -597,11 +597,12 @@
 			};
 			buildConfigurationList = E1D067F51B51D08E00567172 /* Build configuration list for PBXProject "Hello IT" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = E1D067F11B51D08E00567172;
 			productRefGroup = E1D067FB1B51D08E00567172 /* Products */;
