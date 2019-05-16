@@ -123,84 +123,85 @@
     if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSTask *task = [[NSTask alloc] init];
-            [task setLaunchPath:self.script];
-            
-            NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
-            
-            [environment setObject:kHITPCustomScriptsPath
-                            forKey:@"HELLO_IT_SCRIPT_FOLDER"];
-            
-            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/bash"]
-                            forKey:@"HELLO_IT_SCRIPT_SH_LIBRARY"];
-            
-            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/python"]
-                            forKey:@"HELLO_IT_SCRIPT_PYTHON_LIBRARY"];
-            
-            NSMutableArray *finalArgs = [NSMutableArray new];
-            
-            [finalArgs addObject:command];
-            
-            if ([self.options count] > 0) {
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
-                [finalArgs addObjectsFromArray:self.options];
+            @autoreleasepool {
+                NSTask *task = [[NSTask alloc] init];
+                [task setLaunchPath:self.script];
                 
-                [environment setObject:@"yes"
-                                forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
+                NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
                 
-                NSMutableString *args = [NSMutableString new];
+                [environment setObject:kHITPCustomScriptsPath
+                                forKey:@"HELLO_IT_SCRIPT_FOLDER"];
                 
-                for (NSString *arg in self.options) {
-                    [args appendString:arg];
-                    [args appendString:@" "];
-                }
+                [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/bash"]
+                                forKey:@"HELLO_IT_SCRIPT_SH_LIBRARY"];
                 
-                [environment setObject:args
-                                forKey:@"HELLO_IT_OPTIONS"];
-            } else {
-                [environment setObject:@"no"
-                                forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
-            }
-            
-            [environment setObject:self.generalNetworkState ? @"yes" : @"no"
-                            forKey:@"HELLO_IT_NETWORK_TEST"];
-            
-            [task setEnvironment:environment];
-            [task setArguments:finalArgs];
-            
-            [task setStandardOutput:[NSPipe pipe]];
-            NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
-            
-            dispatch_io_t stdoutChannel = dispatch_io_create(DISPATCH_IO_STREAM, [fileToRead fileDescriptor], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(int error) {
+                [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/python"]
+                                forKey:@"HELLO_IT_SCRIPT_PYTHON_LIBRARY"];
                 
-            });
-            
-            dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
-                NSData *stdoutData = (NSData *)data;
+                NSMutableArray *finalArgs = [NSMutableArray new];
                 
-                NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+                [finalArgs addObject:command];
                 
-                NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
-                
-                for (NSString *line in stdoutLines) {
-                    if ([line hasPrefix:@"hitp-"]) {
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                            [self handleScriptRequest:line];
-                        });
+                if ([self.options count] > 0) {
+                    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
+                    [finalArgs addObjectsFromArray:self.options];
+                    
+                    [environment setObject:@"yes"
+                                    forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
+                    
+                    NSMutableString *args = [NSMutableString new];
+                    
+                    for (NSString *arg in self.options) {
+                        [args appendString:arg];
+                        [args appendString:@" "];
                     }
+                    
+                    [environment setObject:args
+                                    forKey:@"HELLO_IT_OPTIONS"];
+                } else {
+                    [environment setObject:@"no"
+                                    forKey:@"HELLO_IT_OPTIONS_AVAILABLE"];
                 }
-            });
-            
-            @try {
-                [task launch];
                 
-                [task waitUntilExit];
+                [environment setObject:self.generalNetworkState ? @"yes" : @"no"
+                                forKey:@"HELLO_IT_NETWORK_TEST"];
                 
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
-            } @catch (NSException *exception) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
+                [task setEnvironment:environment];
+                [task setArguments:finalArgs];
+                
+                [task setStandardOutput:[NSPipe pipe]];
+                NSFileHandle *fileToRead = [[task standardOutput] fileHandleForReading];
+                
+                dispatch_io_t stdoutChannel = dispatch_io_create(DISPATCH_IO_STREAM, [fileToRead fileDescriptor], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(int error) {
+                    
+                });
+                
+                dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
+                    NSData *stdoutData = (NSData *)data;
+                    
+                    NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+                    
+                    NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
+                    
+                    for (NSString *line in stdoutLines) {
+                        if ([line hasPrefix:@"hitp-"]) {
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                [self handleScriptRequest:line];
+                            });
+                        }
+                    }
+                });
+                
+                @try {
+                    [task launch];
+                    
+                    [task waitUntilExit];
+                    
+                    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
+                } @catch (NSException *exception) {
+                    asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
+                }
             }
-            
         });
     }
 }
@@ -261,6 +262,9 @@
                 self.menuItem.hidden = NO;
             }
             
+        } else if ([key isEqualToString:@"hitp-notification"]) {
+            [self sendNotificationWithMessage:value];
+            
         } else if ([key isEqualToString:@"hitp-tooltip"]) {
             self.menuItem.toolTip = value;
             
@@ -289,6 +293,10 @@
             asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     });
+}
+
+- (void)actionFromNotification:(NSUserNotification *)notification {
+    [self runScriptWithCommand:@"notification"];
 }
 
 @end

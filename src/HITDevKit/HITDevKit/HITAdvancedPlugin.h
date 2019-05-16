@@ -21,4 +21,6 @@
 @property (nonatomic) HITPluginTestState testState;
 @property (nonatomic) BOOL skipForGlobalState;
 
+-(void)sendNotificationWithMessage:(NSString*)message;
+
 @end

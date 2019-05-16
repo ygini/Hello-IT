@@ -12,6 +12,7 @@
 @interface HITAdvancedPlugin () {
     HITPluginTestState _testState;
 }
+@property id<HITPluginsManagerProtocol> pluginsManager;
 
 @end
 
@@ -58,14 +59,7 @@
 }
 
 -(void)sendNotificationWithMessage:(NSString*)message {
-    asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Notification for state change requested.");
-    NSUserNotification *notification = [NSUserNotification new];
-    
-    notification.title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
-    notification.hasActionButton = NO;
-    notification.informativeText = message;
-    
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    [self.pluginsManager sendNotificationWithTitle:self.menuItem.title andMessage:message from:self];
 }
 
 -(HITPluginTestState)testState {

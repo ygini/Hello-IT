@@ -21,6 +21,9 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 @protocol HITPluginsManagerProtocol <NSObject>
 - (Class<HITPluginProtocol>)mainClassForPluginWithFunctionIdentifier:(NSString*)functionIdentifier;
 - (void)registerPluginInstanceAsNetworkRelated:(id<HITPluginProtocol>)plugin;
+- (void)sendNotificationWithTitle:(NSString*)title andMessage:(NSString*)message from:(id<HITPluginProtocol>)sender;
+- (void)sendNotification:(NSUserNotification*)notification from:(id<HITPluginProtocol>)sender;
+
 @end
 
 @protocol HITPluginProtocol <NSObject>
@@ -40,5 +43,7 @@ typedef NS_ENUM(NSUInteger, HITPluginTestState) {
 
 - (BOOL)isNetworkRelated;
 - (void)generalNetworkStateUpdate:(BOOL)state;
+
+- (void)actionFromNotification:(NSUserNotification*)notification;
 
 @end

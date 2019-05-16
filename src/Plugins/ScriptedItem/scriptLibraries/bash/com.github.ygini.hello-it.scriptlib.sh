@@ -22,6 +22,11 @@ function fromCronAction {
 :
 }
 
+# override this function to specify what to do when the script is on a periodic run
+function fromNotificationAction {
+:
+}
+
 # override this function to specify the item title when UI is loaded (optional, use it
 # when your title is always dynamic and can't have a default value). For default value
 # use the title key in Hello IT's settings.
@@ -66,6 +71,12 @@ function setHidden {
 # first arg only will be used as new title, don't forget quotes
 function updateTooltip {
     echo "hitp-tooltip: $1"
+}
+
+# usage: sendNotification "This aren't the droids you're looking for"
+# first arg only will be used as new title, don't forget quotes
+function sendNotification {
+    echo "hitp-notification: $1"
 }
 
 # usage: emergencyLog "This aren't the droids you're looking for"
@@ -144,8 +155,11 @@ function main {
 		network)
 			onNetworkAction $options
 		;;
+        notification)
+            fromNotificationAction $options
+        ;;
 		*)
-            echo "Usage: $0 {run|periodic-run|network|title}"
+            echo "Usage: $0 {run|periodic-run|network|notification|title}"
             echo "$run_option not recognized"
             exit 1
         ;;

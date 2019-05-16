@@ -15,4 +15,7 @@
 - (void)loadPluginsWithCompletionHandler:(void(^)(HITPluginsManager *pluginsManager))handler;
 - (Class<HITPluginProtocol>)mainClassForPluginWithFunctionIdentifier:(NSString*)functionIdentifier;
 
+- (void)sendNotificationWithTitle:(NSString*)title andMessage:(NSString*)message from:(id<HITPluginProtocol>)sender;
+- (void)sendNotification:(NSUserNotification*)notification from:(id<HITPluginProtocol>)sender;
+
 @end

@@ -16,10 +16,11 @@
 #import "Reachability.h"
 #import <asl.h>
 
-@interface HITPluginsManager ()
+@interface HITPluginsManager () <NSUserNotificationCenterDelegate>
 @property NSDictionary *pluginURLPerFunctionIdentifier;
 @property NSMutableDictionary *loadedPluginsPerFunctionIdentifier;
 @property NSMutableArray *networkRelatedPluginInstances;
+@property NSMutableDictionary *pluginsAwaitingForNotifications;
 @end
 
 @implementation HITPluginsManager
@@ -40,8 +41,10 @@
     self = [super init];
     if (self) {
         _loadedPluginsPerFunctionIdentifier = [NSMutableDictionary new];
+        _pluginsAwaitingForNotifications = [NSMutableDictionary new];
         _networkRelatedPluginInstances = [NSMutableArray new];
-                
+        
+        [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChangedNotification:) name:kReachabilityChangedNotification object:nil];
     }
     return self;
@@ -217,5 +220,58 @@
     return pathExist && isFolder;
 }
 
+#pragma mark - Notifications Management
+
+- (void)sendNotificationWithTitle:(NSString*)title andMessage:(NSString*)message from:(id<HITPluginProtocol>)sender {
+    asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Simple notification requested");
+    NSUserNotification *notification = [NSUserNotification new];
+    
+    notification.title = title;
+    notification.hasActionButton = NO;
+    notification.informativeText = message;
+    
+    [self sendNotification:notification from:sender];
+}
+
+- (void)sendNotification:(NSUserNotification*)notification from:(id<HITPluginProtocol>)sender {
+    asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "Notification sent");
+    NSString *senderID = [[self.pluginsAwaitingForNotifications keysOfEntriesPassingTest:^BOOL(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if (obj == sender) {
+            *stop = YES;
+            return YES;
+        }
+        return NO;
+    }] anyObject];
+    
+    if (!senderID) {
+        senderID = [[NSUUID UUID] UUIDString];
+        [self.pluginsAwaitingForNotifications setObject:sender forKey:senderID];
+    }
+
+    NSMutableDictionary* userInfo = [NSMutableDictionary new];
+    if (notification.userInfo) {
+        [userInfo setDictionary:notification.userInfo];
+    }
+    [userInfo setObject:senderID forKey:@"senderID"];
+    
+    notification.userInfo = userInfo;
+    
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    NSString* senderID = [notification.userInfo objectForKey:@"senderID"];
+    if ([senderID length] > 0) {
+        id<HITPluginProtocol> sender = [self.pluginsAwaitingForNotifications objectForKey:senderID];
+        if ([sender respondsToSelector:@selector(actionFromNotification:)]) {
+            [sender actionFromNotification:notification];
+        }
+    }
+    [center removeDeliveredNotification:notification];
+}
+
+-(BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(nonnull NSUserNotification *)notification {
+    return YES;
+}
 
 @end
