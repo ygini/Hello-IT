@@ -145,6 +145,7 @@
 - (void)updateTitle {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
     long daysBeforeExpiry = (long)[components day];
+    if (daysBeforeExpiry < 0) daysBeforeExpiry = 0;
     
     self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
     
