@@ -76,7 +76,7 @@ echo "####### Build project"
 
 echo "### Start building Hello IT"
 
-xcodebuild -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM"
+xcodebuild -UseModernBuildSystem=NO -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM"
 
 cp -r "${BUILT_PRODUCTS_DIR}/Products/Hello IT.app" "${RELEASE_PRODUCT_LOCATION}"
 
@@ -104,8 +104,11 @@ PBK_BUILD_COMPONENT="${BUILT_PRODUCTS_DIR}/components.plist"
 pkgbuild --analyze --root "${PKG_ROOT}" "${PBK_BUILD_COMPONENT}"
 
 /usr/libexec/PlistBuddy -c "Set 0:BundleIsRelocatable bool false" "${PBK_BUILD_COMPONENT}"
-/usr/libexec/PlistBuddy -c "Print" "${PBK_BUILD_COMPONENT}"
+#/usr/libexec/PlistBuddy -c "Print" "${PBK_BUILD_COMPONENT}"
 pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+
+productbuild --product "${GIT_ROOT_DIR}/package/requirements.plist" --sign "${DEVELOPER_ID_INSTALLER}" --version "${PKG_VERSION}" --package "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg"
+
 
 rm -rf "${PKG_ROOT}"
 
