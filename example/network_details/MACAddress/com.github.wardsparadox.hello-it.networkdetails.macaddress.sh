@@ -2,6 +2,9 @@
 
 . "$HELLO_IT_SCRIPT_SH_LIBRARY/com.github.ygini.hello-it.scriptlib.sh"
 
+function onNetworkAction {
+    setTitleAction "$@"
+}
 
 function onClickAction {
     setTitleAction "$@"

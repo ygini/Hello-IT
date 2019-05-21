@@ -10,10 +10,10 @@ function fromCronAction {
 }
 
 function setTitleAction {
-  storagecmd="$(df -H / | grep "/" | awk '{print $3" / "$2 " Used,",$5 " used"}')"
-  total="$(df / | grep "/" | awk '{print $2}' | sed 's/G//')"
-  used="$(df / | grep "/" | awk '{print $3}' | sed 's/G//')"
+  total="$(diskutil info /dev/disk1s1 |  awk '/Volume Total Space/ { print $4 }')"
+  used="$(diskutil info /dev/disk1s1 |  awk '/Volume Used Space/ { print $4 }')"
   percentused="$(printf "%.0f\n" "$(bc -l <<< "( $used / $total) * 100")")"
+  storage="$used GB / $total GB Used, $percentused % used"
 
 
   if [[ "$percentused" -gt 90 ]]; then
@@ -23,7 +23,7 @@ function setTitleAction {
   else
     updateState "${STATE[1]}"
   fi
-  updateTitle "Storage: $storagecmd"
+  updateTitle "Storage: $storage"
   setEnabled YES
 }
 
