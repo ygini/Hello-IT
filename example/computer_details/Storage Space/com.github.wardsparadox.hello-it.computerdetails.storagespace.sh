@@ -1,6 +1,24 @@
 #!/bin/bash
 . "$HELLO_IT_SCRIPT_SH_LIBRARY/com.github.ygini.hello-it.scriptlib.sh"
 
+function handleOptions {
+
+  while getopts "a:w:" opt; do
+    case "${opt}" in
+      a)
+        alertpercentage=${OPTARG}
+        ;;
+      w)
+        warningpercentage=${OPTARG}
+        ;;
+      *)
+        alertpercentage=90;
+        warningpercentage=70;
+        ;;
+    esac
+  done
+}
+
 function onClickAction {
   setTitleAction "$@"
 }
@@ -10,15 +28,16 @@ function fromCronAction {
 }
 
 function setTitleAction {
-  total="$(diskutil info /dev/disk1s1 |  awk '/Volume Total Space/ { print $4 }')"
-  used="$(diskutil info /dev/disk1s1 |  awk '/Volume Used Space/ { print $4 }')"
+  diskinfo="$(diskutil info /dev/disk1s1)"
+  total="$(awk '/Volume Total Space/ { print $4 }' <<<"$diskinfo")"
+  used="$(awk '/Volume Used Space/ { print $4 }' <<<"$diskinfo")"
   percentused="$(printf "%.0f\n" "$(bc -l <<< "( $used / $total) * 100")")"
   storage="$used GB / $total GB Used, $percentused % used"
 
 
-  if [[ "$percentused" -gt 90 ]]; then
+  if [[ "$percentused" -gt $alertpercentage ]]; then
     updateState "${STATE[2]}"
-  elif [[ "$percentused" -lt 70 ]]; then
+  elif [[ "$percentused" -lt $warningpercentage ]]; then
     updateState "${STATE[0]}"
   else
     updateState "${STATE[1]}"

@@ -17,5 +17,14 @@ If
                 <string>com.github.wardsparadox.hello-it.computerdetails.storagespace.sh</string>
                 <key>title</key>
                 <string>storagespace</string>
+                <key>repeat</key>
+                    <string>3600</string>
+                    <key>options</key>
+                    <array>
+                        <string>-a</string>
+                        <string>80</string>
+                        <string>-w</string>
+                        <string>60</string>
+                    </array>
             </dict>
     </dict>
