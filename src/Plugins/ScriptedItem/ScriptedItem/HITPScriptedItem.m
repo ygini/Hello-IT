@@ -135,9 +135,6 @@
                 [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/bash"]
                                 forKey:@"HELLO_IT_SCRIPT_SH_LIBRARY"];
                 
-                [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/python"]
-                                forKey:@"HELLO_IT_SCRIPT_PYTHON_LIBRARY"];
-                
                 NSMutableArray *finalArgs = [NSMutableArray new];
                 
                 [finalArgs addObject:command];
