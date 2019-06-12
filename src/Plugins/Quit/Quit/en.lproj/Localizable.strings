@@ -1,2 +1,2 @@
-﻿/* Status bar menu item allowing user to quit the application */
-"QUIT_SERVICE" = "Quit";
+/* Status bar menu item allowing user to quit the application */
+"QUIT_SERVICE" = "Reload";
