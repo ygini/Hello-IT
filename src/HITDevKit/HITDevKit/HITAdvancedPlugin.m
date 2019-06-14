@@ -22,38 +22,36 @@
 
 - (void)updateMenuItemState {
     dispatch_async(dispatch_get_main_queue(), ^{
-        @autoreleasepool {
-            NSString *notificationMessage = nil;
-            switch (self.testState) {
-                case HITPluginTestStateError:
-                    self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Error"
-                                                                                                                                                          ofType:@"tiff"]];
-                    notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForErrorKey]];
-                    break;
-                case HITPluginTestStateOK:
-                    self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"OK"
-                                                                                                                                                          ofType:@"tiff"]];
-                    notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForOKKey]];
-                    break;
-                case HITPluginTestStateWarning:
-                    self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Warning"
-                                                                                                                                                          ofType:@"tiff"]];
-                    notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForWarningKey]];
-                    break;
-                case HITPluginTestStateUnavailable:
-                    self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Unavailable"
-                                                                                                                                                          ofType:@"tiff"]];
-                    notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForUnavailableKey]];
-                    break;
-                case HITPluginTestStateNone:
-                default:
-                    self.menuItem.image = nil;
-                    notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForNoneKey]];
-                    break;
-            }
-            if (notificationMessage) {
-                [self sendNotificationWithMessage:notificationMessage];
-            }
+        NSString *notificationMessage = nil;
+        switch (self.testState) {
+            case HITPluginTestStateError:
+                self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Error"
+                                                                                                                                                      ofType:@"tiff"]];
+                notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForErrorKey]];
+                break;
+            case HITPluginTestStateOK:
+                self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"OK"
+                                                                                                                                                      ofType:@"tiff"]];
+                notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForOKKey]];
+                break;
+            case HITPluginTestStateWarning:
+                self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Warning"
+                                                                                                                                                      ofType:@"tiff"]];
+                notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForWarningKey]];
+                break;
+            case HITPluginTestStateUnavailable:
+                self.menuItem.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.github.ygini.HITDevKit"] pathForResource:@"Unavailable"
+                                                                                                                                                      ofType:@"tiff"]];
+                notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForUnavailableKey]];
+                break;
+            case HITPluginTestStateNone:
+            default:
+                self.menuItem.image = nil;
+                notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForNoneKey]];
+                break;
+        }
+        if (notificationMessage) {
+            [self sendNotificationWithMessage:notificationMessage];
         }
     });
 }
