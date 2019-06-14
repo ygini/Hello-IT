@@ -27,7 +27,7 @@
 
 #define kHITPADPassAlertXDaysBefore @"alertXDaysBefore"
 
-@interface HITPADPass () <NSUserNotificationCenterDelegate>
+@interface HITPADPass ()
 
 @property NSDate *passwordExpiryDate;
 @property BOOL lastADRequestSucceded;
@@ -47,6 +47,8 @@
 
 @property NSInteger alertXDaysBefore;
 
+@property id<HITPluginsManagerProtocol> pluginsManager;
+
 @end
 
 @implementation HITPADPass
@@ -55,8 +57,6 @@
 {
     self = [super initWithSettings:settings];
     if (self) {
-        [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
-        
         if ([settings.allKeys containsObject:kHITPADPassAlertXDaysBefore]) {
             _alertXDaysBefore = [[settings objectForKey:kHITPADPassAlertXDaysBefore] integerValue];
         } else {
@@ -145,6 +145,7 @@
 - (void)updateTitle {
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
     long daysBeforeExpiry = (long)[components day];
+    if (daysBeforeExpiry < 0) daysBeforeExpiry = 0;
     
     self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
     
@@ -265,15 +266,12 @@
     
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
+    
+    [self.pluginsManager sendNotification:notification from:self];
 }
 
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+- (void)actionFromNotification:(NSUserNotification*)notification {
     [self mainAction:notification];
-    [center removeDeliveredNotification:notification];
-}
-
--(BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(nonnull NSUserNotification *)notification {
-    return YES;
 }
 
 @end

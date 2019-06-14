@@ -66,7 +66,7 @@
                 
             }
         }
-
+        
         NSNumber *timeout = [settings objectForKey:kHITPTestHTTPTimeout];
         if (timeout) {
             _timeout = [timeout integerValue];
@@ -154,7 +154,6 @@
                                            }
                                        }
                                    }];
-            
         });
     }
     else {

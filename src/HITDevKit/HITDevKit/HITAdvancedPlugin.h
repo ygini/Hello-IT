@@ -10,7 +10,17 @@
 
 @interface HITAdvancedPlugin : HITSimplePlugin
 
+#define kHITAdvancedPluginSkipForGlobalStateKey @"skipForGlobalState"
+
+#define kHITNotificationMessageForOKKey @"notificationWhenStateTurnOK"
+#define kHITNotificationMessageForNoneKey @"notificationWhenStateTurnNone"
+#define kHITNotificationMessageForWarningKey @"notificationWhenStateTurnWarning"
+#define kHITNotificationMessageForErrorKey @"notificationWhenStateTurnError"
+#define kHITNotificationMessageForUnavailableKey @"notificationWhenStateTurnUnavailable"
+
 @property (nonatomic) HITPluginTestState testState;
 @property (nonatomic) BOOL skipForGlobalState;
+
+-(void)sendNotificationWithMessage:(NSString*)message;
 
 @end

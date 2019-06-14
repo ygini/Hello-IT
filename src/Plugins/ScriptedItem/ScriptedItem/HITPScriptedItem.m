@@ -42,7 +42,7 @@
     if (self) {
         _network = [[settings objectForKey:kHITPSubCommandNetworkRelated] boolValue];
         _script = [[settings objectForKey:kHITPSubCommandScriptPath] stringByExpandingTildeInPath];
-
+        
         if ([_script length] == 0) {
             _script = [[NSString stringWithFormat:kHITPCustomScriptsPath] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
         }
@@ -122,7 +122,8 @@
 - (void)runScriptWithCommand:(NSString*)command {
     if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
             
@@ -133,9 +134,6 @@
             
             [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/bash"]
                             forKey:@"HELLO_IT_SCRIPT_SH_LIBRARY"];
-            
-            [environment setObject:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"scriptLibraries/python"]
-                            forKey:@"HELLO_IT_SCRIPT_PYTHON_LIBRARY"];
             
             NSMutableArray *finalArgs = [NSMutableArray new];
             
@@ -200,8 +198,7 @@
             } @catch (NSException *exception) {
                 asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
             }
-            
-        });
+        }];
     }
 }
 
@@ -213,7 +210,7 @@
         NSString *key = [[[request substringToIndex:limiterRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
         NSString *value = [[request substringFromIndex:limiterRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         value = [value stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
-
+        
         if ([key isEqualToString:@"hitp-title"]) {
             self.menuItem.title = value;
             
@@ -261,6 +258,9 @@
                 self.menuItem.hidden = NO;
             }
             
+        } else if ([key isEqualToString:@"hitp-notification"]) {
+            [self sendNotificationWithMessage:value];
+            
         } else if ([key isEqualToString:@"hitp-tooltip"]) {
             self.menuItem.toolTip = value;
             
@@ -289,6 +289,10 @@
             asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     });
+}
+
+- (void)actionFromNotification:(NSUserNotification *)notification {
+    [self runScriptWithCommand:@"notification"];
 }
 
 @end

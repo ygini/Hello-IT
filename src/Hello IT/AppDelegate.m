@@ -21,12 +21,11 @@
 #define kMenuItemSettings @"settings"
 #define kMenuItemAllowSubdomains @"allowSubdomains"
 
-@interface AppDelegate ()
+@interface AppDelegate () 
 
 @property (weak) IBOutlet NSWindow *window;
 @property (strong) NSStatusItem *statusItem;
 @property id<HITPluginProtocol> statusMenuManager;
-@property NSMutableArray *pluginInstances;
 @property Reachability *reachability;
 
 @property id notificationObjectForInterfaceTheme;
@@ -41,7 +40,6 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.menuOK = NO;
-    self.pluginInstances = [NSMutableArray new];
     
     asl_add_log_file(NULL, STDERR_FILENO);
     
@@ -327,5 +325,7 @@
         [self updateStatusItem];
     }
 }
+
+
 
 @end

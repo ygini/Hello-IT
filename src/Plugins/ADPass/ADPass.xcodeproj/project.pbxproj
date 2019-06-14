@@ -112,11 +112,12 @@
 			};
 			buildConfigurationList = F83294A01F773076009DA574 /* Build configuration list for PBXProject "ADPass" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				fr,
+				Base,
 			);
 			mainGroup = F832949C1F773076009DA574;
 			productRefGroup = F83294A61F773076009DA574 /* Products */;
