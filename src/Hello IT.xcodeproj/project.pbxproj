@@ -15,7 +15,7 @@
 		E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E17743991B51F2CA00A5B406 /* Title.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40511B529AA20017B4DD /* Quit.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40751B529F470017B4DD /* SubMenu.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E1B2C90B1B593B02005A9936 /* HITDevKit.framework in Copy Frameworks (1 item) */ = {isa = PBXBuildFile; fileRef = E1B2C8F31B59351C005A9936 /* HITDevKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1B2C90B1B593B02005A9936 /* HITDevKit.framework in Copy Frameworks (1 item) */ = {isa = PBXBuildFile; fileRef = E1B2C8F31B59351C005A9936 /* HITDevKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E1D068011B51D08E00567172 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068001B51D08E00567172 /* AppDelegate.m */; };
 		E1D068031B51D08E00567172 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068021B51D08E00567172 /* main.m */; };
 		E1D068051B51D08E00567172 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D068041B51D08E00567172 /* Images.xcassets */; };
