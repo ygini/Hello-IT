@@ -173,8 +173,9 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
 }
 
 -(void)stopAndPrepareForRelease {
-    for (NSObject<HITPluginProtocol> *observablePluginInstance in self.observedSubPluginInstances) {
+    for (NSObject<HITPluginProtocol> *observablePluginInstance in [self.observedSubPluginInstances reverseObjectEnumerator]) {
         [observablePluginInstance removeObserver:self forKeyPath:@"testState"];
+        [self.observedSubPluginInstances removeObject:observablePluginInstance];
     }
     
     for (id<HITPluginProtocol> pluginInstance in self.subPluginInstances) {
