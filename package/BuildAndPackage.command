@@ -35,6 +35,10 @@ function notarizePayloadWithBundleID {
 	NOTARIZATION_PAYLOAD_PATH="$1"
 	NOTARIZATION_BUNDLE_ID="$2"
 	NOTARIZATION_TMP_DIR="$(mktemp -d)"
+	
+	echo "####### Notarize distribution package"
+
+	echo "### Request notarization"
 	xcrun altool --notarize-app --primary-bundle-id "${NOTARIZATION_BUNDLE_ID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" -f "${NOTARIZATION_PAYLOAD_PATH}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
 	
 	if [ $? -ne 0 ]
@@ -54,7 +58,7 @@ function notarizePayloadWithBundleID {
 	fi
 	
 	NOTARIZATION_STATUS="in progress"
-	
+	echo "### Wait for notarization"
 	while [ "${NOTARIZATION_STATUS}" == "in progress" ]
 	do
 		xcrun altool --notarization-info "${NOTARIZATION_UUID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
@@ -69,6 +73,7 @@ function notarizePayloadWithBundleID {
 	
 	if [ "${NOTARIZATION_STATUS}" == "success" ]
 	then
+		echo "### Staple the distribution package"
 		xcrun stapler staple "${NOTARIZATION_PAYLOAD_PATH}"
 	else 
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
