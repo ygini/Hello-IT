@@ -217,6 +217,8 @@ pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTA
 
 productbuild --product "${GIT_ROOT_DIR}/package/requirements.plist" --sign "${DEVELOPER_ID_INSTALLER}" --version "${PKG_VERSION}" --package "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg"
 
+rm "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+
 notarizePayloadWithBundleID "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg" "com.github.ygini.hello-it"
 
 rm -rf "${PKG_ROOT}"
