@@ -71,8 +71,39 @@ function notarizePayloadWithBundleID {
 		fi	
 	done
 	
+	echo ""
+	
+	NOTARIZATION_LOG_URL=$(/usr/libexec/PlistBuddy -c "Print :notarization-info:LogFileURL" "${NOTARIZATION_TMP_DIR}/notarization-info.plist" 2>/dev/null)
+	
+	if [ -z "$(command -v jq)" ]
+	then
+		echo "Notarization logs available here: ${NOTARIZATION_LOG_URL}"
+	else
+		curl "${NOTARIZATION_LOG_URL}" > "${NOTARIZATION_TMP_DIR}/notarization-logs.json"
+		
+		while read issue
+		do
+			NOTARIZATION_LOG_MESSAGE=$(echo "$issue" | jq ".message" )
+			NOTARIZATION_LOG_SEVERITY=$(echo "$issue" | jq ".severity" )
+			NOTARIZATION_LOG_PATH=$(echo "$issue" | jq ".path" )
+			NOTARIZATION_LOG_DOCURL=$(echo "$issue" | jq ".docUrl" )
+			
+			echo "### Issue from notarization log:"
+			echo "Severity: ${NOTARIZATION_LOG_SEVERITY}"
+			echo "About: ${NOTARIZATION_LOG_PATH}"
+			echo ""
+			echo "${NOTARIZATION_LOG_MESSAGE}"
+			echo ""
+			if [ "${NOTARIZATION_LOG_DOCURL}" != "null" ]
+			then
+				echo "You should read ${NOTARIZATION_LOG_DOCURL}"
+			fi
+		done < <(cat "${NOTARIZATION_TMP_DIR}/notarization-logs.json" | jq -c ".issues[]")
+	fi
+
 	if [ "${NOTARIZATION_STATUS}" == "success" ]
 	then
+		cat "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
 		echo "### Staple the distribution package"
 		xcrun stapler staple "${NOTARIZATION_PAYLOAD_PATH}"
 	else 
@@ -80,7 +111,7 @@ function notarizePayloadWithBundleID {
 		exit 3
 	fi
 	
-	#rm -rf "${NOTARIZATION_TMP_DIR}"
+	rm -rf "${NOTARIZATION_TMP_DIR}"
 }
 
 echo "Packaging will use ${DEVELOPER_ID_INSTALLER}"
