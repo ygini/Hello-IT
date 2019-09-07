@@ -38,7 +38,7 @@ function notarizePayloadWithBundleID {
 	
 	echo "####### Notarize distribution package"
 
-	echo "### Request notarization"
+	echo "### Requesting notarization"
 	xcrun altool --notarize-app --primary-bundle-id "${NOTARIZATION_BUNDLE_ID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" -f "${NOTARIZATION_PAYLOAD_PATH}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
 	
 	if [ $? -ne 0 ]
@@ -58,7 +58,7 @@ function notarizePayloadWithBundleID {
 	fi
 	
 	NOTARIZATION_STATUS="in progress"
-	echo "### Wait for notarization"
+	echo "### Wait for notarization to complete"
 	while [ "${NOTARIZATION_STATUS}" == "in progress" ]
 	do
 		xcrun altool --notarization-info "${NOTARIZATION_UUID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
@@ -79,7 +79,7 @@ function notarizePayloadWithBundleID {
 	then
 		echo "Notarization logs available here: ${NOTARIZATION_LOG_URL}"
 	else
-		curl "${NOTARIZATION_LOG_URL}" > "${NOTARIZATION_TMP_DIR}/notarization-logs.json"
+		curl -s "${NOTARIZATION_LOG_URL}" > "${NOTARIZATION_TMP_DIR}/notarization-logs.json"
 		
 		while read issue
 		do
@@ -103,7 +103,6 @@ function notarizePayloadWithBundleID {
 
 	if [ "${NOTARIZATION_STATUS}" == "success" ]
 	then
-		cat "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
 		echo "### Staple the distribution package"
 		xcrun stapler staple "${NOTARIZATION_PAYLOAD_PATH}"
 	else 
