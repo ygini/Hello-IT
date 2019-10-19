@@ -37,37 +37,51 @@ function notarizePayloadWithBundleID {
 	NOTARIZATION_TMP_DIR="$(mktemp -d)"
 	
 	echo "####### Notarize distribution package"
-
+	echo "Working directory in ${NOTARIZATION_TMP_DIR}"
 	echo "### Requesting notarization"
 	xcrun altool --notarize-app --primary-bundle-id "${NOTARIZATION_BUNDLE_ID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" -f "${NOTARIZATION_PAYLOAD_PATH}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
 	
 	if [ $? -ne 0 ]
 	then
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
-		exit 1
+		exit $LINENO
 	fi
 	
 	NOTARIZATION_UUID=$(/usr/libexec/PlistBuddy -c "Print :notarization-upload:RequestUUID" "${NOTARIZATION_TMP_DIR}/notarize-app.plist" 2>/dev/null)
+	
+	echo "Notarization request UUID is ${NOTARIZATION_UUID}"
 	
 	if [ -z "{NOTARIZATION_UUID}" ]
 	then
 		echo "#### NOTARIZATION ERROR ####"
 		echo "No UUID returned"
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
-		exit 2
+		exit $LINENO
 	fi
 	
 	NOTARIZATION_STATUS="in progress"
 	echo "### Wait for notarization to complete"
-	while [ "${NOTARIZATION_STATUS}" == "in progress" ]
+	sleep 10
+	while [ "${NOTARIZATION_STATUS}" != "success" ]
 	do
 		xcrun altool --notarization-info "${NOTARIZATION_UUID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
 		NOTARIZATION_STATUS=$(/usr/libexec/PlistBuddy -c "Print :notarization-info:Status" "${NOTARIZATION_TMP_DIR}/notarization-info.plist" 2>/dev/null)
 		
+		echo "Current notarization status: '${NOTARIZATION_STATUS}'"
+		
 		if [ "${NOTARIZATION_STATUS}" == "in progress" ]
 		then
-				echo -n "."
-				sleep 5
+			sleep 10
+		elif [ "${NOTARIZATION_STATUS}" == "" ]
+		then
+			echo "No status found for request ${NOTARIZATION_UUID}"
+			$(/usr/libexec/PlistBuddy -c "Print :product-errors:$i:message" "${NOTARIZATION_TMP_DIR}/notarization-info.plist" 2>/dev/null)
+			echo "Some delay in the API processing may exist"
+			sleep 20
+		elif [ "${NOTARIZATION_STATUS}" != "success" ]
+		then
+			showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
+			exit $LINENO
 		fi	
 	done
 	
@@ -107,7 +121,7 @@ function notarizePayloadWithBundleID {
 		xcrun stapler staple "${NOTARIZATION_PAYLOAD_PATH}"
 	else 
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
-		exit 3
+		exit $LINENO
 	fi
 	
 	rm -rf "${NOTARIZATION_TMP_DIR}"
@@ -145,7 +159,7 @@ then
 		echo "is some uncommited change to the repo."
 		echo "Please, commit and try again or use"
 		echo "a development branch."
-		exit 1
+		exit $LINENO
 	fi
 fi
 
