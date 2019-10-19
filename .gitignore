@@ -18,6 +18,10 @@ DerivedData
 *.xcuserstate
 *.pkg
 
+# macOS
+#
+.DS_Store
+
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However

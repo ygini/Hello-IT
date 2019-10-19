@@ -15,7 +15,7 @@
 		E177439D1B51F38400A5B406 /* Title.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E17743991B51F2CA00A5B406 /* Title.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1AF405C1B529B680017B4DD /* Quit.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40511B529AA20017B4DD /* Quit.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1AF407B1B52A6030017B4DD /* SubMenu.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = E1AF40751B529F470017B4DD /* SubMenu.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E1B2C90B1B593B02005A9936 /* HITDevKit.framework in Copy Frameworks (1 item) */ = {isa = PBXBuildFile; fileRef = E1B2C8F31B59351C005A9936 /* HITDevKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1B2C90B1B593B02005A9936 /* HITDevKit.framework in Copy Frameworks (1 item) */ = {isa = PBXBuildFile; fileRef = E1B2C8F31B59351C005A9936 /* HITDevKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E1D068011B51D08E00567172 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068001B51D08E00567172 /* AppDelegate.m */; };
 		E1D068031B51D08E00567172 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068021B51D08E00567172 /* main.m */; };
 		E1D068051B51D08E00567172 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D068041B51D08E00567172 /* Images.xcassets */; };
@@ -306,6 +306,7 @@
 		F89B593A1DA7DC350028D75F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		F8B315891FA6BB1400839784 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CachetHQ.xcodeproj; path = CachetHQ/CachetHQ.xcodeproj; sourceTree = "<group>"; };
+		F8ECE1732323970E00C17247 /* Hello IT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Hello IT.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +440,7 @@
 		E1D067FC1B51D08E00567172 /* Hello IT */ = {
 			isa = PBXGroup;
 			children = (
+				F8ECE1732323970E00C17247 /* Hello IT.entitlements */,
 				F89B59391DA7DC350028D75F /* Reachability.h */,
 				F89B593A1DA7DC350028D75F /* Reachability.m */,
 				F86928FA1CA28B8800AB8E4C /* statusbar */,
@@ -588,6 +590,11 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+						};
 					};
 					E1D0680C1B51D08F00567172 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1015,13 +1022,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Hello IT/Hello IT.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = CRXPBZF3N4;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Hello IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1032,13 +1041,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Hello IT/Hello IT.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = CRXPBZF3N4;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Hello IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

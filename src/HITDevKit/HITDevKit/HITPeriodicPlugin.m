@@ -46,6 +46,7 @@
 
 - (void)stopAndPrepareForRelease {
     [_cron invalidate];
+    _cron = nil;
     [super stopAndPrepareForRelease];
 }
 
