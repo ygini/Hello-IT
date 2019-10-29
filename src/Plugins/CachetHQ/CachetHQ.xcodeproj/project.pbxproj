@@ -99,6 +99,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F811AD342149A07E00BD15AD /* Build configuration list for PBXNativeTarget "CachetHQIncidents" */;
 			buildPhases = (
+				F89A035A2368A5E00059281B /* GitVersion */,
 				F811AD2B2149A07E00BD15AD /* Sources */,
 				F811AD2C2149A07E00BD15AD /* Frameworks */,
 				F811AD2D2149A07E00BD15AD /* Resources */,
@@ -181,6 +182,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F89A035A2368A5E00059281B /* GitVersion */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = GitVersion;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F811AD2B2149A07E00BD15AD /* Sources */ = {
