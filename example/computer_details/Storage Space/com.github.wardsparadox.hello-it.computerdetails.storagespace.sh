@@ -10,10 +10,20 @@ function fromCronAction {
 }
 
 function setTitleAction {
-  total="$(diskutil info /dev/disk1s1 |  awk '/Volume Total Space/ { print $4 }')"
-  used="$(diskutil info /dev/disk1s1 |  awk '/Volume Used Space/ { print $4 }')"
-  percentused="$(printf "%.0f\n" "$(bc -l <<< "( $used / $total) * 100")")"
-  storage="$used GB / $total GB Used, $percentused % used"
+  darwin_vers=$(echo $OSTYPE | cut -d . -f 1 | sed 's/[^0-9]*//g')
+  
+  if [[ "$darwin_vers" -gt 18 ]]; then
+    total="$(diskutil info / |  awk '/Container Total Space/ { print $4 }')"
+    free="$(diskutil info / |  awk '/Container Free Space/ { print $4 }')"
+    used=$(echo $total - $free | bc)
+    percentused="$(printf "%.0f\n" "$(bc -l <<< "( $used / $total) * 100")")"
+    storage="$used GB / $total GB Used, $percentused % used"
+  else
+    storage="$(df -H / | grep "/" | awk '{print $3" / "$2 " Used,",$5 " used"}')"
+    total="$(df / | grep "/" | awk '{print $2}' | sed 's/G//')"
+    used="$(df / | grep "/" | awk '{print $3}' | sed 's/G//')"
+    percentused="$(printf "%.0f\n" "$(bc -l <<< "( $used / $total) * 100")")"
+  fi
 
 
   if [[ "$percentused" -gt 90 ]]; then
