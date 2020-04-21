@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		F89A03562368A53C0059281B /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89A03552368A53C0059281B /* HITDevKit.framework */; };
+		F89A035E2368A69D0059281B /* HITPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F89A035D2368A69D0059281B /* HITPCommand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F89A03432368A51C0059281B /* Command.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Command.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89A03462368A51C0059281B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F89A03552368A53C0059281B /* HITDevKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HITDevKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F89A035C2368A69D0059281B /* HITPCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HITPCommand.h; sourceTree = "<group>"; };
+		F89A035D2368A69D0059281B /* HITPCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HITPCommand.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +52,8 @@
 			isa = PBXGroup;
 			children = (
 				F89A03462368A51C0059281B /* Info.plist */,
+				F89A035C2368A69D0059281B /* HITPCommand.h */,
+				F89A035D2368A69D0059281B /* HITPCommand.m */,
 			);
 			path = Command;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F89A035E2368A69D0059281B /* HITPCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
