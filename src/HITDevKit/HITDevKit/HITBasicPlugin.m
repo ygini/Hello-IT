@@ -8,7 +8,7 @@
 
 #import "HITBasicPlugin.h"
 
-#define kHITPPptionalDisplay @"optionalDisplay"
+#define kHITPOptionalDisplay @"optionalDisplay"
 
 @interface HITBasicPlugin () {
     NSMenuItem *_menuItem;
@@ -33,7 +33,7 @@
         _allowedToRun = YES;
         _settings = settings;
         
-        _optionalDisplay = [[settings objectForKey:kHITPPptionalDisplay] boolValue];
+        _optionalDisplay = [[settings objectForKey:kHITPOptionalDisplay] boolValue];
     }
     return self;
 }
