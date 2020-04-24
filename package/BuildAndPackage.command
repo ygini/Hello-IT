@@ -3,7 +3,9 @@
 CONFIGURATION="Release"
 
 DEFAULT_DEVELOPER_ID_INSTALLER="Developer ID Installer: Yoann GINI (CRXPBZF3N4)"
+DEFAULT_DEVELOPER_ID_APP="Developer ID Application: Yoann GINI (CRXPBZF3N4)"
 DEVELOPER_ID_INSTALLER=${CUSTOM_DEVELOPER_ID_INSTALLER:-${DEFAULT_DEVELOPER_ID_INSTALLER}}
+DEVELOPER_ID_APP=${CUSTOM_DEVELOPER_ID_APP:-${DEFAULT_DEVELOPER_ID_APP}}
 
 NOTARIZATION_DEFAULT_DEVELOPER_ID_LOGIN="yoann.gini@gmail.com"
 NOTARIZATION_DEVELOPER_ID_LOGIN=${NOTARIZATION_CUSTOM_DEVELOPER_ID_LOGIN:-${NOTARIZATION_DEFAULT_DEVELOPER_ID_LOGIN}}
@@ -171,6 +173,12 @@ RELEASE_DSYM_LOCATION="${RELEASE_LOCATION}/dSYM"
 
 PKG_ROOT="$(mktemp -d)"
 
+if [[ -d "${RELEASE_LOCATION}" ]]
+then
+	echo "Previous build found, cleaning all related files"
+	rm -rf "${RELEASE_LOCATION}"
+fi
+
 mkdir -p "${BUILT_PRODUCTS_DIR}/dSYM"
 mkdir -p "${BUILT_PRODUCTS_DIR}/Products"
 mkdir -p "${RELEASE_PRODUCT_LOCATION}"
@@ -186,25 +194,32 @@ echo "### Start building Hello IT"
 
 xcodebuild -UseModernBuildSystem=NO -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM" OTHER_CODE_SIGN_FLAGS="--timestamp"
 
-cp -r "${BUILT_PRODUCTS_DIR}/Products/Hello IT.app" "${RELEASE_PRODUCT_LOCATION}"
+if [[ $? != 0 ]]; then
+    echo "Building failed"
+    exit 1
+fi
+
+cp -a "${BUILT_PRODUCTS_DIR}/Products/Hello IT.app" "${RELEASE_PRODUCT_LOCATION}"
+
+codesign --deep --force --verbose --timestamp --options runtime --sign "${DEVELOPER_ID_APP}" "${RELEASE_PRODUCT_LOCATION}/Hello IT.app"
 
 echo ""
 echo ""
 
 
-cp -r "${BUILT_PRODUCTS_DIR}/dSYM" "${RELEASE_DSYM_LOCATION}"
+cp -a "${BUILT_PRODUCTS_DIR}/dSYM" "${RELEASE_DSYM_LOCATION}"
 
 echo "####### Create package from build"
 
 mkdir -p "${PKG_ROOT}//Applications/Utilities"
-cp -r "${RELEASE_PRODUCT_LOCATION}/Hello IT.app" "${PKG_ROOT}/Applications/Utilities"
+cp -a "${RELEASE_PRODUCT_LOCATION}/Hello IT.app" "${PKG_ROOT}/Applications/Utilities"
 
 mkdir -p "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it/CustomImageForItem"
 mkdir -p "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"
-cp -r "${PROJECT_DIR}/Plugins/ScriptedItem/CustomScripts" "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it"
+cp -a "${PROJECT_DIR}/Plugins/ScriptedItem/CustomScripts" "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it"
 
 mkdir -p "${PKG_ROOT}/Library/LaunchAgents"
-cp -r "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${PKG_ROOT}/Library/LaunchAgents"
+cp -a "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${PKG_ROOT}/Library/LaunchAgents"
 
 #sudo chown -R root:wheel "${PKG_ROOT}"
 
@@ -216,6 +231,11 @@ pkgbuild --analyze --root "${PKG_ROOT}" "${PBK_BUILD_COMPONENT}"
 pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
 productbuild --product "${GIT_ROOT_DIR}/package/requirements.plist" --sign "${DEVELOPER_ID_INSTALLER}" --version "${PKG_VERSION}" --package "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg"
+
+if [[ $? != 0 ]]; then
+    echo "Package creation failed"
+    exit 1
+fi
 
 rm "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
