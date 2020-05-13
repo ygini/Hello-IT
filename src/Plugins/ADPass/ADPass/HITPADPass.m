@@ -132,118 +132,121 @@
 }
 
 - (void)periodicAction:(NSTimer *)timer {
-    [self getPasswordExpiryDate];
+    [self backgroundFetchPasswordExpiryDate];
+}
+
+- (void)updateTitle {
     if (self.passwordExpiryDate) {
         self.menuItem.hidden = NO;
-        [self updateTitle];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
+        long daysBeforeExpiry = (long)[components day];
+        if (daysBeforeExpiry < 0) daysBeforeExpiry = 0;
+        
+        self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
+        
+        if (self.lastADRequestSucceded) {
+            self.menuItem.target = self;
+            self.menuItem.toolTip = self.tooltip;
+        } else {
+            self.menuItem.target = nil;
+            self.menuItem.toolTip = self.offlineTooltip;
+        }
+        
+        if (daysBeforeExpiry <= self.alertXDaysBefore) {
+            NSDate *dateOfLastNotification = [[NSUserDefaults standardUserDefaults] objectForKey:kHITPADPassLastNotifKey];
+            
+            BOOL notifNeeded = NO;
+            
+            if (dateOfLastNotification) {
+                NSDateComponents *previousNotifComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:dateOfLastNotification toDate:self.passwordExpiryDate options:0];
+                notifNeeded = [previousNotifComponents day] != daysBeforeExpiry;
+            } else {
+                notifNeeded = YES;
+            }
+            
+            NSDateComponents* components = [[NSCalendar  currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
+            
+            if (components.hour >= 10 && notifNeeded) {
+                [self sendUserNotification];
+            }
+        }
     } else {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "No AD Password expiry date found, hidding menu item.");
         self.menuItem.hidden = YES;
     }
 }
 
-- (void)updateTitle {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date] toDate:self.passwordExpiryDate options:0];
-    long daysBeforeExpiry = (long)[components day];
-    if (daysBeforeExpiry < 0) daysBeforeExpiry = 0;
-    
-    self.menuItem.title = [NSString stringWithFormat:self.willExpireFormat, daysBeforeExpiry];
-    
-    if (self.lastADRequestSucceded) {
-        self.menuItem.target = self;
-        self.menuItem.toolTip = self.tooltip;
-    } else {
-        self.menuItem.target = nil;
-        self.menuItem.toolTip = self.offlineTooltip;
-    }
+- (void)backgroundFetchPasswordExpiryDate {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0) , ^{
+        NSError *error = nil;
         
-    if (daysBeforeExpiry <= self.alertXDaysBefore) {
-        NSDate *dateOfLastNotification = [[NSUserDefaults standardUserDefaults] objectForKey:kHITPADPassLastNotifKey];
+        ODSession *searchSession = [ODSession sessionWithOptions:nil error:&error];
         
-        BOOL notifNeeded = NO;
+        ODNode *searchNode = [ODNode nodeWithSession:searchSession
+                                                type:kODNodeTypeAuthentication
+                                               error:&error];
         
-        if (dateOfLastNotification) {
-            NSDateComponents *previousNotifComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:dateOfLastNotification toDate:self.passwordExpiryDate options:0];
-            notifNeeded = [previousNotifComponents day] != daysBeforeExpiry;
-        } else {
-            notifNeeded = YES;
+        ODQuery *recordQuery = [ODQuery  queryWithNode:searchNode
+                                        forRecordTypes:kODRecordTypeUsers
+                                             attribute:kODAttributeTypeRecordName
+                                             matchType:kODMatchEqualTo
+                                           queryValues:NSUserName()
+                                      returnAttributes:kHITPADPassExpiryTimeField
+                                        maximumResults:0
+                                                 error:&error];
+        
+        NSArray *records = [recordQuery resultsAllowingPartial:NO error:&error];
+        NSNumber *expiryTime = nil;
+        for (ODRecord *record in records) {
+            NSArray *values = [record valuesForAttribute:kHITPADPassExpiryTimeField error:&error];
+            expiryTime = [values lastObject];
+            
+            if (expiryTime) {
+                break;
+            }
         }
         
-        NSDateComponents* components = [[NSCalendar  currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
-        
-        if (components.hour >= 10 && notifNeeded) {
-            [self sendUserNotification];
-        }
-    }
-}
-
-- (void)getPasswordExpiryDate {
-    NSError *error = nil;
-    
-    ODSession *searchSession = [ODSession sessionWithOptions:nil error:&error];
-    
-    ODNode *searchNode = [ODNode nodeWithSession:searchSession
-                                            type:kODNodeTypeAuthentication
-                                           error:&error];
-    
-    ODQuery *recordQuery = [ODQuery  queryWithNode:searchNode
-                                    forRecordTypes:kODRecordTypeUsers
-                                         attribute:kODAttributeTypeRecordName
-                                         matchType:kODMatchEqualTo
-                                       queryValues:NSUserName()
-                                  returnAttributes:kHITPADPassExpiryTimeField
-                                    maximumResults:0
-                                             error:&error];
-    
-    NSArray *records = [recordQuery resultsAllowingPartial:NO error:&error];
-    NSNumber *expiryTime = nil;
-    for (ODRecord *record in records) {
-        NSArray *values = [record valuesForAttribute:kHITPADPassExpiryTimeField error:&error];
-        expiryTime = [values lastObject];
-        
+        // Thank you Microsoft to use Jan 1, 1601 at 00:00 UTC as reference date…
         if (expiryTime) {
-            break;
-        }
-    }
-    
-    // Thank you Microsoft to use Jan 1, 1601 at 00:00 UTC as reference date…
-    if (expiryTime) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date requested with success.");
-        
-        if ([expiryTime integerValue] == 0x7FFFFFFFFFFFFFFF) {
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date is mean no expiry.");
-            self.passwordExpiryDate = nil;
-            self.lastADRequestSucceded = YES;
-            [[NSUserDefaults standardUserDefaults] setInteger:-1 forKey:kHITPADPassExpiryTimeKey];
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date requested with success.");
+            
+            if ([expiryTime integerValue] == 0x7FFFFFFFFFFFFFFF) {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date is mean no expiry.");
+                self.passwordExpiryDate = nil;
+                self.lastADRequestSucceded = YES;
+                [[NSUserDefaults standardUserDefaults] setInteger:-1 forKey:kHITPADPassExpiryTimeKey];
+            } else {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date is a valid date.");
+                
+                NSDateComponents *adRefenreceDateComponents = [[NSDateComponents alloc] init];
+                [adRefenreceDateComponents setDay:1];
+                [adRefenreceDateComponents setMonth:1];
+                [adRefenreceDateComponents setYear:1601];
+                [adRefenreceDateComponents setEra:1];
+                
+                NSDate *adRefenreceDate = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierISO8601] dateFromComponents:adRefenreceDateComponents];
+                NSTimeInterval expiryTimeInterval = [expiryTime integerValue] / 10000000.0;
+                
+                
+                self.passwordExpiryDate = [NSDate dateWithTimeInterval:expiryTimeInterval sinceDate:adRefenreceDate];
+                self.lastADRequestSucceded = YES;
+                
+                [[NSUserDefaults standardUserDefaults] setInteger:[self.passwordExpiryDate timeIntervalSince1970] forKey:kHITPADPassExpiryTimeKey];
+            }
         } else {
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "AD Password expiry date is a valid date.");
-
-            NSDateComponents *adRefenreceDateComponents = [[NSDateComponents alloc] init];
-            [adRefenreceDateComponents setDay:1];
-            [adRefenreceDateComponents setMonth:1];
-            [adRefenreceDateComponents setYear:1601];
-            [adRefenreceDateComponents setEra:1];
-            
-            NSDate *adRefenreceDate = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierISO8601] dateFromComponents:adRefenreceDateComponents];
-            NSTimeInterval expiryTimeInterval = [expiryTime integerValue] / 10000000.0;
-            
-            
-            self.passwordExpiryDate = [NSDate dateWithTimeInterval:expiryTimeInterval sinceDate:adRefenreceDate];
-            self.lastADRequestSucceded = YES;
-            
-            [[NSUserDefaults standardUserDefaults] setInteger:[self.passwordExpiryDate timeIntervalSince1970] forKey:kHITPADPassExpiryTimeKey];
+            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Unable to reach AD, working with old expiry date for AD Password.");
+            NSInteger expirySince1970 = [[NSUserDefaults standardUserDefaults] integerForKey:kHITPADPassExpiryTimeKey];
+            if (expirySince1970 == -1) {
+                self.passwordExpiryDate = nil;
+            } else {
+                self.passwordExpiryDate = expirySince1970 > 0 ? [NSDate dateWithTimeIntervalSince1970:expirySince1970] : nil;
+            }
+            self.lastADRequestSucceded = NO;
         }
-    } else {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Unable to reach AD, working with old expiry date for AD Password.");
-        NSInteger expirySince1970 = [[NSUserDefaults standardUserDefaults] integerForKey:kHITPADPassExpiryTimeKey];
-        if (expirySince1970 == -1) {
-            self.passwordExpiryDate = nil;
-        } else {
-            self.passwordExpiryDate = expirySince1970 > 0 ? [NSDate dateWithTimeIntervalSince1970:expirySince1970] : nil;
-        }
-        self.lastADRequestSucceded = NO;
-        
-    }
+        dispatch_async(dispatch_get_main_queue() , ^{
+            [self updateTitle];
+        });
+    });
 }
 
 - (void)sendUserNotification {
