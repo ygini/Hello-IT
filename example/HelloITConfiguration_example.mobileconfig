@@ -87,7 +87,7 @@
                               <string>com.github.ygini.hello-it.computerdetails.storagespace.sh</string>
                               <key>title</key>
                               <string>storagespace</string>
-                              <key>periodic-run</key>
+                              <key>repeat</key>
                               <integer>3600</integer>
                             </dict>
                           </dict>
@@ -146,8 +146,6 @@
                               <string>com.github.ygini.hello-it.ip.sh</string>
                               <key>repeat</key>
                               <integer>60</integer>
-                              <key>periodic-run</key>
-                              <integer>60</integer>
                             </dict>
                           </dict>
                           <dict>
@@ -167,8 +165,6 @@
                               <key>script</key>
                               <string>com.github.ygini.hello-it.networkdetails.macaddress.sh</string>
                               <key>repeat</key>
-                              <integer>60</integer>
-                              <key>periodic-run</key>
                               <integer>60</integer>
                             </dict>
                           </dict>
@@ -204,7 +200,7 @@
                             <dict>
                               <key>script</key>
                               <string>com.github.ygini.hello-it.munki.pendingmscupdates.sh</string>
-                              <key>periodic-run</key>
+                              <key>repeat</key>
                               <integer>360</integer>
                               <key>title</key>
                               <string>pendingupdatescount</string>

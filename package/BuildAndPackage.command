@@ -3,7 +3,9 @@
 CONFIGURATION="Release"
 
 DEFAULT_DEVELOPER_ID_INSTALLER="Developer ID Installer: Yoann GINI (CRXPBZF3N4)"
+DEFAULT_DEVELOPER_ID_APP="Developer ID Application: Yoann GINI (CRXPBZF3N4)"
 DEVELOPER_ID_INSTALLER=${CUSTOM_DEVELOPER_ID_INSTALLER:-${DEFAULT_DEVELOPER_ID_INSTALLER}}
+DEVELOPER_ID_APP=${CUSTOM_DEVELOPER_ID_APP:-${DEFAULT_DEVELOPER_ID_APP}}
 
 NOTARIZATION_DEFAULT_DEVELOPER_ID_LOGIN="yoann.gini@gmail.com"
 NOTARIZATION_DEVELOPER_ID_LOGIN=${NOTARIZATION_CUSTOM_DEVELOPER_ID_LOGIN:-${NOTARIZATION_DEFAULT_DEVELOPER_ID_LOGIN}}
@@ -37,37 +39,51 @@ function notarizePayloadWithBundleID {
 	NOTARIZATION_TMP_DIR="$(mktemp -d)"
 	
 	echo "####### Notarize distribution package"
-
+	echo "Working directory in ${NOTARIZATION_TMP_DIR}"
 	echo "### Requesting notarization"
 	xcrun altool --notarize-app --primary-bundle-id "${NOTARIZATION_BUNDLE_ID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" -f "${NOTARIZATION_PAYLOAD_PATH}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
 	
 	if [ $? -ne 0 ]
 	then
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
-		exit 1
+		exit $LINENO
 	fi
 	
 	NOTARIZATION_UUID=$(/usr/libexec/PlistBuddy -c "Print :notarization-upload:RequestUUID" "${NOTARIZATION_TMP_DIR}/notarize-app.plist" 2>/dev/null)
+	
+	echo "Notarization request UUID is ${NOTARIZATION_UUID}"
 	
 	if [ -z "{NOTARIZATION_UUID}" ]
 	then
 		echo "#### NOTARIZATION ERROR ####"
 		echo "No UUID returned"
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarize-app.plist"
-		exit 2
+		exit $LINENO
 	fi
 	
 	NOTARIZATION_STATUS="in progress"
 	echo "### Wait for notarization to complete"
-	while [ "${NOTARIZATION_STATUS}" == "in progress" ]
+	sleep 10
+	while [ "${NOTARIZATION_STATUS}" != "success" ]
 	do
 		xcrun altool --notarization-info "${NOTARIZATION_UUID}" -u "${NOTARIZATION_DEVELOPER_ID_LOGIN}" -p "${NOTARIZATION_DEVELOPER_ID_PASSWORD}" --output-format xml > "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
 		NOTARIZATION_STATUS=$(/usr/libexec/PlistBuddy -c "Print :notarization-info:Status" "${NOTARIZATION_TMP_DIR}/notarization-info.plist" 2>/dev/null)
 		
+		echo "Current notarization status: '${NOTARIZATION_STATUS}'"
+		
 		if [ "${NOTARIZATION_STATUS}" == "in progress" ]
 		then
-				echo -n "."
-				sleep 5
+			sleep 10
+		elif [ "${NOTARIZATION_STATUS}" == "" ]
+		then
+			echo "No status found for request ${NOTARIZATION_UUID}"
+			$(/usr/libexec/PlistBuddy -c "Print :product-errors:$i:message" "${NOTARIZATION_TMP_DIR}/notarization-info.plist" 2>/dev/null)
+			echo "Some delay in the API processing may exist"
+			sleep 20
+		elif [ "${NOTARIZATION_STATUS}" != "success" ]
+		then
+			showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
+			exit $LINENO
 		fi	
 	done
 	
@@ -107,7 +123,7 @@ function notarizePayloadWithBundleID {
 		xcrun stapler staple "${NOTARIZATION_PAYLOAD_PATH}"
 	else 
 		showNotarizationErrors "${NOTARIZATION_TMP_DIR}/notarization-info.plist"
-		exit 3
+		exit $LINENO
 	fi
 	
 	rm -rf "${NOTARIZATION_TMP_DIR}"
@@ -145,7 +161,7 @@ then
 		echo "is some uncommited change to the repo."
 		echo "Please, commit and try again or use"
 		echo "a development branch."
-		exit 1
+		exit $LINENO
 	fi
 fi
 
@@ -171,6 +187,12 @@ RELEASE_DSYM_LOCATION="${RELEASE_LOCATION}/dSYM"
 
 PKG_ROOT="$(mktemp -d)"
 
+if [[ -d "${RELEASE_LOCATION}" ]]
+then
+	echo "Previous build found, cleaning all related files"
+	rm -rf "${RELEASE_LOCATION}"
+fi
+
 mkdir -p "${BUILT_PRODUCTS_DIR}/dSYM"
 mkdir -p "${BUILT_PRODUCTS_DIR}/Products"
 mkdir -p "${RELEASE_PRODUCT_LOCATION}"
@@ -186,25 +208,32 @@ echo "### Start building Hello IT"
 
 xcodebuild -UseModernBuildSystem=NO -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM" OTHER_CODE_SIGN_FLAGS="--timestamp"
 
-cp -r "${BUILT_PRODUCTS_DIR}/Products/Hello IT.app" "${RELEASE_PRODUCT_LOCATION}"
+if [[ $? != 0 ]]; then
+    echo "Building failed"
+    exit 1
+fi
+
+cp -a "${BUILT_PRODUCTS_DIR}/Products/Hello IT.app" "${RELEASE_PRODUCT_LOCATION}"
+
+codesign --deep --force --verbose --timestamp --options runtime --sign "${DEVELOPER_ID_APP}" "${RELEASE_PRODUCT_LOCATION}/Hello IT.app"
 
 echo ""
 echo ""
 
 
-cp -r "${BUILT_PRODUCTS_DIR}/dSYM" "${RELEASE_DSYM_LOCATION}"
+cp -a "${BUILT_PRODUCTS_DIR}/dSYM" "${RELEASE_DSYM_LOCATION}"
 
 echo "####### Create package from build"
 
 mkdir -p "${PKG_ROOT}//Applications/Utilities"
-cp -r "${RELEASE_PRODUCT_LOCATION}/Hello IT.app" "${PKG_ROOT}/Applications/Utilities"
+cp -a "${RELEASE_PRODUCT_LOCATION}/Hello IT.app" "${PKG_ROOT}/Applications/Utilities"
 
 mkdir -p "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it/CustomImageForItem"
 mkdir -p "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"
-cp -r "${PROJECT_DIR}/Plugins/ScriptedItem/CustomScripts" "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it"
+cp -a "${PROJECT_DIR}/Plugins/ScriptedItem/CustomScripts" "${PKG_ROOT}/Library/Application Support/com.github.ygini.hello-it"
 
 mkdir -p "${PKG_ROOT}/Library/LaunchAgents"
-cp -r "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${PKG_ROOT}/Library/LaunchAgents"
+cp -a "${GIT_ROOT_DIR}/package/LaunchAgents/com.github.ygini.hello-it.plist" "${PKG_ROOT}/Library/LaunchAgents"
 
 #sudo chown -R root:wheel "${PKG_ROOT}"
 
@@ -216,6 +245,11 @@ pkgbuild --analyze --root "${PKG_ROOT}" "${PBK_BUILD_COMPONENT}"
 pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
 productbuild --product "${GIT_ROOT_DIR}/package/requirements.plist" --sign "${DEVELOPER_ID_INSTALLER}" --version "${PKG_VERSION}" --package "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg"
+
+if [[ $? != 0 ]]; then
+    echo "Package creation failed"
+    exit 1
+fi
 
 rm "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
 
