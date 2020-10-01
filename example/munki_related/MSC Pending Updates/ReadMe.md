@@ -13,7 +13,7 @@ Provides user feedback as to how many Managed Software Center updates are availa
       <dict>
         <key>script</key>
         <string>com.github.wardsparadox.hello-it.munki.pendingmscupdates.sh</string>
-        <key>periodic-run</key>
+        <key>repeat</key>
         <integer>360</integer>
         <key>title</key>
         <string>pendingupdatescount</string>

@@ -81,6 +81,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F83294AB1F773076009DA574 /* Build configuration list for PBXNativeTarget "ADPass" */;
 			buildPhases = (
+				F89A03592368A5CF0059281B /* GitVersion */,
 				F83294A11F773076009DA574 /* Sources */,
 				F83294A21F773076009DA574 /* Frameworks */,
 				F83294A31F773076009DA574 /* Resources */,
@@ -139,6 +140,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F89A03592368A5CF0059281B /* GitVersion */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = GitVersion;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F83294A11F773076009DA574 /* Sources */ = {

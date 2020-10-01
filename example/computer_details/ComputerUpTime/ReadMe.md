@@ -18,7 +18,7 @@ Click to show a prompt to restart.
             <string>com.github.wardsparadox.hello-it.computerdetails.uptime.sh</string>
             <key>title</key>
             <string>uptime</string>
-            <key>periodic-run</key>
+            <key>repeat</key>
             <integer>3600</integer>
         </dict>
 </dict>

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,18 +13,16 @@
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>367</string>
 	<key>HITPFunctionIdentifier</key>
-	<string>public.quit</string>
+	<string>public.command</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2015 Yoann Gini (Open Source Project). All rights reserved.</string>
+	<string>Copyright © 2019 Yoann Gini (Open Source Project). All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>HITPQuit</string>
+	<string>HITPCommand</string>
 </dict>
 </plist>

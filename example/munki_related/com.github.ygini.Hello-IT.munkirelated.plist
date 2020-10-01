@@ -28,7 +28,7 @@
           <dict>
             <key>script</key>
             <string>com.github.wardsparadox.hello-it.munki.pendingmscupdates.sh</string>
-            <key>periodic-run</key>
+            <key>repeat</key>
             <integer>360</integer>
             <key>title</key>
             <string>pendingupdatescount</string>

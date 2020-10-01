@@ -258,6 +258,15 @@
                 self.menuItem.hidden = NO;
             }
             
+        } else if ([key isEqualToString:@"hitp-open"]) {
+            NSURL * valueURL = [NSURL URLWithString:value];
+            
+            if (valueURL) {
+                [[NSWorkspace sharedWorkspace] openURL:valueURL];
+            } else {
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Unable to decode this as an URL conforms to RFCs 2396, 1738 and 1808.: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            }
+            
         } else if ([key isEqualToString:@"hitp-notification"]) {
             [self sendNotificationWithMessage:value];
             
