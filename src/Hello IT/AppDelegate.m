@@ -118,6 +118,9 @@
                                                                                                        usingBlock:^(NSNotification * _Nonnull note) {
                                                                                                            [self updateStatusItem];
                                                                                             }];
+    
+    [self.statusItem addObserver:self forKeyPath:@"button.effectiveAppearance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -225,7 +228,6 @@
         self.statusItem.image = icon;
     } else {
         NSColor *textColor = nil;
-        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
 
         switch (statusMenuState) {
             case HITPluginTestStateError:
@@ -238,7 +240,7 @@
                 textColor = [NSColor orangeColor];
                 break;
             default:
-                if ([osxMode isEqualToString:@"Dark"]) {
+                if ([self.statusItem.button.effectiveAppearance.name.lowercaseString containsString:@"dark"]) {
                     textColor = [NSColor whiteColor];
                 } else {
                     textColor = [NSColor blackColor];
@@ -331,6 +333,8 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"testState"]) {
+        [self updateStatusItem];
+    } else if([keyPath isEqualToString:@"button.effectiveAppearance"]){
         [self updateStatusItem];
     }
 }
