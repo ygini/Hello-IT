@@ -24,6 +24,8 @@
 		E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D0681E1B51D4B500567172 /* HITPluginsManager.m */; };
 		F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F83294B31F773078009DA574 /* ADPass.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F84238FF20C8748200FB5410 /* CachetHQComponent.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F88869FD262CC1770039DE6C /* Hello-IT.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */; };
+		F88869FE262CC1770039DE6C /* Hello-IT.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */; };
 		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 		F8F07637244EEFA200E3DF7B /* Command.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F89A03522368A51D0059281B /* Command.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -278,6 +280,7 @@
 		E1D0681D1B51D4B500567172 /* HITPluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginsManager.h; sourceTree = "<group>"; };
 		E1D0681E1B51D4B500567172 /* HITPluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPluginsManager.m; sourceTree = "<group>"; };
 		F83294AE1F773076009DA574 /* ADPass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ADPass.xcodeproj; path = ADPass/ADPass.xcodeproj; sourceTree = "<group>"; };
+		F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Hello-IT.xcconfig"; sourceTree = "<group>"; };
 		F89A034C2368A51C0059281B /* Command.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Command.xcodeproj; path = Command/Command.xcodeproj; sourceTree = "<group>"; };
 		F89B59391DA7DC350028D75F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		F89B593A1DA7DC350028D75F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -398,6 +401,7 @@
 		E1D067F11B51D08E00567172 = {
 			isa = PBXGroup;
 			children = (
+				F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */,
 				E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */,
 				E17743301B51E6E600A5B406 /* Plugins */,
 				E1D067FC1B51D08E00567172 /* Hello IT */,
@@ -490,7 +494,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1D068171B51D08F00567172 /* Build configuration list for PBXNativeTarget "Hello IT" */;
 			buildPhases = (
-				E128992F1B59B4E800BF7FD6 /* GitVersion */,
 				E1D067F61B51D08E00567172 /* Sources */,
 				E1D067F71B51D08E00567172 /* Frameworks */,
 				E1D067F81B51D08E00567172 /* Resources */,
@@ -737,6 +740,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F88869FD262CC1770039DE6C /* Hello-IT.xcconfig in Resources */,
 				E1D068051B51D08E00567172 /* Images.xcassets in Resources */,
 				E1D068081B51D08E00567172 /* MainMenu.xib in Resources */,
 			);
@@ -746,27 +750,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F88869FE262CC1770039DE6C /* Hello-IT.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		E128992F1B59B4E800BF7FD6 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E1D067F61B51D08E00567172 /* Sources */ = {
@@ -873,6 +861,7 @@
 /* Begin XCBuildConfiguration section */
 		E1D068151B51D08F00567172 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -929,6 +918,7 @@
 		};
 		E1D068161B51D08F00567172 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -988,7 +978,6 @@
 				INFOPLIST_FILE = "Hello IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1008,7 +997,6 @@
 				INFOPLIST_FILE = "Hello IT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

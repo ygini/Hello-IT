@@ -17,6 +17,7 @@
 		E1AF40761B529F8A0017B4DD /* HITPSubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPSubMenu.h; sourceTree = "<group>"; };
 		E1AF40771B529F8A0017B4DD /* HITPSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPSubMenu.m; sourceTree = "<group>"; };
 		E1B2C91A1B594889005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
+		F8886A26262CC41D0039DE6C /* SubMenu.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SubMenu.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +35,7 @@
 		E1AF405D1B529F460017B4DD = {
 			isa = PBXGroup;
 			children = (
+				F8886A26262CC41D0039DE6C /* SubMenu.xcconfig */,
 				E1B2C91A1B594889005A9936 /* HITDevKit.framework */,
 				E1AF40681B529F460017B4DD /* SubMenu */,
 				E1AF40671B529F460017B4DD /* Products */,
@@ -73,7 +75,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1AF406D1B529F460017B4DD /* Build configuration list for PBXNativeTarget "SubMenu" */;
 			buildPhases = (
-				F8B50A2B1D1ED03D003CD614 /* GitVersion */,
 				E1AF40621B529F460017B4DD /* Sources */,
 				E1AF40631B529F460017B4DD /* Frameworks */,
 				E1AF40641B529F460017B4DD /* Resources */,
@@ -131,23 +132,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F8B50A2B1D1ED03D003CD614 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E1AF40621B529F460017B4DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -162,6 +146,7 @@
 /* Begin XCBuildConfiguration section */
 		E1AF406B1B529F460017B4DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A26262CC41D0039DE6C /* SubMenu.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -217,6 +202,7 @@
 		};
 		E1AF406C1B529F460017B4DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A26262CC41D0039DE6C /* SubMenu.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
