@@ -14,9 +14,9 @@
 #define kHITSimplePluginImageBaseNameKey @"imageBaseName"
 
 @interface HITSimplePlugin : HITBasicPlugin
-
 @end
 
 @interface HITSimplePlugin (MustBeDefinedInSubclass)
 - (IBAction)mainAction:(id)sender;
+-(NSImage *)imageForMenuItem;
 @end

@@ -12,17 +12,7 @@
 
 @implementation HITSimplePlugin
 
--(NSMenuItem *)prepareNewMenuItem {
-    NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
-    if (!title) {
-        title = @"";
-    }
-    
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
-                                                      action:@selector(mainAction:)
-                                               keyEquivalent:@""];
-    menuItem.target = self;
-    
+-(NSImage *)imageForMenuItem {
     NSString *imagePath = [self.settings objectForKey:kHITSimplePluginImagePathKey];
     NSString *imageBaseName = [self.settings objectForKey:kHITSimplePluginImageBaseNameKey];
     
@@ -53,16 +43,31 @@
     }
     
     if (imagePath) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item with title %s set with image at path %s.", [title cStringUsingEncoding:NSUTF8StringEncoding], [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item set with image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
         NSImage *accessoryImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
         
-        if (accessoryImage) {
-            menuItem.image = accessoryImage;
-        } else {
+        if (!accessoryImage) {
             asl_log(NULL, NULL, ASL_LEVEL_ERR, "Impossible to load image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
         }
+        
+        return accessoryImage;
+    }
+
+    return nil;
+}
+
+-(NSMenuItem *)prepareNewMenuItem {
+    NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
+    if (!title) {
+        title = @"";
     }
     
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
+                                                      action:@selector(mainAction:)
+                                               keyEquivalent:@""];
+    menuItem.target = self;
+    
+    menuItem.image = [self imageForMenuItem];
     
     return menuItem;
 }

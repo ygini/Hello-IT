@@ -46,7 +46,7 @@
                 break;
             case HITPluginTestStateNone:
             default:
-                self.menuItem.image = nil;
+                self.menuItem.image = [self imageForMenuItem];
                 notificationMessage = [self localizedString:[self.settings objectForKey:kHITNotificationMessageForNoneKey]];
                 break;
         }
