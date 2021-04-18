@@ -10,13 +10,14 @@
 #import <HITDevKit/HITBasicPlugin.h>
 
 #define kHITSimplePluginTitleKey @"title"
+#define kHITSimplePluginComputedTitleKey @"computedTitle"
 #define kHITSimplePluginImagePathKey @"imagePath"
 #define kHITSimplePluginImageBaseNameKey @"imageBaseName"
 
 @interface HITSimplePlugin : HITBasicPlugin
-
 @end
 
 @interface HITSimplePlugin (MustBeDefinedInSubclass)
 - (IBAction)mainAction:(id)sender;
+-(NSImage *)imageForMenuItem;
 @end

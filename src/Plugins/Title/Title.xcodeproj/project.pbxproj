@@ -17,6 +17,7 @@
 		E177439A1B51F2EE00A5B406 /* HITPTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPTitle.h; sourceTree = "<group>"; };
 		E177439B1B51F2EE00A5B406 /* HITPTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPTitle.m; sourceTree = "<group>"; };
 		E1B2C9101B593D01005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
+		F8886A23262CC3B50039DE6C /* Title.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Title.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +35,7 @@
 		E17743811B51F2C900A5B406 = {
 			isa = PBXGroup;
 			children = (
+				F8886A23262CC3B50039DE6C /* Title.xcconfig */,
 				E1B2C9101B593D01005A9936 /* HITDevKit.framework */,
 				E177438C1B51F2C900A5B406 /* Title */,
 				E177438B1B51F2C900A5B406 /* Products */,
@@ -73,7 +75,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E17743911B51F2C900A5B406 /* Build configuration list for PBXNativeTarget "Title" */;
 			buildPhases = (
-				F8B50A261D1ECF8A003CD614 /* GitVersion */,
 				E17743861B51F2C900A5B406 /* Sources */,
 				E17743871B51F2C900A5B406 /* Frameworks */,
 				E17743881B51F2C900A5B406 /* Resources */,
@@ -93,7 +94,7 @@
 		E17743821B51F2C900A5B406 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					E17743891B51F2C900A5B406 = {
@@ -131,23 +132,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F8B50A261D1ECF8A003CD614 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E17743861B51F2C900A5B406 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -162,6 +146,7 @@
 /* Begin XCBuildConfiguration section */
 		E177438F1B51F2C900A5B406 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A23262CC3B50039DE6C /* Title.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -183,6 +168,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -216,6 +202,7 @@
 		};
 		E17743901B51F2C900A5B406 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A23262CC3B50039DE6C /* Title.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -237,6 +224,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

@@ -118,6 +118,9 @@
                                                                                                        usingBlock:^(NSNotification * _Nonnull note) {
                                                                                                            [self updateStatusItem];
                                                                                             }];
+    
+    [self.statusItem addObserver:self forKeyPath:@"button.effectiveAppearance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -177,13 +180,27 @@
                 imageName = @"statusbar";
                 break;
         }
-        
-        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-        
-        if ([osxMode isEqualToString:@"Dark"]) {
-            tryDark = YES;
-            imageNameForDark = [imageName stringByAppendingString:@"-dark"];
+
+        NSNumber *interfaceStyleCanChange = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleInterfaceStyleSwitchesAutomatically"];
+
+        if (@available(macOS 10.15, *)) {
+            if (interfaceStyleCanChange != nil) {
+                
+            } else {
+                NSString *currentInterfaceStyle = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+                if ([currentInterfaceStyle.lowercaseString isEqualToString:@"dark"]) {
+                    tryDark = YES;
+                    imageNameForDark = [imageName stringByAppendingString:@"-dark"];
+                }
+            }
+        } else {
+            NSString *currentInterfaceStyle = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+            if ([currentInterfaceStyle.lowercaseString isEqualToString:@"dark"]) {
+                tryDark = YES;
+                imageNameForDark = [imageName stringByAppendingString:@"-dark"];
+            }
         }
+        
         
         NSString *customStatusBarIconBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"];
 
@@ -204,19 +221,13 @@
             icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
             
         } else {
-            if (tryDark) {
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Default dark icon will be used.");
-                icon = [NSImage imageNamed:imageNameForDark];
-            } else {
                 asl_log(NULL, NULL, ASL_LEVEL_INFO, "Default icon will be used.");
                 icon = [NSImage imageNamed:imageName];
-            }
         }
         
         self.statusItem.image = icon;
     } else {
         NSColor *textColor = nil;
-        NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
 
         switch (statusMenuState) {
             case HITPluginTestStateError:
@@ -229,7 +240,7 @@
                 textColor = [NSColor orangeColor];
                 break;
             default:
-                if ([osxMode isEqualToString:@"Dark"]) {
+                if ([self.statusItem.button.effectiveAppearance.name.lowercaseString containsString:@"dark"]) {
                     textColor = [NSColor whiteColor];
                 } else {
                     textColor = [NSColor blackColor];
@@ -322,6 +333,8 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"testState"]) {
+        [self updateStatusItem];
+    } else if([keyPath isEqualToString:@"button.effectiveAppearance"]){
         [self updateStatusItem];
     }
 }

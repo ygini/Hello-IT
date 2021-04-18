@@ -22,6 +22,7 @@
 		F83294BB1F773275009DA574 /* OpenDirectory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenDirectory.framework; path = System/Library/Frameworks/OpenDirectory.framework; sourceTree = SDKROOT; };
 		F83294E71F77A8C9009DA574 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F83294E91F77A99A009DA574 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F8886A20262CC32D0039DE6C /* ADPass.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ADPass.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +41,7 @@
 		F832949C1F773076009DA574 = {
 			isa = PBXGroup;
 			children = (
+				F8886A20262CC32D0039DE6C /* ADPass.xcconfig */,
 				F83294A71F773076009DA574 /* ADPass */,
 				F83294A61F773076009DA574 /* Products */,
 				F83294B51F77308C009DA574 /* Frameworks */,
@@ -81,7 +83,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F83294AB1F773076009DA574 /* Build configuration list for PBXNativeTarget "ADPass" */;
 			buildPhases = (
-				F89A03592368A5CF0059281B /* GitVersion */,
 				F83294A11F773076009DA574 /* Sources */,
 				F83294A21F773076009DA574 /* Frameworks */,
 				F83294A31F773076009DA574 /* Resources */,
@@ -101,7 +102,7 @@
 		F832949D1F773076009DA574 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini";
 				TargetAttributes = {
 					F83294A41F773076009DA574 = {
@@ -141,27 +142,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F89A03592368A5CF0059281B /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		F83294A11F773076009DA574 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -188,6 +168,7 @@
 /* Begin XCBuildConfiguration section */
 		F83294A91F773076009DA574 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A20262CC32D0039DE6C /* ADPass.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -212,6 +193,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -245,6 +227,7 @@
 		};
 		F83294AA1F773076009DA574 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A20262CC32D0039DE6C /* ADPass.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -269,6 +252,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

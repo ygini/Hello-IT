@@ -165,7 +165,7 @@ then
 	fi
 fi
 
-PKG_VERSION=$(/usr/libexec/PlistBuddy -c "print CFBundleShortVersionString" "${PROJECT_DIR}/Hello IT/Info.plist")
+MARKETING_VERSION=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' "${PROJECT_DIR}/Hello-IT.xcconfig")
 
 if [[ "$CURRENT_BRANCH" == release* ]]
 then
@@ -173,15 +173,17 @@ then
         VERSION_FROM_BRANCH=$(echo "${CURRENT_BRANCH}" | awk -F'/' '{print $2}')
        	if [[ "$VERSION_FROM_BRANCH" =~ ^[0-9]+\.[0-9]+ ]]
         then
-       	        PKG_VERSION=$VERSION_FROM_BRANCH
-               	/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $PKG_VERSION" "${PROJECT_DIR}/Hello IT/Info.plist"
-                git add "${PROJECT_DIR}/Hello IT/Info.plist"
-		git commit -m "Update app version number according to release branch" 
+       	        MARKETING_VERSION=$VERSION_FROM_BRANCH
+		sed -i '' "/MARKETING_VERSION/c\\
+MARKETING_VERSION = ${MARKETING_VERSION}
+" "${PROJECT_DIR}/Hello-IT.xcconfig"
+                git add "${PROJECT_DIR}/Hello-IT.xcconfig"
+		git commit -m "Update marketing version number according to release branch" 
         fi
 fi
 
 BASE_RELEASE_LOCATION="${GIT_ROOT_DIR}/package/build"
-RELEASE_LOCATION="${BASE_RELEASE_LOCATION}/${PKG_VERSION}-${CONFIGURATION}"
+RELEASE_LOCATION="${BASE_RELEASE_LOCATION}/${MARKETING_VERSION}-${CONFIGURATION}"
 RELEASE_PRODUCT_LOCATION="${RELEASE_LOCATION}/Products"
 RELEASE_DSYM_LOCATION="${RELEASE_LOCATION}/dSYM"
 
@@ -206,7 +208,7 @@ echo "####### Build project"
 
 echo "### Start building Hello IT"
 
-xcodebuild -UseModernBuildSystem=NO -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM" OTHER_CODE_SIGN_FLAGS="--timestamp"
+xcodebuild -UseModernBuildSystem=NO -arch x86_64 -arch arm64 ONLY_ACTIVE_ARCH=NO -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM" OTHER_CODE_SIGN_FLAGS="--timestamp"
 
 if [[ $? != 0 ]]; then
     echo "Building failed"
@@ -242,18 +244,18 @@ pkgbuild --analyze --root "${PKG_ROOT}" "${PBK_BUILD_COMPONENT}"
 
 /usr/libexec/PlistBuddy -c "Set 0:BundleIsRelocatable bool false" "${PBK_BUILD_COMPONENT}"
 #/usr/libexec/PlistBuddy -c "Print" "${PBK_BUILD_COMPONENT}"
-pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${PKG_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+pkgbuild --component-plist "${PBK_BUILD_COMPONENT}" --sign "${DEVELOPER_ID_INSTALLER}" --root "${PKG_ROOT}" --scripts "${GIT_ROOT_DIR}/package/pkg_scripts" --identifier "com.github.ygini.hello-it" --version "${MARKETING_VERSION}" "${RELEASE_LOCATION}/Hello-IT-${MARKETING_VERSION}-${CONFIGURATION}.pkg"
 
-productbuild --product "${GIT_ROOT_DIR}/package/requirements.plist" --sign "${DEVELOPER_ID_INSTALLER}" --version "${PKG_VERSION}" --package "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg" "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg"
+productbuild --product "${GIT_ROOT_DIR}/package/requirements.plist" --sign "${DEVELOPER_ID_INSTALLER}" --version "${MARKETING_VERSION}" --package "${RELEASE_LOCATION}/Hello-IT-${MARKETING_VERSION}-${CONFIGURATION}.pkg" "${RELEASE_LOCATION}/Hello-IT-${MARKETING_VERSION}-${CONFIGURATION}-Distribution.pkg"
 
 if [[ $? != 0 ]]; then
     echo "Package creation failed"
     exit 1
 fi
 
-rm "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}.pkg"
+rm "${RELEASE_LOCATION}/Hello-IT-${MARKETING_VERSION}-${CONFIGURATION}.pkg"
 
-notarizePayloadWithBundleID "${RELEASE_LOCATION}/Hello-IT-${PKG_VERSION}-${CONFIGURATION}-Distribution.pkg" "com.github.ygini.hello-it"
+notarizePayloadWithBundleID "${RELEASE_LOCATION}/Hello-IT-${MARKETING_VERSION}-${CONFIGURATION}-Distribution.pkg" "com.github.ygini.hello-it"
 
 rm -rf "${PKG_ROOT}"
 

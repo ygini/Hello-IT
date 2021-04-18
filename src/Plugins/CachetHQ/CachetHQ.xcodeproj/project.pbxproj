@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		F811AD372149A0B700BD15AD /* CachetHQIncidents.m in Sources */ = {isa = PBXBuildFile; fileRef = F811AD362149A0B700BD15AD /* CachetHQIncidents.m */; };
 		F811AD382149A18600BD15AD /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6574B20C7284D009F31B6 /* HITDevKit.framework */; };
+		F8886A18262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */; };
+		F8886A19262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */; };
 		F8B6574C20C7284D009F31B6 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6574B20C7284D009F31B6 /* HITDevKit.framework */; };
 		F8B6574F20C7288C009F31B6 /* CachetHQComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B6574E20C7288C009F31B6 /* CachetHQComponent.m */; };
 /* End PBXBuildFile section */
@@ -18,6 +20,7 @@
 		F811AD312149A07E00BD15AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F811AD352149A0B700BD15AD /* CachetHQIncidents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CachetHQIncidents.h; sourceTree = "<group>"; };
 		F811AD362149A0B700BD15AD /* CachetHQIncidents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CachetHQIncidents.m; sourceTree = "<group>"; };
+		F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CachetHQ.xcconfig; sourceTree = "<group>"; };
 		F8B6573A20C727D7009F31B6 /* CachetHQComponent.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CachetHQComponent.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B6573D20C727D7009F31B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B6574B20C7284D009F31B6 /* HITDevKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HITDevKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +61,7 @@
 		F8B6573120C727D7009F31B6 = {
 			isa = PBXGroup;
 			children = (
+				F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */,
 				F8B6573C20C727D7009F31B6 /* CachetHQComponent */,
 				F811AD302149A07E00BD15AD /* CachetHQIncidents */,
 				F8B6573B20C727D7009F31B6 /* Products */,
@@ -99,7 +103,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F811AD342149A07E00BD15AD /* Build configuration list for PBXNativeTarget "CachetHQIncidents" */;
 			buildPhases = (
-				F89A035A2368A5E00059281B /* GitVersion */,
 				F811AD2B2149A07E00BD15AD /* Sources */,
 				F811AD2C2149A07E00BD15AD /* Frameworks */,
 				F811AD2D2149A07E00BD15AD /* Resources */,
@@ -136,7 +139,7 @@
 		F8B6573220C727D7009F31B6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					F811AD2E2149A07E00BD15AD = {
@@ -171,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8886A19262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,31 +182,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8886A18262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F89A035A2368A5E00059281B /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F811AD2B2149A07E00BD15AD /* Sources */ = {
@@ -258,6 +242,7 @@
 		};
 		F8B6573E20C727D7009F31B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -282,6 +267,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -316,6 +302,7 @@
 		};
 		F8B6573F20C727D7009F31B6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -340,6 +327,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

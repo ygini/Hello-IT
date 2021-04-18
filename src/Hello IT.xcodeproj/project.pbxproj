@@ -23,27 +23,9 @@
 		E1D068141B51D08F00567172 /* Hello_ITTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068131B51D08F00567172 /* Hello_ITTests.m */; };
 		E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D0681E1B51D4B500567172 /* HITPluginsManager.m */; };
 		F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F83294B31F773078009DA574 /* ADPass.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F8340B8C1C96CF9000C820D7 /* statusbar-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B781C96CF9000C820D7 /* statusbar-dark.png */; };
-		F8340B8D1C96CF9000C820D7 /* statusbar-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */; };
-		F8340B8E1C96CF9000C820D7 /* statusbar-error-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */; };
-		F8340B8F1C96CF9000C820D7 /* statusbar-error-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7B1C96CF9000C820D7 /* statusbar-error-dark@2x.png */; };
-		F8340B901C96CF9000C820D7 /* statusbar-error.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7C1C96CF9000C820D7 /* statusbar-error.png */; };
-		F8340B911C96CF9000C820D7 /* statusbar-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7D1C96CF9000C820D7 /* statusbar-error@2x.png */; };
-		F8340B921C96CF9000C820D7 /* statusbar-ok-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7E1C96CF9000C820D7 /* statusbar-ok-dark.png */; };
-		F8340B931C96CF9000C820D7 /* statusbar-ok-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B7F1C96CF9000C820D7 /* statusbar-ok-dark@2x.png */; };
-		F8340B941C96CF9000C820D7 /* statusbar-ok.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B801C96CF9000C820D7 /* statusbar-ok.png */; };
-		F8340B951C96CF9000C820D7 /* statusbar-ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B811C96CF9000C820D7 /* statusbar-ok@2x.png */; };
-		F8340B961C96CF9000C820D7 /* statusbar-unavailable-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B821C96CF9000C820D7 /* statusbar-unavailable-dark.png */; };
-		F8340B971C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B831C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png */; };
-		F8340B981C96CF9000C820D7 /* statusbar-unavailable.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B841C96CF9000C820D7 /* statusbar-unavailable.png */; };
-		F8340B991C96CF9000C820D7 /* statusbar-unavailable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B851C96CF9000C820D7 /* statusbar-unavailable@2x.png */; };
-		F8340B9A1C96CF9000C820D7 /* statusbar-warning-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B861C96CF9000C820D7 /* statusbar-warning-dark.png */; };
-		F8340B9B1C96CF9000C820D7 /* statusbar-warning-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B871C96CF9000C820D7 /* statusbar-warning-dark@2x.png */; };
-		F8340B9C1C96CF9000C820D7 /* statusbar-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B881C96CF9000C820D7 /* statusbar-warning.png */; };
-		F8340B9D1C96CF9000C820D7 /* statusbar-warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */; };
-		F8340B9E1C96CF9000C820D7 /* statusbar.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8A1C96CF9000C820D7 /* statusbar.png */; };
-		F8340B9F1C96CF9000C820D7 /* statusbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */; };
 		F84238FF20C8748200FB5410 /* CachetHQComponent.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F88869FD262CC1770039DE6C /* Hello-IT.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */; };
+		F88869FE262CC1770039DE6C /* Hello-IT.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */; };
 		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 		F8F07637244EEFA200E3DF7B /* Command.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F89A03522368A51D0059281B /* Command.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -298,26 +280,7 @@
 		E1D0681D1B51D4B500567172 /* HITPluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginsManager.h; sourceTree = "<group>"; };
 		E1D0681E1B51D4B500567172 /* HITPluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPluginsManager.m; sourceTree = "<group>"; };
 		F83294AE1F773076009DA574 /* ADPass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ADPass.xcodeproj; path = ADPass/ADPass.xcodeproj; sourceTree = "<group>"; };
-		F8340B781C96CF9000C820D7 /* statusbar-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-dark.png"; sourceTree = "<group>"; };
-		F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-dark@2x.png"; sourceTree = "<group>"; };
-		F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-error-dark.png"; sourceTree = "<group>"; };
-		F8340B7B1C96CF9000C820D7 /* statusbar-error-dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-error-dark@2x.png"; sourceTree = "<group>"; };
-		F8340B7C1C96CF9000C820D7 /* statusbar-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-error.png"; sourceTree = "<group>"; };
-		F8340B7D1C96CF9000C820D7 /* statusbar-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-error@2x.png"; sourceTree = "<group>"; };
-		F8340B7E1C96CF9000C820D7 /* statusbar-ok-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-ok-dark.png"; sourceTree = "<group>"; };
-		F8340B7F1C96CF9000C820D7 /* statusbar-ok-dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-ok-dark@2x.png"; sourceTree = "<group>"; };
-		F8340B801C96CF9000C820D7 /* statusbar-ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-ok.png"; sourceTree = "<group>"; };
-		F8340B811C96CF9000C820D7 /* statusbar-ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-ok@2x.png"; sourceTree = "<group>"; };
-		F8340B821C96CF9000C820D7 /* statusbar-unavailable-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-unavailable-dark.png"; sourceTree = "<group>"; };
-		F8340B831C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-unavailable-dark@2x.png"; sourceTree = "<group>"; };
-		F8340B841C96CF9000C820D7 /* statusbar-unavailable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-unavailable.png"; sourceTree = "<group>"; };
-		F8340B851C96CF9000C820D7 /* statusbar-unavailable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-unavailable@2x.png"; sourceTree = "<group>"; };
-		F8340B861C96CF9000C820D7 /* statusbar-warning-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-warning-dark.png"; sourceTree = "<group>"; };
-		F8340B871C96CF9000C820D7 /* statusbar-warning-dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-warning-dark@2x.png"; sourceTree = "<group>"; };
-		F8340B881C96CF9000C820D7 /* statusbar-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-warning.png"; sourceTree = "<group>"; };
-		F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar-warning@2x.png"; sourceTree = "<group>"; };
-		F8340B8A1C96CF9000C820D7 /* statusbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = statusbar.png; sourceTree = "<group>"; };
-		F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusbar@2x.png"; sourceTree = "<group>"; };
+		F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Hello-IT.xcconfig"; sourceTree = "<group>"; };
 		F89A034C2368A51C0059281B /* Command.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Command.xcodeproj; path = Command/Command.xcodeproj; sourceTree = "<group>"; };
 		F89B59391DA7DC350028D75F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		F89B593A1DA7DC350028D75F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -438,6 +401,7 @@
 		E1D067F11B51D08E00567172 = {
 			isa = PBXGroup;
 			children = (
+				F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */,
 				E1B2C8ED1B59351B005A9936 /* HITDevKit.xcodeproj */,
 				E17743301B51E6E600A5B406 /* Plugins */,
 				E1D067FC1B51D08E00567172 /* Hello IT */,
@@ -461,7 +425,6 @@
 				F8ECE1732323970E00C17247 /* Hello IT.entitlements */,
 				F89B59391DA7DC350028D75F /* Reachability.h */,
 				F89B593A1DA7DC350028D75F /* Reachability.m */,
-				F86928FA1CA28B8800AB8E4C /* statusbar */,
 				E1D067FF1B51D08E00567172 /* AppDelegate.h */,
 				E1D068001B51D08E00567172 /* AppDelegate.m */,
 				E1D0681D1B51D4B500567172 /* HITPluginsManager.h */,
@@ -507,33 +470,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F86928FA1CA28B8800AB8E4C /* statusbar */ = {
-			isa = PBXGroup;
-			children = (
-				F8340B781C96CF9000C820D7 /* statusbar-dark.png */,
-				F8340B791C96CF9000C820D7 /* statusbar-dark@2x.png */,
-				F8340B7A1C96CF9000C820D7 /* statusbar-error-dark.png */,
-				F8340B7B1C96CF9000C820D7 /* statusbar-error-dark@2x.png */,
-				F8340B7C1C96CF9000C820D7 /* statusbar-error.png */,
-				F8340B7D1C96CF9000C820D7 /* statusbar-error@2x.png */,
-				F8340B7E1C96CF9000C820D7 /* statusbar-ok-dark.png */,
-				F8340B7F1C96CF9000C820D7 /* statusbar-ok-dark@2x.png */,
-				F8340B801C96CF9000C820D7 /* statusbar-ok.png */,
-				F8340B811C96CF9000C820D7 /* statusbar-ok@2x.png */,
-				F8340B821C96CF9000C820D7 /* statusbar-unavailable-dark.png */,
-				F8340B831C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png */,
-				F8340B841C96CF9000C820D7 /* statusbar-unavailable.png */,
-				F8340B851C96CF9000C820D7 /* statusbar-unavailable@2x.png */,
-				F8340B861C96CF9000C820D7 /* statusbar-warning-dark.png */,
-				F8340B871C96CF9000C820D7 /* statusbar-warning-dark@2x.png */,
-				F8340B881C96CF9000C820D7 /* statusbar-warning.png */,
-				F8340B891C96CF9000C820D7 /* statusbar-warning@2x.png */,
-				F8340B8A1C96CF9000C820D7 /* statusbar.png */,
-				F8340B8B1C96CF9000C820D7 /* statusbar@2x.png */,
-			);
-			name = statusbar;
-			sourceTree = "<group>";
-		};
 		F89A034D2368A51C0059281B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -558,7 +494,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1D068171B51D08F00567172 /* Build configuration list for PBXNativeTarget "Hello IT" */;
 			buildPhases = (
-				E128992F1B59B4E800BF7FD6 /* GitVersion */,
 				E1D067F61B51D08E00567172 /* Sources */,
 				E1D067F71B51D08E00567172 /* Frameworks */,
 				E1D067F81B51D08E00567172 /* Resources */,
@@ -610,7 +545,7 @@
 		E1D067F21B51D08E00567172 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					E1D067F91B51D08E00567172 = {
@@ -805,28 +740,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8340B9C1C96CF9000C820D7 /* statusbar-warning.png in Resources */,
-				F8340B9D1C96CF9000C820D7 /* statusbar-warning@2x.png in Resources */,
-				F8340B951C96CF9000C820D7 /* statusbar-ok@2x.png in Resources */,
-				F8340B961C96CF9000C820D7 /* statusbar-unavailable-dark.png in Resources */,
-				F8340B921C96CF9000C820D7 /* statusbar-ok-dark.png in Resources */,
-				F8340B991C96CF9000C820D7 /* statusbar-unavailable@2x.png in Resources */,
-				F8340B941C96CF9000C820D7 /* statusbar-ok.png in Resources */,
+				F88869FD262CC1770039DE6C /* Hello-IT.xcconfig in Resources */,
 				E1D068051B51D08E00567172 /* Images.xcassets in Resources */,
-				F8340B9F1C96CF9000C820D7 /* statusbar@2x.png in Resources */,
-				F8340B901C96CF9000C820D7 /* statusbar-error.png in Resources */,
-				F8340B9E1C96CF9000C820D7 /* statusbar.png in Resources */,
-				F8340B9B1C96CF9000C820D7 /* statusbar-warning-dark@2x.png in Resources */,
-				F8340B8C1C96CF9000C820D7 /* statusbar-dark.png in Resources */,
-				F8340B931C96CF9000C820D7 /* statusbar-ok-dark@2x.png in Resources */,
-				F8340B9A1C96CF9000C820D7 /* statusbar-warning-dark.png in Resources */,
-				F8340B911C96CF9000C820D7 /* statusbar-error@2x.png in Resources */,
-				F8340B8D1C96CF9000C820D7 /* statusbar-dark@2x.png in Resources */,
-				F8340B8F1C96CF9000C820D7 /* statusbar-error-dark@2x.png in Resources */,
 				E1D068081B51D08E00567172 /* MainMenu.xib in Resources */,
-				F8340B981C96CF9000C820D7 /* statusbar-unavailable.png in Resources */,
-				F8340B8E1C96CF9000C820D7 /* statusbar-error-dark.png in Resources */,
-				F8340B971C96CF9000C820D7 /* statusbar-unavailable-dark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,27 +750,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F88869FE262CC1770039DE6C /* Hello-IT.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		E128992F1B59B4E800BF7FD6 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E1D067F61B51D08E00567172 /* Sources */ = {
@@ -961,6 +861,7 @@
 /* Begin XCBuildConfiguration section */
 		E1D068151B51D08F00567172 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -982,6 +883,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1016,6 +918,7 @@
 		};
 		E1D068161B51D08F00567172 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1037,6 +940,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

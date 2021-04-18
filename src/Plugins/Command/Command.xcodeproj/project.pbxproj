@@ -12,6 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F8886A1E262CC3030039DE6C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F89A03432368A51C0059281B /* Command.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Command.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89A03462368A51C0059281B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F89A03552368A53C0059281B /* HITDevKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HITDevKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +35,7 @@
 		F89A033A2368A51C0059281B = {
 			isa = PBXGroup;
 			children = (
+				F8886A1E262CC3030039DE6C /* Config.xcconfig */,
 				F89A03452368A51C0059281B /* Command */,
 				F89A03442368A51C0059281B /* Products */,
 				F89A03542368A53C0059281B /* Frameworks */,
@@ -73,7 +75,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F89A03492368A51C0059281B /* Build configuration list for PBXNativeTarget "Command" */;
 			buildPhases = (
-				F89A035B2368A5EF0059281B /* GitVersion */,
 				F89A033F2368A51C0059281B /* Sources */,
 				F89A03402368A51C0059281B /* Frameworks */,
 				F89A03412368A51C0059281B /* Resources */,
@@ -93,7 +94,7 @@
 		F89A033B2368A51C0059281B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					F89A03422368A51C0059281B = {
@@ -129,27 +130,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F89A035B2368A5EF0059281B /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		F89A033F2368A51C0059281B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -164,6 +144,7 @@
 /* Begin XCBuildConfiguration section */
 		F89A03472368A51C0059281B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A1E262CC3030039DE6C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -188,6 +169,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -222,6 +204,7 @@
 		};
 		F89A03482368A51C0059281B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A1E262CC3030039DE6C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -246,6 +229,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

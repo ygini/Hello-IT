@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Yoann Gini (Open Source Project). All rights reserved.
 //
 
-#import "HITSimplePlugin.h"
+#import <HITDevKit/HITSimplePlugin.h>
 
 @interface HITAdvancedPlugin : HITSimplePlugin
 

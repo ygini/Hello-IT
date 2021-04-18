@@ -30,6 +30,7 @@
 		E1AF40551B529AB70017B4DD /* HITPQuit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPQuit.h; sourceTree = "<group>"; };
 		E1AF40561B529AB70017B4DD /* HITPQuit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPQuit.m; sourceTree = "<group>"; };
 		E1B2C9181B5947E0005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
+		F8886A25262CC3FC0039DE6C /* Quit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Quit.xcconfig; sourceTree = "<group>"; };
 		F89297411D11356100E431E2 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F89297431D11359800E431E2 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -49,6 +50,7 @@
 		E1AF40381B529AA10017B4DD = {
 			isa = PBXGroup;
 			children = (
+				F8886A25262CC3FC0039DE6C /* Quit.xcconfig */,
 				E1B2C9181B5947E0005A9936 /* HITDevKit.framework */,
 				E1AF40431B529AA10017B4DD /* Quit */,
 				E1AF40421B529AA10017B4DD /* Products */,
@@ -89,7 +91,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1AF40481B529AA10017B4DD /* Build configuration list for PBXNativeTarget "Quit" */;
 			buildPhases = (
-				F8B50A2A1D1ED006003CD614 /* GitVersion */,
 				E1AF403D1B529AA10017B4DD /* Sources */,
 				E1AF403E1B529AA10017B4DD /* Frameworks */,
 				E1AF403F1B529AA10017B4DD /* Resources */,
@@ -110,7 +111,7 @@
 		E1AF40391B529AA10017B4DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					E1AF40401B529AA10017B4DD = {
@@ -150,23 +151,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F8B50A2A1D1ED006003CD614 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E1AF403D1B529AA10017B4DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -193,6 +177,7 @@
 /* Begin XCBuildConfiguration section */
 		E1AF40461B529AA10017B4DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A25262CC3FC0039DE6C /* Quit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -214,6 +199,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -247,6 +233,7 @@
 		};
 		E1AF40471B529AA10017B4DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A25262CC3FC0039DE6C /* Quit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -268,6 +255,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
