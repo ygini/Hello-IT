@@ -17,6 +17,7 @@
 		E1B2C90C1B593B1F005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
 		E1D068291B51E54E00567172 /* OpenResource.hitp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenResource.hitp; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D0682D1B51E54E00567172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8886A21262CC3550039DE6C /* OpenResource.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OpenResource.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +35,7 @@
 		E1D068201B51E54E00567172 = {
 			isa = PBXGroup;
 			children = (
+				F8886A21262CC3550039DE6C /* OpenResource.xcconfig */,
 				E1B2C90C1B593B1F005A9936 /* HITDevKit.framework */,
 				E1D0682B1B51E54E00567172 /* OpenResource */,
 				E1D0682A1B51E54E00567172 /* Products */,
@@ -73,7 +75,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1D068301B51E54E00567172 /* Build configuration list for PBXNativeTarget "OpenResource" */;
 			buildPhases = (
-				F8B50A241D1ECF3B003CD614 /* GitVersion */,
 				E1D068251B51E54E00567172 /* Sources */,
 				E1D068261B51E54E00567172 /* Frameworks */,
 				E1D068271B51E54E00567172 /* Resources */,
@@ -131,23 +132,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F8B50A241D1ECF3B003CD614 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E1D068251B51E54E00567172 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -162,6 +146,7 @@
 /* Begin XCBuildConfiguration section */
 		E1D0682E1B51E54E00567172 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A21262CC3550039DE6C /* OpenResource.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -217,6 +202,7 @@
 		};
 		E1D0682F1B51E54E00567172 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A21262CC3550039DE6C /* OpenResource.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;

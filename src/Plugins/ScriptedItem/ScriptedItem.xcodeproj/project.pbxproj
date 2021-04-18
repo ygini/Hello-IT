@@ -19,6 +19,7 @@
 		E14B67D81B5905B900941A27 /* HITPScriptedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPScriptedItem.m; sourceTree = "<group>"; };
 		E1B2C91E1B594C69005A9936 /* HITDevKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HITDevKit.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hello_IT-dblktlmawojysuccadblmqsuewcj/Build/Products/Debug/HITDevKit.framework"; sourceTree = "<group>"; };
 		F84606011FCAC1FC0021DD89 /* scriptLibraries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scriptLibraries; sourceTree = "<group>"; };
+		F8886A28262CC44A0039DE6C /* ScriptedItem.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ScriptedItem.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +37,7 @@
 		E14B67BC1B59059000941A27 = {
 			isa = PBXGroup;
 			children = (
+				F8886A28262CC44A0039DE6C /* ScriptedItem.xcconfig */,
 				F84606011FCAC1FC0021DD89 /* scriptLibraries */,
 				E1B2C91E1B594C69005A9936 /* HITDevKit.framework */,
 				E14B67C71B59059000941A27 /* ScriptedItem */,
@@ -76,7 +78,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E14B67CC1B59059000941A27 /* Build configuration list for PBXNativeTarget "ScriptedItem" */;
 			buildPhases = (
-				F8B50A2D1D1ED058003CD614 /* GitVersion */,
 				E14B67C11B59059000941A27 /* Sources */,
 				E14B67C21B59059000941A27 /* Frameworks */,
 				E14B67C31B59059000941A27 /* Resources */,
@@ -135,23 +136,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F8B50A2D1D1ED058003CD614 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E14B67C11B59059000941A27 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -166,6 +150,7 @@
 /* Begin XCBuildConfiguration section */
 		E14B67CA1B59059000941A27 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A28262CC44A0039DE6C /* ScriptedItem.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -221,6 +206,7 @@
 		};
 		E14B67CB1B59059000941A27 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A28262CC44A0039DE6C /* ScriptedItem.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;

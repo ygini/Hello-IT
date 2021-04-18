@@ -55,6 +55,7 @@
 		E1B2C9061B593957005A9936 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		E1B2C9141B5941AA005A9936 /* HITPeriodicPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPeriodicPlugin.h; sourceTree = "<group>"; };
 		E1B2C9151B5941AA005A9936 /* HITPeriodicPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPeriodicPlugin.m; sourceTree = "<group>"; };
+		F8886A0E262CC1F70039DE6C /* HITDevKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HITDevKit.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +80,7 @@
 		E1B2C8C71B59351B005A9936 = {
 			isa = PBXGroup;
 			children = (
+				F8886A0E262CC1F70039DE6C /* HITDevKit.xcconfig */,
 				E1B2C8D31B59351B005A9936 /* HITDevKit */,
 				E1B2C8E01B59351B005A9936 /* HITDevKitTests */,
 				E1B2C8D21B59351B005A9936 /* Products */,
@@ -164,7 +166,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1B2C8E71B59351B005A9936 /* Build configuration list for PBXNativeTarget "HITDevKit" */;
 			buildPhases = (
-				F8B50A231D1ECEF9003CD614 /* GitVersion */,
 				E1B2C8CC1B59351B005A9936 /* Sources */,
 				E1B2C8CD1B59351B005A9936 /* Frameworks */,
 				E1B2C8CE1B59351B005A9936 /* Headers */,
@@ -203,7 +204,7 @@
 		E1B2C8C81B59351B005A9936 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					E1B2C8D01B59351B005A9936 = {
@@ -258,23 +259,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F8B50A231D1ECEF9003CD614 /* GitVersion */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = GitVersion;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -o errexit\nset -o nounset\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E1B2C8CC1B59351B005A9936 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -308,6 +292,7 @@
 /* Begin XCBuildConfiguration section */
 		E1B2C8E51B59351B005A9936 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A0E262CC1F70039DE6C /* HITDevKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -366,6 +351,7 @@
 		};
 		E1B2C8E61B59351B005A9936 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8886A0E262CC1F70039DE6C /* HITDevKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;

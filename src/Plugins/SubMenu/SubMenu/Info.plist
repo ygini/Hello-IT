@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>375</string>
+	<string>$(BUILD_VERSION)</string>
 	<key>HITPFunctionIdentifier</key>
 	<string>public.submenu</string>
 	<key>NSHumanReadableCopyright</key>

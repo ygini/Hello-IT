@@ -1,0 +1,12 @@
+//
+//  CachetHQ.xcconfig
+//  CachetHQ
+//
+//  Created by Yoann Gini on 18/04/2021.
+//  Copyright © 2021 Yoann Gini (Open Source Project). All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "../../Hello-IT.xcconfig"
