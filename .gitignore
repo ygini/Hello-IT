@@ -30,3 +30,4 @@ DerivedData
 #
 #Pods/
 .BuildVersion.xcconfig
+CustomSettings.xcconfig
