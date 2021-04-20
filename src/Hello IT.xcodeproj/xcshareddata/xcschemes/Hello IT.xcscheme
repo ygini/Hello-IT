@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;set -o errexit&#10;set -o nounset&#10;&#10;cd $PROJECT_DIR&#10;&#10;echo &quot;GIT_BUILD_VERSION = $(git rev-list HEAD | wc -l)&quot; &gt; .BuildVersion.xcconfig&#10;&#10;">
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;set -o errexit&#10;set -o nounset&#10;&#10;cd &#10;&#10;&quot;${PROJECT_DIR}/.BuildVersion.sh&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
