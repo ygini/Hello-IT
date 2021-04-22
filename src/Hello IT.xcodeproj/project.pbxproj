@@ -559,7 +559,6 @@
 					};
 					E1D0680C1B51D08F00567172 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
 						TestTargetID = E1D067F91B51D08E00567172;
 					};
 				};
