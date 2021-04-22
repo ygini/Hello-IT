@@ -99,7 +99,6 @@
 				TargetAttributes = {
 					E12F1E3F1B52355B005A4418 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
 					};
 				};

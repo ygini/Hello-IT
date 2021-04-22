@@ -550,7 +550,6 @@
 				TargetAttributes = {
 					E1D067F91B51D08E00567172 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.HardenedRuntime = {
