@@ -116,7 +116,6 @@
 				TargetAttributes = {
 					E1AF40401B529AA10017B4DD = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
 					};
 				};
