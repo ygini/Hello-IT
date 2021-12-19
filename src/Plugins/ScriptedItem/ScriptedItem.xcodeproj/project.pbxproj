@@ -102,7 +102,6 @@
 				TargetAttributes = {
 					E14B67C41B59059000941A27 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -258,7 +257,6 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CRXPBZF3N4;
 				INFOPLIST_FILE = ScriptedItem/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.hitp.$(PRODUCT_NAME:rfc1034identifier)";
@@ -275,7 +273,6 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CRXPBZF3N4;
 				INFOPLIST_FILE = ScriptedItem/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.hitp.$(PRODUCT_NAME:rfc1034identifier)";
