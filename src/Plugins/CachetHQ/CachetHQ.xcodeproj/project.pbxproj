@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		F811AD372149A0B700BD15AD /* CachetHQIncidents.m in Sources */ = {isa = PBXBuildFile; fileRef = F811AD362149A0B700BD15AD /* CachetHQIncidents.m */; };
 		F811AD382149A18600BD15AD /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6574B20C7284D009F31B6 /* HITDevKit.framework */; };
-		F8886A18262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */; };
-		F8886A19262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F8886A17262CC28D0039DE6C /* CachetHQ.xcconfig */; };
 		F8B6574C20C7284D009F31B6 /* HITDevKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6574B20C7284D009F31B6 /* HITDevKit.framework */; };
 		F8B6574F20C7288C009F31B6 /* CachetHQComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B6574E20C7288C009F31B6 /* CachetHQComponent.m */; };
 /* End PBXBuildFile section */
@@ -139,7 +137,7 @@
 		F8B6573220C727D7009F31B6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					F811AD2E2149A07E00BD15AD = {
@@ -174,7 +172,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8886A19262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,7 +179,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8886A18262CC28D0039DE6C /* CachetHQ.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
