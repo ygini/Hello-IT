@@ -14,8 +14,12 @@
 DEVELOPMENT_TEAM = CRXPBZF3N4
 PRODUCT_BUNDLE_IDENTIFIER_BASE = com.github.ygini
 
+MARKETING_VERSION = 1.6.0
+BUILD_VERSION = $(GIT_BUILD_VERSION:default=0)
+
+CODE_SIGN_IDENTITY = Mac Developer
+CODE_SIGN_STYLE = Automatic
+
 // If you want to sign your own copy of Hello IT, overload the DEVELOPMENT_TEAM key with your own Team ID in a CustomSettings.xcconfig file next to this one
 #include? "CustomSettings.xcconfig"
 
-MARKETING_VERSION = 1.6.0
-BUILD_VERSION = $(GIT_BUILD_VERSION:default=0)
