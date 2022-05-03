@@ -123,7 +123,7 @@
     if (self.scriptChecked && self.allowedToRun) {
         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script %s with command %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [command cStringUsingEncoding:NSUTF8StringEncoding]);
         
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
             
@@ -198,7 +198,7 @@
             } @catch (NSException *exception) {
                 asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script %s failed to run: %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [[exception reason] UTF8String]);
             }
-        }];
+        });
     }
 }
 
