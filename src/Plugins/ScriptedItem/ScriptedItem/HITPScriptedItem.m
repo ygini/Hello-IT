@@ -121,7 +121,7 @@
 
 - (void)runScriptWithCommand:(NSString*)command {
     if (self.scriptChecked && self.allowedToRun) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script with command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
+        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script %s with command %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [command cStringUsingEncoding:NSUTF8StringEncoding]);
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSTask *task = [[NSTask alloc] init];
@@ -194,9 +194,9 @@
                 
                 [task waitUntilExit];
                 
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
+                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script %s exited with code %i", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [task terminationStatus]);
             } @catch (NSException *exception) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
+                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script %s failed to run: %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [[exception reason] UTF8String]);
             }
         }];
     }
