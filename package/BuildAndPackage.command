@@ -210,6 +210,7 @@ echo "####### Build project"
 
 echo "### Start building Hello IT"
 
+xcodebuild -UseModernBuildSystem=NO -arch x86_64 -arch arm64 ONLY_ACTIVE_ARCH=NO -quiet -project "${PROJECT_DIR}/HITDevKit/HITDevKit.xcodeproj" -configuration ${CONFIGURATION} -target "HITDevKit" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM" OTHER_CODE_SIGN_FLAGS="--timestamp"
 xcodebuild -UseModernBuildSystem=NO -arch x86_64 -arch arm64 ONLY_ACTIVE_ARCH=NO -quiet -project "${PROJECT_DIR}/Hello IT.xcodeproj" -configuration ${CONFIGURATION} -target "Hello IT" CONFIGURATION_TEMP_DIR="${BUILT_PRODUCTS_DIR}/Intermediates" CONFIGURATION_BUILD_DIR="${BUILT_PRODUCTS_DIR}/Products" DWARF_DSYM_FOLDER_PATH="${BUILT_PRODUCTS_DIR}/dSYM" OTHER_CODE_SIGN_FLAGS="--timestamp"
 
 if [[ $? != 0 ]]; then
