@@ -105,7 +105,7 @@
     
     self.reachability = [Reachability reachabilityWithHostname:@"captive.apple.com"];
     [self.reachability startNotifier];
-    
+        
     self.notificationObjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
                                                                                                            object:nil
                                                                                                             queue:nil
@@ -175,26 +175,12 @@
                 break;
         }
 
-        NSNumber *interfaceStyleCanChange = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleInterfaceStyleSwitchesAutomatically"];
-
-        if (@available(macOS 10.15, *)) {
-            if (interfaceStyleCanChange != nil) {
-                
-            } else {
-                NSString *currentInterfaceStyle = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-                if ([currentInterfaceStyle.lowercaseString isEqualToString:@"dark"]) {
-                    tryDark = YES;
-                    imageNameForDark = [imageName stringByAppendingString:@"-dark"];
-                }
-            }
-        } else {
-            NSString *currentInterfaceStyle = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-            if ([currentInterfaceStyle.lowercaseString isEqualToString:@"dark"]) {
-                tryDark = YES;
-                imageNameForDark = [imageName stringByAppendingString:@"-dark"];
-            }
-        }
+        NSString *appearanceName = [self.statusItem.button.effectiveAppearance bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
         
+        if ([appearanceName isEqualToString: NSAppearanceNameDarkAqua]) {
+            tryDark = YES;
+            imageNameForDark = [imageName stringByAppendingString:@"-dark"];
+        }
         
         NSString *customStatusBarIconBaseFolder = [NSString stringWithFormat:@"/Library/Application Support/com.github.ygini.hello-it/CustomStatusBarIcon"];
 
