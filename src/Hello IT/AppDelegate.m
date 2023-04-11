@@ -219,7 +219,7 @@
                 icon = [NSImage imageNamed:imageName];
         }
         
-        self.statusItem.image = icon;
+        self.statusItem.button.image = icon;
     } else {
         NSColor *textColor = nil;
 
@@ -245,7 +245,7 @@
         NSAttributedString *title = [[NSAttributedString alloc] initWithString:[self.statusMenuManager menuItem].title
                                                                     attributes:@{NSForegroundColorAttributeName: textColor}];
         
-        self.statusItem.attributedTitle = title;
+        self.statusItem.button.attributedTitle = title;
     }
 }
 
@@ -318,7 +318,7 @@
                                       context:nil];
     }
     
-    self.statusItem.highlightMode = YES;
+//    self.statusItem.button.cell.highlighted = YES;
     self.statusItem.menu = [self.statusMenuManager menuItem].submenu;
     
     self.menuOK = YES;

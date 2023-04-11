@@ -123,7 +123,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
 }
 
 - (void)updateHiddenStateBasedOnRequiredKeysOnIn:(NSMenu*)menu {
-    self.lastCheckWasWithOptionalDisplay = (([NSEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask);
+    self.lastCheckWasWithOptionalDisplay = (([NSEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) == NSEventModifierFlagOption);
     [self updateHiddenStateBasedLastCheckResult:menu];
 }
 

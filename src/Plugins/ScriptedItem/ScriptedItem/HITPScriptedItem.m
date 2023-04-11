@@ -242,11 +242,11 @@
             value = [value uppercaseString];
             
             if ([value isEqualToString:@"YES"]) {
-                self.menuItem.state = NSOnState;
+                self.menuItem.state = NSControlStateValueOn;
             } else if ([value isEqualToString:@"NO"]) {
-                self.menuItem.state = NSOffState;
+                self.menuItem.state = NSControlStateValueOff;
             } else if ([value isEqualToString:@"MIXED"]) {
-                self.menuItem.state = NSMixedState;
+                self.menuItem.state = NSControlStateValueMixed;
             }
             
         } else if ([key isEqualToString:@"hitp-hidden"]) {
