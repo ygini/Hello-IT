@@ -9,7 +9,7 @@
 #import "HITPOpenResource.h"
 
 #import <Cocoa/Cocoa.h>
-#import <asl.h>
+#import <os/log.h>
 #define kHITPOpenResourceURL @"URL"
 
 @interface HITPOpenResource ()
@@ -28,7 +28,7 @@
 }
 
 - (void)mainAction:(id)sender {
-    asl_log(NULL, NULL, ASL_LEVEL_INFO, "User requested to open %s", [[self.resource absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
+    os_log_info(OS_LOG_DEFAULT, "User requested to open %s", [[self.resource absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
     [[NSWorkspace sharedWorkspace] openURL:self.resource];
 }
 

@@ -13,7 +13,7 @@
 #import "Reachability.h"
 #import <QuartzCore/QuartzCore.h>
 
-#import <asl.h>
+#import <os/log.h>
 
 #define kMenuItemFunctionIdentifier @"functionIdentifier"
 #define kMenuItemStatusBarTitle @"title"
@@ -40,9 +40,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.menuOK = NO;
-    
-    asl_add_log_file(NULL, STDERR_FILENO);
-    
+        
     // This is a sample configuration to allow Hello IT to run without any custom settings.
     // You don't have to edit this code and rebuild the apps to use it, you just have to
     // customize com.github.ygini.Hello-IT like indicated here on the documentation
@@ -50,7 +48,7 @@
     
     
     if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"content"] count] == 0) {
-        asl_log(NULL, NULL, ASL_LEVEL_WARNING, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
+        os_log_info(OS_LOG_DEFAULT, "No settings found in com.github.ygini.Hello-IT domain. Loading sample one.");
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                                   @"functionIdentifier": @"public.submenu",
@@ -84,10 +82,6 @@
                                                                           }
                                                                   }];
 
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loglevel"]) {
-        asl_set_filter(NULL, ASL_FILTER_MASK_UPTO([[NSUserDefaults standardUserDefaults] integerForKey:@"loglevel"]));
     }
     
     self.notificationObjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
@@ -154,7 +148,7 @@
     
     if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
         statusMenuState |= [self.statusMenuManager testState];
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "General state has changed for %lu.", (unsigned long)statusMenuState);
+        os_log_info(OS_LOG_DEFAULT, "General state has changed for %lu.", (unsigned long)statusMenuState);
     }
     
     if ([[self.statusMenuManager menuItem].title length] == 0) {
@@ -209,10 +203,10 @@
         NSString *finalPathForDark = nil;
         if (tryDark) {
             finalPathForDark = [[customStatusBarIconBaseFolder stringByAppendingPathComponent:imageNameForDark] stringByAppendingPathExtension:@"tiff"];
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPathForDark cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_info(OS_LOG_DEFAULT, "We will look for menu item icon at path %s.", [finalPathForDark cStringUsingEncoding:NSUTF8StringEncoding]);
         }
         
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "We will look for menu item icon at path %s.", [finalPath cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "We will look for menu item icon at path %s.", [finalPath cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:finalPathForDark]) {
             icon = [[NSImage alloc] initWithContentsOfFile:finalPathForDark];
@@ -221,7 +215,7 @@
             icon = [[NSImage alloc] initWithContentsOfFile:finalPath];
             
         } else {
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Default icon will be used.");
+                os_log_info(OS_LOG_DEFAULT, "Default icon will be used.");
                 icon = [NSImage imageNamed:imageName];
         }
         
@@ -291,7 +285,7 @@
         NSMutableArray *updatedContent = [[[compositeSettings objectForKey:kMenuItemSettings] objectForKey:kMenuItemContent] mutableCopy];
         
         for (NSString *domainName in relatedDomainNames) {
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
+            os_log_info(OS_LOG_DEFAULT, "Adding nested preference domain %s as first item.", [domainName UTF8String]);
             NSMutableDictionary *subDomain = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName] mutableCopy];
             
             [updatedContent insertObject:subDomain

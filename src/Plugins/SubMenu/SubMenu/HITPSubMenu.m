@@ -13,7 +13,7 @@
 #define kMenuItemSettings @"settings"
 #define kMenuItemStateSortScenario @"stateSortScenario"
 
-#import <asl.h>
+#import <os/log.h>
 
 typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     HITPSubMenuSortScenarioUnavailableWin = 0,
@@ -65,13 +65,13 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     self.subPluginInstances = [NSMutableArray new];
     self.observedSubPluginInstances = [NSMutableArray new];
     
-    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Prepare submenu");
+    os_log_info(OS_LOG_DEFAULT, "Prepare submenu");
     
     for (NSDictionary *item in self.content) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Trying to load submenu item for function %s.", [[item objectForKey:kMenuItemFunctionIdentifier] cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Trying to load submenu item for function %s.", [[item objectForKey:kMenuItemFunctionIdentifier] cStringUsingEncoding:NSUTF8StringEncoding]);
         Class<HITPluginProtocol> TargetPlugin = [self.pluginsManager mainClassForPluginWithFunctionIdentifier:[item objectForKey:kMenuItemFunctionIdentifier]];
         
-        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Pluing found use %s class.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_debug(OS_LOG_DEFAULT, "Pluing found use %s class.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
         
         id<HITPluginProtocol> pluginInstance = [TargetPlugin newPlugInInstanceWithSettings:[item objectForKey:kMenuItemSettings]];
         if (pluginInstance) {
@@ -91,7 +91,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
                 }
                 
                 if (!skipForGlobalState) {
-                    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s has state for global state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+                    os_log_debug(OS_LOG_DEFAULT, "Plugin instance of %s has state for global state, start observing it.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
                     
                     [observablePluginInstance addObserver:self
                                                forKeyPath:@"testState"
@@ -103,7 +103,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
             
             if ([pluginInstance respondsToSelector:@selector(isNetworkRelated)]) {
                 if ([pluginInstance isNetworkRelated]) {
-                    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Plugin instance of %s is network related, recording it to the plugins manager.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
+                    os_log_debug(OS_LOG_DEFAULT, "Plugin instance of %s is network related, recording it to the plugins manager.", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding]);
                     [self.pluginsManager registerPluginInstanceAsNetworkRelated:pluginInstance];
                 }
             }
@@ -111,13 +111,13 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
             [self.subPluginInstances addObject:pluginInstance];
             [menu addItem:[pluginInstance menuItem]];
         } else {
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Impossible to instanciate %s (needed for %s).", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding], [[item objectForKey:kMenuItemFunctionIdentifier] cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "Impossible to instanciate %s (needed for %s).", [NSStringFromClass(TargetPlugin) cStringUsingEncoding:NSUTF8StringEncoding], [[item objectForKey:kMenuItemFunctionIdentifier] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     
     [self updateHiddenStateBasedOnRequiredKeysOnIn:menu];
     
-    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu ready");
+    os_log_info(OS_LOG_DEFAULT, "Submenu ready");
     menuItem.submenu = menu;
     return menuItem;
 }
@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
             else if (substate&HITPluginTestStateOK) self.testState = HITPluginTestStateOK;
         }
 
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Submenu state has changed for %lu.", (unsigned long)self.testState);
+        os_log_info(OS_LOG_DEFAULT, "Submenu state has changed for %lu.", (unsigned long)self.testState);
 
     }
 }

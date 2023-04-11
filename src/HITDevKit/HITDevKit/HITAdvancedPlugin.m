@@ -7,7 +7,7 @@
 //
 
 #import "HITAdvancedPlugin.h"
-#import <asl.h>
+#import <os/log.h>
 
 @interface HITAdvancedPlugin () {
     HITPluginTestState _testState;

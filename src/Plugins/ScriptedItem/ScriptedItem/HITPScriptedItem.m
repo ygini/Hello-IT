@@ -24,7 +24,7 @@
 //#define kHITPCustomScriptsPath @"/Users/ygi/Sources/Public/Hello-IT/src/Plugins/ScriptedItem/CustomScripts"
 //#endif
 
-#import <asl.h>
+#import <os/log.h>
 
 @interface HITPScriptedItem ()
 @property NSString *script;
@@ -47,7 +47,7 @@
             _script = [[NSString stringWithFormat:kHITPCustomScriptsPath] stringByAppendingPathComponent:[settings objectForKey:kHITPSubCommandScriptName]];
         }
         
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
             if ([[NSFileManager defaultManager] isWritableFileAtPath:_script] && [[NSUserDefaults standardUserDefaults] boolForKey:kHITPDenyUserWritableScript]) {
@@ -56,20 +56,20 @@
 #else
                 _scriptChecked = NO;
 #endif
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_error(OS_LOG_DEFAULT, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
             } else {
                 _scriptChecked = YES;
             }
         } else {
             _scriptChecked = NO;
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
         }
         
         _options = [settings objectForKey:kHITPSubCommandOptions];
         
         NSDictionary *args = [settings objectForKey:kHITPSubCommandArgs];
         if (args) {
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Args options to be sent in base64 format isn't supported anymore by scripted items. Use options instead");
+            os_log_error(OS_LOG_DEFAULT, "Args options to be sent in base64 format isn't supported anymore by scripted items. Use options instead");
         }
         
     }
@@ -121,7 +121,7 @@
 
 - (void)runScriptWithCommand:(NSString*)command {
     if (self.scriptChecked && self.allowedToRun) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Start script %s with command %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [command cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Start script %s with command %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [command cStringUsingEncoding:NSUTF8StringEncoding]);
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSTask *task = [[NSTask alloc] init];
@@ -140,7 +140,7 @@
             [finalArgs addObject:command];
             
             if ([self.options count] > 0) {
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Adding array of option as arguments");
+                os_log_debug(OS_LOG_DEFAULT, "Adding array of option as arguments");
                 [finalArgs addObjectsFromArray:self.options];
                 
                 [environment setObject:@"yes"
@@ -194,16 +194,16 @@
                 
                 [task waitUntilExit];
                 
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script %s exited with code %i", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [task terminationStatus]);
+                os_log_info(OS_LOG_DEFAULT, "Script %s exited with code %i", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [task terminationStatus]);
             } @catch (NSException *exception) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script %s failed to run: %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [[exception reason] UTF8String]);
+                os_log_error(OS_LOG_DEFAULT, "Script %s failed to run: %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [[exception reason] UTF8String]);
             }
         });
     }
 }
 
 - (void)handleScriptRequest:(NSString*)request {
-    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script request recieved: %s", [request cStringUsingEncoding:NSUTF8StringEncoding]);
+    os_log_info(OS_LOG_DEFAULT, "Script request recieved: %s", [request cStringUsingEncoding:NSUTF8StringEncoding]);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSRange limiterRange = [request rangeOfString:@":"];
@@ -264,7 +264,7 @@
             if (valueURL) {
                 [[NSWorkspace sharedWorkspace] openURL:valueURL];
             } else {
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Unable to decode this as an URL conforms to RFCs 2396, 1738 and 1808.: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_info(OS_LOG_DEFAULT, "Unable to decode this as an URL conforms to RFCs 2396, 1738 and 1808.: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             }
             
         } else if ([key isEqualToString:@"hitp-notification"]) {
@@ -274,28 +274,28 @@
             self.menuItem.toolTip = value;
             
         } else if ([key isEqualToString:@"hitp-log-emerg"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_EMERG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_fault(OS_LOG_DEFAULT, "hitp-log-emerg: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-alert"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_ALERT, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_fault(OS_LOG_DEFAULT, "hitp-log-alert: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-crit"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_CRIT, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "hitp-log-crit: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-err"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "hitp-log-err: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-warning"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_WARNING, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_info(OS_LOG_DEFAULT, "hitp-log-warning: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-notice"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_NOTICE, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_info(OS_LOG_DEFAULT, "hitp-log-notice: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-info"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_info(OS_LOG_DEFAULT, "hitp-log-info: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
             
         } else if ([key isEqualToString:@"hitp-log-debug"]) {
-            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_debug(OS_LOG_DEFAULT, "hitp-log-debug: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     });
 }

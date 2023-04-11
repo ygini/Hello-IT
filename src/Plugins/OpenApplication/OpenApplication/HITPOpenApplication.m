@@ -16,7 +16,7 @@
 
 #define kHITPOpenApplicationHideIfNotAvailable @"hideIfNotAvailable"
 
-#import <asl.h>
+#import <os/log.h>
 
 @interface HITPOpenApplication ()
 @property NSString *application;
@@ -59,12 +59,12 @@
         if (self.application) {
             self.menuItem.hidden = [[NSWorkspace sharedWorkspace] fullPathForApplication:self.application] == nil;
             if (self.menuItem.hidden) {
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item %s for %s is hidden, workspace unable to find requested app.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [self.application cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_info(OS_LOG_DEFAULT, "Menu item %s for %s is hidden, workspace unable to find requested app.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [self.application cStringUsingEncoding:NSUTF8StringEncoding]);
             }
         } else {
             self.menuItem.hidden = ![[NSFileManager defaultManager] fileExistsAtPath:[self.appURL path]];
             if (self.menuItem.hidden) {
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item %s for app at path %s is hidden, path does not exist.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [[self.appURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_info(OS_LOG_DEFAULT, "Menu item %s for app at path %s is hidden, path does not exist.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [[self.appURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
             }
         }
     } else {
@@ -74,15 +74,15 @@
 
 - (void)mainAction:(id)sender {
     if (self.application) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "User requested to open %s with optional file %s.", [self.application cStringUsingEncoding:NSUTF8StringEncoding], [self.file cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "User requested to open %s with optional file %s.", [self.application cStringUsingEncoding:NSUTF8StringEncoding], [self.file cStringUsingEncoding:NSUTF8StringEncoding]);
         [[NSWorkspace sharedWorkspace] openFile:self.file withApplication:self.application andDeactivate:YES];
     } else if (self.appURL) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "User requested to open application at path %s with opional args %s.", [[self.appURL absoluteString] cStringUsingEncoding:NSUTF8StringEncoding], [[self.args description] cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "User requested to open application at path %s with opional args %s.", [[self.appURL absoluteString] cStringUsingEncoding:NSUTF8StringEncoding], [[self.args description] cStringUsingEncoding:NSUTF8StringEncoding]);
         NSError *error = nil;
         [[NSWorkspace sharedWorkspace] launchApplicationAtURL:self.appURL options:0 configuration:@{NSWorkspaceLaunchConfigurationArguments: self.args} error:&error];
         
         if (error) {
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Error when running app:\n%s", [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "Error when running app:\n%s", [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
 }

@@ -8,7 +8,7 @@
 
 #import "HITSimplePlugin.h"
 
-#import <asl.h>
+#import <os/log.h>
 
 @interface HITSimplePlugin ()
 @property NSString *script;
@@ -30,7 +30,7 @@
         if ([[settings objectForKey:kHITSimplePluginComputedTitleKey] length] > 0) {
             _script = [[NSString stringWithFormat:kHITPCustomScriptsPath] stringByAppendingPathComponent:[settings objectForKey:kHITSimplePluginComputedTitleKey]];
 
-            asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_info(OS_LOG_DEFAULT, "Loading script based plugin with script at path %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
             
             if ([[NSFileManager defaultManager] fileExistsAtPath:_script]) {
                 if ([[NSFileManager defaultManager] isWritableFileAtPath:_script] && [[NSUserDefaults standardUserDefaults] boolForKey:kHITPDenyUserWritableScript]) {
@@ -39,13 +39,13 @@
 #else
                     _scriptChecked = NO;
 #endif
-                    asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+                    os_log_error(OS_LOG_DEFAULT, "Target script is writable, security restriction deny such a scenario %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
                 } else {
                     _scriptChecked = YES;
                 }
             } else {
                 _scriptChecked = NO;
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_error(OS_LOG_DEFAULT, "Target script not accessible %s", [_script cStringUsingEncoding:NSUTF8StringEncoding]);
             }
         }
         
@@ -72,7 +72,7 @@
             imagePath = [[customImageBaseFolder stringByAppendingPathComponent:imageBaseNameForDark] stringByAppendingPathExtension:@"png"];
             
             if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath]) {
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Image at path %s does not exist.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_info(OS_LOG_DEFAULT, "Image at path %s does not exist.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
                 imagePath = nil;
             }
         }
@@ -84,11 +84,11 @@
     }
     
     if (imagePath) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Menu item set with image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Menu item set with image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
         NSImage *accessoryImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
         
         if (!accessoryImage) {
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "Impossible to load image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "Impossible to load image at path %s.", [imagePath cStringUsingEncoding:NSUTF8StringEncoding]);
         }
         
         return accessoryImage;
@@ -119,7 +119,7 @@
 
 - (void)updateWithComputedTitle:(NSMenuItem *)menuItem {
     if (self.scriptChecked && self.allowedToRun) {
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Get computed title with script %s", [self.script cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Get computed title with script %s", [self.script cStringUsingEncoding:NSUTF8StringEncoding]);
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSTask *task = [[NSTask alloc] init];
@@ -153,9 +153,9 @@
                 
                 [task waitUntilExit];
                 
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Script exited with code %i", [task terminationStatus]);
+                os_log_info(OS_LOG_DEFAULT, "Script exited with code %i", [task terminationStatus]);
             } @catch (NSException *exception) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Script failed to run: %s", [[exception reason] UTF8String]);
+                os_log_error(OS_LOG_DEFAULT, "Script failed to run: %s", [[exception reason] UTF8String]);
             }
         }];
     }

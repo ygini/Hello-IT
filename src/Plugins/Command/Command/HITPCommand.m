@@ -8,7 +8,7 @@
 
 #import "HITPCommand.h"
 
-#import <asl.h>
+#import <os/log.h>
 
 
 @interface HITPCommand ()
@@ -27,7 +27,7 @@
     if (self) {
         _programArguments = [settings objectForKey:kHITPProgramArguments];
         
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Loading command plugin with program arguments %s", [[_programArguments description] cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Loading command plugin with program arguments %s", [[_programArguments description] cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if ([_programArguments count] > 0) {
             NSString * command = [_programArguments firstObject];
@@ -38,17 +38,17 @@
 #else
                     _scriptChecked = NO;
 #endif
-                    asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target command is writable, security restriction deny such a scenario %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
+                    os_log_error(OS_LOG_DEFAULT, "Target command is writable, security restriction deny such a scenario %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
                 } else {
                     _scriptChecked = YES;
                 }
             } else {
                 _scriptChecked = NO;
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Target command not accessible %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
+                os_log_error(OS_LOG_DEFAULT, "Target command not accessible %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
             }
         } else {
             _scriptChecked = NO;
-            asl_log(NULL, NULL, ASL_LEVEL_ERR, "No valid value for %s", [kHITPProgramArguments cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "No valid value for %s", [kHITPProgramArguments cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
     return self;
@@ -61,7 +61,7 @@
         
         NSString *command = [self.programArguments firstObject];
         
-        asl_log(NULL, NULL, ASL_LEVEL_INFO, "Will run command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_info(OS_LOG_DEFAULT, "Will run command %s", [command cStringUsingEncoding:NSUTF8StringEncoding]);
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSTask *task = [[NSTask alloc] init];
@@ -71,9 +71,9 @@
             @try {
                 [task launch];
                 [task waitUntilExit];
-                asl_log(NULL, NULL, ASL_LEVEL_INFO, "Command exited with code %i", [task terminationStatus]);
+                os_log_info(OS_LOG_DEFAULT, "Command exited with code %i", [task terminationStatus]);
             } @catch (NSException *exception) {
-                asl_log(NULL, NULL, ASL_LEVEL_ERR, "Command failed to run: %s", [[exception reason] UTF8String]);
+                os_log_error(OS_LOG_DEFAULT, "Command failed to run: %s", [[exception reason] UTF8String]);
             }
         }];
     }

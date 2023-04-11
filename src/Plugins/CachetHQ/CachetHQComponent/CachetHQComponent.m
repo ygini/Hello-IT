@@ -11,7 +11,7 @@
 #define kCachetHQBaseURL @"baseURL"
 #define kCachetHQSortScenario @"stateSortScenario"
 
-#import <asl.h>
+#import <os/log.h>
 
 typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     HITPSubMenuSortScenarioUnavailableWin = 0,
@@ -89,8 +89,8 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable connectionError) {
                                      if (connectionError) {
                                          self.testState = HITPluginTestStateNone;
-                                         asl_log(NULL, NULL, ASL_LEVEL_INFO, "Connection error during test.");
-                                         asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [[connectionError description] cStringUsingEncoding:NSUTF8StringEncoding]);
+                                         os_log_info(OS_LOG_DEFAULT, "Connection error during test.");
+                                         os_log_debug(OS_LOG_DEFAULT, "%s", [[connectionError description] cStringUsingEncoding:NSUTF8StringEncoding]);
                                          
                                      } else {
                                          NSError *jsonError = nil;
@@ -100,8 +100,8 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
                                          
                                          if (jsonError) {
                                              self.testState = HITPluginTestStateNone;
-                                             asl_log(NULL, NULL, ASL_LEVEL_INFO, "JSON decoding error.");
-                                             asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "%s", [[jsonError description] cStringUsingEncoding:NSUTF8StringEncoding]);
+                                             os_log_info(OS_LOG_DEFAULT, "JSON decoding error.");
+                                             os_log_debug(OS_LOG_DEFAULT, "%s", [[jsonError description] cStringUsingEncoding:NSUTF8StringEncoding]);
                                          } else {
                                              
                                              NSInteger totalPages = [[cachetInfos valueForKeyPath:@"meta.pagination.total_pages"] integerValue];
@@ -172,7 +172,7 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     }
     
     if (!groupSubmenu) {
-        asl_log(NULL, NULL, ASL_LEVEL_ERR, "Impossible scenario, all groups' menu should have been created now!");
+        os_log_error(OS_LOG_DEFAULT, "Impossible scenario, all groups' menu should have been created now!");
     } else {
         NSMenuItem *menuItem = nil;
         @synchronized(_menuItemPerServiceKey) {
@@ -197,37 +197,37 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
 }
 
 - (void)updateSumarizedServicesState {
-    asl_log(NULL, NULL, ASL_LEVEL_INFO, "Sumerizing CachetHQ states");
+    os_log_info(OS_LOG_DEFAULT, "Sumerizing CachetHQ states");
     
     NSInteger worstState = 1;
     for (NSMenuItem *groupMenuItem in self.cachetHQMenu.itemArray) {
         NSInteger submenuWorstState = 1;
         
-        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Working on group menu %s", [groupMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding]);
+        os_log_debug(OS_LOG_DEFAULT, "Working on group menu %s", [groupMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding]);
         
         for (NSMenuItem *serviceMenuItem in groupMenuItem.submenu.itemArray) {
             NSDictionary *serviceInfo = serviceMenuItem.representedObject;
             NSNumber *serviceStatus = [serviceInfo objectForKey:@"status"];
             
             NSInteger state = [serviceStatus integerValue];
-            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Working on group item %s with current state %ld", [serviceMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding], state);
+            os_log_debug(OS_LOG_DEFAULT, "Working on group item %s with current state %ld", [serviceMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding], state);
 
             
             if (state > submenuWorstState) {
-                asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Evaluated item state is worst than previous one for this group");
+                os_log_debug(OS_LOG_DEFAULT, "Evaluated item state is worst than previous one for this group");
                 submenuWorstState = state;
             }
         }
         
-        asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Updating group menu %s with state %ld", [groupMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding], submenuWorstState);
+        os_log_debug(OS_LOG_DEFAULT, "Updating group menu %s with state %ld", [groupMenuItem.title cStringUsingEncoding:NSUTF8StringEncoding], submenuWorstState);
         [self updateMenuItem:groupMenuItem withCachetState:submenuWorstState];
 
         if (submenuWorstState > worstState) {
-            asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Evaluated group state is worst than previous one for the global state");
+            os_log_debug(OS_LOG_DEFAULT, "Evaluated group state is worst than previous one for the global state");
             worstState = submenuWorstState;
         }
     }
-    asl_log(NULL, NULL, ASL_LEVEL_DEBUG, "Updating global menu %s with state %ld", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], worstState);
+    os_log_debug(OS_LOG_DEFAULT, "Updating global menu %s with state %ld", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], worstState);
     switch (worstState) {
         case 4:
             self.testState = HITPluginTestStateError;
