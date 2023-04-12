@@ -165,6 +165,9 @@ xcrun stapler staple "${RELEASE_LOCATION}/Hello-IT-${MARKETING_VERSION}-${CONFIG
 	
 echo "####### Cleaning temporary files"
 
+cd "${PROJECT_DIR}"
+xcodebuild clean
+
 rm -rf "${PKG_ROOT}"
 rm -rf "${BUILT_PRODUCTS_DIR}"
 
