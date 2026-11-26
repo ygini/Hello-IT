@@ -12,26 +12,28 @@
       <array>
         <dict>
           <key>functionIdentifier</key>
-          <string>public.script.item</string>
+          <string>public.munki</string>
           <key>settings</key>
           <dict>
-            <key>script</key>
-            <string>com.github.wardsparadox.hello-it.munki.manifestname.sh</string>
+            <key>kind</key>
+            <string>manifest</string>
             <key>title</key>
-            <string>mscmanifest</string>
+            <string>MSC Manifest</string>
+            <key>skipForGlobalState</key>
+            <true/>
           </dict>
         </dict>
         <dict>
           <key>functionIdentifier</key>
-          <string>public.script.item</string>
+          <string>public.munki</string>
           <key>settings</key>
           <dict>
-            <key>script</key>
-            <string>com.github.wardsparadox.hello-it.munki.pendingmscupdates.sh</string>
+            <key>kind</key>
+            <string>pending</string>
+            <key>title</key>
+            <string>Pending MSC Updates</string>
             <key>repeat</key>
             <integer>360</integer>
-            <key>title</key>
-            <string>pendingupdatescount</string>
           </dict>
         </dict>
       </array>

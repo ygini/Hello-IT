@@ -27,6 +27,6 @@ See:
 * [Docs/deployment-hardening.md](Docs/deployment-hardening.md) — signing, notarization, MDM
 * [Docs/configurator.md](Docs/configurator.md) — Configurator Mode
 * [Docs/built-in-plugins.md](Docs/built-in-plugins.md) — System info / Munki / Send email / About
-* [example/](example/) — sample prefs and scripts
+* [example/](example/) — sample prefs (Basic Example uses built-ins; script folders kept for older releases / custom items)
 
 AutoPkg: [ygini-recipes](https://github.com/autopkg/ygini-recipes)

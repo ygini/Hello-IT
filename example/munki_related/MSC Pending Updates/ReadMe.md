@@ -5,6 +5,8 @@
 ### Description:
 Provides user feedback as to how many Managed Software Center updates are available. If any are available, it displays a warning. You could of course change this.
 
+**Hello IT 1.7+:** Prefer built-in `public.munki` kind `pending` (see `../ReadMe.md`). Script below is for older releases.
+
 ### Preference Keys to add:
     <dict>
       <key>functionIdentifier</key>

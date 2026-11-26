@@ -161,8 +161,6 @@
 				<string>wifi</string>
 				<key>repeat</key>
 				<integer>60</integer>
-				<key>skipForGlobalState</key>
-				<true/>
 			</dict>
 		</dict>
 		<dict>
@@ -187,24 +185,88 @@
 				<string>storage</string>
 				<key>repeat</key>
 				<integer>300</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>uptime</string>
+				<key>repeat</key>
+				<integer>3600</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>memory</string>
+				<key>repeat</key>
+				<integer>60</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.munki</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>manifest</string>
+				<key>title</key>
+				<string>MSC Manifest</string>
 				<key>skipForGlobalState</key>
 				<true/>
 			</dict>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
-			<string>public.open.resource</string>
+			<string>public.munki</string>
 			<key>settings</key>
 			<dict>
-				<key>URL</key>
-				<string>mailto:support@example.com?subject=Support Request</string>
+				<key>kind</key>
+				<string>pending</string>
 				<key>title</key>
-				<string>Send e-mail to support</string>
+				<string>Pending MSC Updates</string>
+				<key>repeat</key>
+				<integer>360</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
 			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.send.email</string>
+			<key>settings</key>
+			<dict>
+				<key>title</key>
+				<string>Email IT about this Mac</string>
+				<key>mailto</key>
+				<string>support@example.com</string>
+				<key>mailer</key>
+				<string>default</string>
+				<key>subject</key>
+				<string>Help — $SERIAL</string>
+				<key>deviceURL</key>
+				<string>https://report.example.com/device?$UUID</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.about</string>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>

@@ -2,11 +2,40 @@
 ---
 ##### Author: [Zack McCauley](https://www.github.com/WardsParadox)
 
-### Description:
-All Munki related Hello-IT scripts and preferences dwell here. There is an included preference file that you can drop in place as well!
+### Description
 
-**Hello IT 1.7+:** Prefer the built-in Type → **Munki** in Configurator Mode (`public.munki`, kinds `manifest` / `pending`). These scripts remain as examples / for older releases.
+**Hello IT 1.7+:** Prefer the built-in Type → **Munki** in Configurator Mode (`public.munki`, kinds `manifest` / `pending`). The sample `com.github.ygini.Hello-IT.munkirelated.plist` uses those built-ins.
 
-### Current Scripts Included in Preference File:
-Manifest Name: Shows current manifest associated with MSC
-Pending Update Count: Shows current number of pending MSC Updates
+The scripts under this folder remain as examples / for older releases.
+
+### Built-in sample (1.7+)
+
+```xml
+<dict>
+  <key>functionIdentifier</key>
+  <string>public.munki</string>
+  <key>settings</key>
+  <dict>
+    <key>kind</key>
+    <string>manifest</string>
+    <key>title</key>
+    <string>MSC Manifest</string>
+  </dict>
+</dict>
+```
+
+```xml
+<dict>
+  <key>functionIdentifier</key>
+  <string>public.munki</string>
+  <key>settings</key>
+  <dict>
+    <key>kind</key>
+    <string>pending</string>
+    <key>title</key>
+    <string>Pending MSC Updates</string>
+    <key>repeat</key>
+    <integer>360</integer>
+  </dict>
+</dict>
+```

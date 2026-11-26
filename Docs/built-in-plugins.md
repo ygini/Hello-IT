@@ -1,6 +1,14 @@
 # Built-in plugins (1.7)
 
-Common menu items that do not need CustomScripts. Prefer these from Configurator Mode; the scripts under `example/` remain for older releases or custom behaviour.
+Common menu items that do not need CustomScripts. Prefer these from Configurator Mode.
+
+Canonical drop-in samples (1.7+):
+
+- `example/Basic Example/com.github.ygini.Hello-IT.plist` — system info, Munki, send email, About
+- `example/computer_details/com.github.ygini.Hello-IT.computerdetails.plist` — native where possible + scripts for serial/model/macOS
+- `example/munki_related/com.github.ygini.Hello-IT.munkirelated.plist` — `public.munki`
+
+Script folders under `example/` remain for older releases or custom behaviour. `HelloITConfiguration_example.mobileconfig` is a **legacy script** profile (see its `.ReadMe.md`).
 
 ## System info — `public.system.info`
 

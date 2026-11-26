@@ -7,6 +7,8 @@
 ### Description:
 Displays Total Ram in Hello-IT. Updated to use the hitp shell lib.
 
+**Hello IT 1.7+:** Prefer built-in `public.system.info` kind `memory`.
+
 ### Preference Keys
     <dict>
         <key>functionIdentifier</key>
