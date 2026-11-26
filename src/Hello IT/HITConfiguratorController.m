@@ -121,6 +121,8 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
 
 @interface HITConfiguratorController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSTextFieldDelegate, NSWindowDelegate>
 
+@property (nonatomic, strong, nullable) id previousToolTipDelay;
+@property (nonatomic, assign) BOOL didOverrideToolTipDelay;
 @property (nonatomic, strong) NSMutableArray<NSMutableDictionary *> *rootContent;
 @property (nonatomic, strong) NSOutlineView *outlineView;
 @property (nonatomic, strong) NSPopUpButton *typePopup;
@@ -226,8 +228,12 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
 #pragma mark - Public
 
 - (void)showConfigurator {
-    // Faster hover tips (system default ~1000 ms); keep low for the outline tree.
-    [[NSUserDefaults standardUserDefaults] setObject:@100 forKey:@"NSInitialToolTipDelay"];
+    // Faster hover tips while Configurator is open; restore on close (global Cocoa default).
+    if (!self.didOverrideToolTipDelay) {
+        self.previousToolTipDelay = [[NSUserDefaults standardUserDefaults] objectForKey:@"NSInitialToolTipDelay"];
+        [[NSUserDefaults standardUserDefaults] setObject:@100 forKey:@"NSInitialToolTipDelay"];
+        self.didOverrideToolTipDelay = YES;
+    }
 
     [self ensureStandardEditMenu];
     [self loadFromDefaults];
@@ -304,6 +310,20 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
 
 - (void)windowDidMove:(NSNotification *)notification {
     [self.window saveFrameUsingName:kHITConfigWindowFrameAutosave];
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    if (!self.didOverrideToolTipDelay) {
+        return;
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (self.previousToolTipDelay) {
+        [defaults setObject:self.previousToolTipDelay forKey:@"NSInitialToolTipDelay"];
+    } else {
+        [defaults removeObjectForKey:@"NSInitialToolTipDelay"];
+    }
+    self.previousToolTipDelay = nil;
+    self.didOverrideToolTipDelay = NO;
 }
 
 - (void)expandAllSubmenus {
@@ -2700,7 +2720,7 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         NSString *failover = settings[@"failoverHost"];
         self.fileField.stringValue = [failover isKindOfClass:[NSString class]] ? failover : @"cloudflare.com";
         self.fileField.placeholderString = @"cloudflare.com";
-        self.fileField.toolTip = @"If the primary URL fails to connect, ping this FQDN. Empty disables failover. Default: cloudflare.com";
+        self.fileField.toolTip = @"If the primary URL fails to connect, ping this FQDN. Success → Warning (not OK). Empty disables failover. Default: cloudflare.com";
     } else {
         self.fileField.hidden = YES;
         self.fileLabel.hidden = YES;

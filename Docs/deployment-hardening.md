@@ -22,7 +22,7 @@ Details: [configurator.md](configurator.md).
 
 - Packaging uses `notarytool` + keychain profile (replaces deprecated `altool`)
 - Universal build of HITDevKit then Hello IT (`x86_64` + `arm64`)
-- Minimum macOS **12.0**
+- Minimum macOS **12.0** (intentional vs older 1.7 betas that targeted 10.14.6 — required by current Xcode / SDKs)
 - Entitlements trimmed to Apple Events + `disable-library-validation` (needed for `.hitp` plugins under Application Support)
 - Default preference `denyUserWritableScript` = **YES** (refuse user-writable scripts/commands)
 - OpenResource: optional `hideIfNotAvailable` for `file://` URLs

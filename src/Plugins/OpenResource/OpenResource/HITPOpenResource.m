@@ -38,7 +38,26 @@
                             object:nil
                              queue:[NSOperationQueue mainQueue]
                         usingBlock:^(NSNotification * _Nonnull note) {
-                [weakSelf hideItemIfNeeded];
+                typeof(self) strongSelf = weakSelf;
+                if (!strongSelf || !strongSelf.menuItem) {
+                    return;
+                }
+                NSMenu *tracked = note.object;
+                if (![tracked isKindOfClass:[NSMenu class]]) {
+                    return;
+                }
+                // Only react when Hello IT's own menu hierarchy is tracking.
+                BOOL relevant = NO;
+                for (NSMenu *menu = strongSelf.menuItem.menu; menu != nil; menu = menu.supermenu) {
+                    if (menu == tracked) {
+                        relevant = YES;
+                        break;
+                    }
+                }
+                if (!relevant) {
+                    return;
+                }
+                [strongSelf hideItemIfNeeded];
             }];
         }
     }

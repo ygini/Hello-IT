@@ -206,10 +206,17 @@ typedef NS_ENUM(NSInteger, HITPMunkiKind) {
 
     id rawRestart = [self managedInstallsValueForKey:@"RestartRequired"];
     BOOL restartRequired = NO;
-    if ([rawRestart respondsToSelector:@selector(boolValue)]) {
-        restartRequired = [rawRestart boolValue];
+    if ([rawRestart isKindOfClass:[NSNumber class]]) {
+        restartRequired = [(NSNumber *)rawRestart boolValue];
     } else if ([rawRestart isKindOfClass:[NSString class]]) {
-        restartRequired = [(NSString *)rawRestart length] > 0;
+        NSString *value = [(NSString *)rawRestart stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].lowercaseString;
+        // Match `defaults read`-style booleans; ignore empty / falsey strings.
+        restartRequired = [value isEqualToString:@"1"]
+            || [value isEqualToString:@"true"]
+            || [value isEqualToString:@"yes"]
+            || [value isEqualToString:@"y"];
+    } else if ([rawRestart respondsToSelector:@selector(boolValue)]) {
+        restartRequired = [rawRestart boolValue];
     }
 
     if (restartRequired) {

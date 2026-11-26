@@ -19,7 +19,7 @@ This line builds on Yoann’s 1.7 modernization (`os_log`, dark mode, NSURLSessi
 * **Configurator Mode** — edit the menu tree in the app, Apply & Reload, export plist / `.mobileconfig` / bash installer (⇧⌥-click the status item to unlock; fleet can disable)
 * **Built-in plugins** — System info, Munki, Send email, About (no CustomScripts required for common items)
 * **Alerts / thresholds / notifications** — warn/error thresholds and optional banners for stateful items; optional Command completion notify
-* **HTTP test failover** — optional secondary host when the primary URL cannot connect
+* **HTTP test failover** — optional secondary host when the primary URL cannot connect (Warning if ping works but HTTP failed; not OK)
 * **Deployment hardening** — `notarytool`, universal builds, min macOS **12.0**, safer default for writable scripts
 
 See:

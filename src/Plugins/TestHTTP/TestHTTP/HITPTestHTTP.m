@@ -141,9 +141,9 @@ static NSString * const kHITPTestHTTPDefaultFailoverHost = @"cloudflare.com";
                 return;
             }
             if (failoverOK) {
-                // Primary URL (e.g. GitHub) failed, but the network answers — don't false-alarm.
-                self.testState = HITPluginTestStateOK;
-                os_log(OS_LOG_DEFAULT, "Primary HTTP test failed; failover ping to %s succeeded — marking OK.",
+                // Network is up, but the monitored HTTP URL still failed — warn, don't show OK.
+                self.testState = HITPluginTestStateWarning;
+                os_log(OS_LOG_DEFAULT, "Primary HTTP test failed; failover ping to %s succeeded — marking Warning.",
                        [self.failoverHost cStringUsingEncoding:NSUTF8StringEncoding]);
             } else {
                 self.testState = self.failedConnection;

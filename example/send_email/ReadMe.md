@@ -8,7 +8,7 @@ Built-in type `public.send.email` opens a prefilled message in the default maile
 |---|---|---|
 | `mailto` | yes | Destination address |
 | `deviceURL` | no | Template URL with `$SERIAL` / `$UUID` / `$HOSTNAME` |
-| `mailer` | no | `default` (system mailer) or `gmail` |
+| `mailer` | no | `default` (system mailer) or `gmail`. Gmail opens compose with to/subject only and copies the body to the pasteboard (avoids putting serial/UUID in a GET URL). |
 | `subject` | no | Subject template (same placeholders + `$DEVICE_URL`) |
 | `body` | no | Body template. If omitted (or present without `$DEVICE_URL`) and `deviceURL` is set, a protected block is appended: blank lines, “Please do not edit the line below”, a rule, then the resolved device URL |
 

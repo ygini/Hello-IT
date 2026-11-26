@@ -6,7 +6,7 @@ Configurator Mode lets an admin edit the Hello IT menu tree on a Mac without han
 
 The **Configurator Mode…** menu item is hidden until you **⇧⌥-click** the Hello IT status item. After unlock it stays visible for that user (`configuratorModeUnlocked`).
 
-Fleet can block unlock entirely:
+Fleet can block unlock entirely (recommended on managed Macs — Apply writes the user `com.github.ygini.Hello-IT` domain until MDM refreshes):
 
 ```bash
 defaults write com.github.ygini.Hello-IT disableConfiguratorMode -bool YES

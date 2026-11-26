@@ -63,12 +63,12 @@ then
 		VERSION_FROM_BRANCH=$(echo "${CURRENT_BRANCH}" | awk -F'/' '{print $2}')
 		if [[ "$VERSION_FROM_BRANCH" =~ ^[0-9]+\.[0-9]+ ]]
 		then
+			# Sync marketing version for this build only — do not auto-commit.
 			MARKETING_VERSION=$VERSION_FROM_BRANCH
 			sed -i '' "/MARKETING_VERSION/c\\
 MARKETING_VERSION = ${MARKETING_VERSION}
 " "${PROJECT_DIR}/Hello-IT.xcconfig"
-			git add "${PROJECT_DIR}/Hello-IT.xcconfig"
-			git commit -m "Update marketing version number according to release branch"
+			echo "Using MARKETING_VERSION=${MARKETING_VERSION} from branch ${CURRENT_BRANCH} (not committed)."
 		fi
 	fi
 fi

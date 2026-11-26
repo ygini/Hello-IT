@@ -9,6 +9,7 @@
 
 #import "HITPSendEmail.h"
 
+#import <AppKit/AppKit.h>
 #import <IOKit/IOKitLib.h>
 #import <os/log.h>
 
@@ -176,13 +177,19 @@ typedef NS_ENUM(NSInteger, HITPSendEmailMailer) {
 
     NSURL *url = nil;
     if (self.mailer == HITPSendEmailMailerGmail) {
+        // Do not put serial/UUID/hostname body into a Gmail GET URL (browser history / proxies).
+        // Copy the body to the pasteboard and open compose with to + subject only.
+        if (body.length > 0) {
+            NSPasteboard *pb = [NSPasteboard generalPasteboard];
+            [pb clearContents];
+            [pb setString:body forType:NSPasteboardTypeString];
+            os_log_info(OS_LOG_DEFAULT, "SendEmail: Gmail body copied to pasteboard (%lu chars).",
+                        (unsigned long)body.length);
+        }
         NSMutableArray *parts = [NSMutableArray array];
         [parts addObject:[NSString stringWithFormat:@"to=%@", [self percentEncodedQueryValue:self.mailto]]];
         if (subject.length > 0) {
             [parts addObject:[NSString stringWithFormat:@"su=%@", [self percentEncodedQueryValue:subject]]];
-        }
-        if (body.length > 0) {
-            [parts addObject:[NSString stringWithFormat:@"body=%@", [self percentEncodedQueryValue:body]]];
         }
         NSString *gmail = [NSString stringWithFormat:
                            @"https://mail.google.com/mail/?view=cm&fs=1&%@",
@@ -196,8 +203,9 @@ typedef NS_ENUM(NSInteger, HITPSendEmailMailer) {
         if (body.length > 0) {
             [parts addObject:[NSString stringWithFormat:@"body=%@", [self percentEncodedQueryValue:body]]];
         }
-        // Keep the address readable in mailto:; only encode query values.
-        NSString *mailtoURL = [NSString stringWithFormat:@"mailto:%@", self.mailto];
+        // Encode the address so spaces / unicode don't yield a nil NSURL.
+        NSString *encodedAddress = [self percentEncodedQueryValue:self.mailto];
+        NSString *mailtoURL = [NSString stringWithFormat:@"mailto:%@", encodedAddress];
         if (parts.count > 0) {
             mailtoURL = [mailtoURL stringByAppendingFormat:@"?%@", [parts componentsJoinedByString:@"&"]];
         }

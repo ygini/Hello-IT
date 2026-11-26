@@ -483,9 +483,18 @@ static NSRect HITAspectFitRect(NSSize contentSize, NSRect bounds) {
                 } else {
                     return;
                 }
-                    
-                NSData *stdoutData = (NSData *)data;
-                
+
+                // dispatch_data_t is not NSData — map bytes explicitly.
+                NSMutableData *stdoutData = [NSMutableData data];
+                if (data) {
+                    dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
+                        if (buffer && size > 0) {
+                            [stdoutData appendBytes:buffer length:size];
+                        }
+                        return true;
+                    });
+                }
+
                 NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
                 
                 NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
