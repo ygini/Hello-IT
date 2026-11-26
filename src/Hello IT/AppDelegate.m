@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "HITPluginsManager.h"
+#import "HITConfiguratorController.h"
 
 #import "Reachability.h"
 #import <QuartzCore/QuartzCore.h>
@@ -30,8 +31,12 @@
 
 @property id notificationObjectForInterfaceTheme;
 @property id notificationObjectForMDMUpdate;
+@property id notificationObjectForMenuTracking;
 
 @property BOOL menuOK;
+/// Bumps on each reload so superseded loadPlugins completions skip loadMenu
+/// (overlapping Apply/MDM reloads would otherwise leak an unstopped menu manager).
+@property NSUInteger reloadGeneration;
 
 
 @end
@@ -40,7 +45,16 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.menuOK = NO;
-        
+    // Secure default: refuse scripts/commands the current user can write.
+    // Fleet override: defaults write com.github.ygini.Hello-IT denyUserWritableScript -bool NO
+    // Configurator Mode: hidden until Shift-Option-click on the status item (then stays unlocked).
+    // Fleet hide: defaults write … disableConfiguratorMode -bool YES
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                                                              @"denyUserWritableScript": @YES,
+                                                              @"disableConfiguratorMode": @NO,
+                                                              @"configuratorModeUnlocked": @NO,
+                                                              }];
+    
     // This is a sample configuration to allow Hello IT to run without any custom settings.
     // You don't have to edit this code and rebuild the apps to use it, you just have to
     // customize com.github.ygini.Hello-IT like indicated here on the documentation
@@ -59,24 +73,59 @@
                                                                                             @"title": @"You Mac isn't managed, please call your IT support",
                                                                                             }
                                                                                     },
-                                                                                  @{@"functionIdentifier": @"public.script.item",
+                                                                                  @{@"functionIdentifier": @"public.system.info",
                                                                                     @"settings": @{
-                                                                                            @"script": @"com.github.ygini.hello-it.ip.sh",
-                                                                                            @"skipForGlobalState": @YES,
-                                                                                            @"options": @[@"-m", @"2" ]
-                                                                                            
+                                                                                            @"kind": @"hostname",
+                                                                                            @"format": @"%C (%H)",
+                                                                                            @"repeat": @60,
+                                                                                            @"skipForGlobalState": @YES
                                                                                             }
                                                                                     },
-                                                                                  @{@"functionIdentifier": @"public.script.item",
+                                                                                  @{@"functionIdentifier": @"public.system.info",
                                                                                     @"settings": @{
-                                                                                            @"script": @"com.github.ygini.hello-it.hostname.sh",
-                                                                                            @"skipForGlobalState": @YES,
-                                                                                            @"args": @{
-                                                                                                    @"format": @"%C (%H)"
-                                                                                                    }
+                                                                                            @"kind": @"ip",
+                                                                                            @"mode": @2,
+                                                                                            @"repeat": @60,
+                                                                                            @"skipForGlobalState": @YES
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.system.info",
+                                                                                    @"settings": @{
+                                                                                            @"kind": @"wifi",
+                                                                                            @"repeat": @60,
+                                                                                            @"skipForGlobalState": @YES
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.system.info",
+                                                                                    @"settings": @{
+                                                                                            @"kind": @"ethernet",
+                                                                                            @"repeat": @60,
+                                                                                            @"skipForGlobalState": @YES
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.system.info",
+                                                                                    @"settings": @{
+                                                                                            @"kind": @"storage",
+                                                                                            @"repeat": @300,
+                                                                                            @"skipForGlobalState": @YES
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.system.info",
+                                                                                    @"settings": @{
+                                                                                            @"kind": @"uptime",
+                                                                                            @"repeat": @60,
+                                                                                            @"skipForGlobalState": @YES
+                                                                                            }
+                                                                                    },
+                                                                                  @{@"functionIdentifier": @"public.system.info",
+                                                                                    @"settings": @{
+                                                                                            @"kind": @"memory",
+                                                                                            @"repeat": @60,
+                                                                                            @"skipForGlobalState": @YES
                                                                                             }
                                                                                     },
                                                                                   @{@"functionIdentifier": @"public.separator"},
+                                                                                  @{@"functionIdentifier": @"public.about"},
                                                                                   @{@"functionIdentifier": @"public.quit"}
                                                                                   ]
                                                                           }
@@ -115,6 +164,24 @@
     
     [self.statusItem addObserver:self forKeyPath:@"button.effectiveAppearance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
 
+    // Status-item clicks with a menu attached don't reliably hit local mouse monitors.
+    // Detect Shift-Option when our menu begins tracking instead (⌘⌥⌃ / Control are awkward here).
+    __weak typeof(self) weakSelf = self;
+    self.notificationObjectForMenuTracking = [[NSNotificationCenter defaultCenter] addObserverForName:NSMenuDidBeginTrackingNotification
+                                                                                               object:nil
+                                                                                                queue:nil
+                                                                                           usingBlock:^(NSNotification * _Nonnull note) {
+        AppDelegate *strongSelf = weakSelf;
+        if (!strongSelf || note.object != strongSelf.statusItem.menu) {
+            return;
+        }
+        NSEventModifierFlags flags = [NSEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
+        NSEventModifierFlags need = NSEventModifierFlagShift | NSEventModifierFlagOption;
+        if ((flags & need) == need) {
+            [strongSelf unlockConfiguratorModeFromStatusItemClick];
+        }
+    }];
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -123,18 +190,33 @@
     [self.reachability stopNotifier];
     [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMDMUpdate];
     [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForInterfaceTheme];
+    if (self.notificationObjectForMenuTracking) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMenuTracking];
+        self.notificationObjectForMenuTracking = nil;
+    }
 }
 
 - (void)reloadHelloIT {
     self.menuOK = NO;
+    NSUInteger generation = ++self.reloadGeneration;
     
     if (self.statusMenuManager) {
         NSObject<HITPluginProtocol> *menuManagerPlugin = self.statusMenuManager;
         [menuManagerPlugin stopAndPrepareForRelease];
     }
+    // Drop the stale submenu immediately so Apply/MDM reload cannot keep a stopped menu open.
+    self.statusItem.menu = nil;
+
+    // Clear immediately so reachability callbacks during async plugin load
+    // do not walk the just-stopped instances (loadMenu clears again before rebuild).
+    [[HITPluginsManager sharedInstance] clearNetworkRelatedPlugins];
     
     
     [[HITPluginsManager sharedInstance] loadPluginsWithCompletionHandler:^(HITPluginsManager *pluginsManager) {
+        if (generation != self.reloadGeneration) {
+            os_log_info(OS_LOG_DEFAULT, "Skipping superseded Hello IT reload (generation %lu, current %lu).", (unsigned long)generation, (unsigned long)self.reloadGeneration);
+            return;
+        }
         [self loadMenu];
     }];
 }
@@ -151,7 +233,18 @@
         os_log_info(OS_LOG_DEFAULT, "General state has changed for %lu.", (unsigned long)statusMenuState);
     }
     
-    if ([[self.statusMenuManager menuItem].title length] == 0) {
+    // Treat attachment-only / bullet-only titles as empty so the status-bar icon stays.
+    NSString *rawTitle = [self.statusMenuManager menuItem].title ?: @"";
+    static unichar const kNSAttachmentCharacter = 0xFFFC;
+    NSString *attachmentChar = [NSString stringWithCharacters:&kNSAttachmentCharacter length:1];
+    NSString *statusTitle = [rawTitle stringByReplacingOccurrencesOfString:attachmentChar withString:@""];
+    statusTitle = [statusTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([statusTitle hasPrefix:@"●"] || [statusTitle hasPrefix:@"▲"]) {
+        statusTitle = [[statusTitle substringFromIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
+    BOOL useStatusBarImage = (statusTitle.length == 0);
+
+    if (useStatusBarImage) {
         NSString *imageName = nil;
         NSString *imageNameForDark = nil;
         BOOL tryDark = NO;
@@ -205,7 +298,12 @@
                 icon = [NSImage imageNamed:imageName];
         }
         
+        // Keep the root menu item title empty so later state updates don't flip to a dot.
+        NSMenuItem *rootItem = [self.statusMenuManager menuItem];
+        rootItem.attributedTitle = nil;
+        rootItem.title = @"";
         self.statusItem.button.image = icon;
+        self.statusItem.button.title = @"";
     } else {
         NSColor *textColor = nil;
 
@@ -219,23 +317,30 @@
             case HITPluginTestStateWarning:
                 textColor = [NSColor orangeColor];
                 break;
-            default:
-                if ([self.statusItem.button.effectiveAppearance.name.lowercaseString containsString:@"dark"]) {
+            default: {
+                NSString *appearanceName = [self.statusItem.button.effectiveAppearance bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
+                if ([appearanceName isEqualToString:NSAppearanceNameDarkAqua]) {
                     textColor = [NSColor whiteColor];
                 } else {
                     textColor = [NSColor blackColor];
                 }
                 break;
+            }
         }
         
-        NSAttributedString *title = [[NSAttributedString alloc] initWithString:[self.statusMenuManager menuItem].title
+        NSAttributedString *title = [[NSAttributedString alloc] initWithString:statusTitle
                                                                     attributes:@{NSForegroundColorAttributeName: textColor}];
         
+        self.statusItem.button.image = nil;
         self.statusItem.button.attributedTitle = title;
     }
 }
 
 - (void)loadMenu {
+    // Old menu was stopAndPrepareForRelease'd in reloadHelloIT; drop stale network
+    // registrations before SubMenu re-registers the new instances.
+    [[HITPluginsManager sharedInstance] clearNetworkRelatedPlugins];
+
     NSMutableDictionary *compositeSettings = [NSMutableDictionary dictionaryWithCapacity:2];
 
     NSArray *oldStyleRootContent = [[NSUserDefaults standardUserDefaults] arrayForKey:kMenuItemContent];
@@ -290,10 +395,14 @@
     
     Class<HITPluginProtocol> SubMenuPlugin = [[HITPluginsManager sharedInstance] mainClassForPluginWithFunctionIdentifier:[compositeSettings objectForKey:kMenuItemFunctionIdentifier]];
     self.statusMenuManager = [SubMenuPlugin newPlugInInstanceWithSettings:[compositeSettings objectForKey:kMenuItemSettings]];
-    if (self.statusMenuManager) {
-        if ([self.statusMenuManager respondsToSelector:@selector(setPluginsManager:)]) {
-            [self.statusMenuManager setPluginsManager:[HITPluginsManager sharedInstance]];
-        }
+    if (!self.statusMenuManager) {
+        os_log_error(OS_LOG_DEFAULT, "Failed to instantiate root Hello IT menu plugin (functionIdentifier=%s).", [[[compositeSettings objectForKey:kMenuItemFunctionIdentifier] description] UTF8String]);
+        self.statusItem.menu = nil;
+        self.menuOK = NO;
+        return;
+    }
+    if ([self.statusMenuManager respondsToSelector:@selector(setPluginsManager:)]) {
+        [self.statusMenuManager setPluginsManager:[HITPluginsManager sharedInstance]];
     }
     
     if ([self.statusMenuManager respondsToSelector:@selector(testState)]) {
@@ -306,9 +415,75 @@
     
 //    self.statusItem.button.cell.highlighted = YES;
     self.statusItem.menu = [self.statusMenuManager menuItem].submenu;
+    [self appendConfiguratorMenuItemsIfNeeded];
     
     self.menuOK = YES;
     [self updateStatusItem];
+}
+
+- (BOOL)isConfiguratorModeAllowed {
+    return ![[NSUserDefaults standardUserDefaults] boolForKey:@"disableConfiguratorMode"];
+}
+
+- (BOOL)isConfiguratorModeVisible {
+    return [self isConfiguratorModeAllowed]
+        && [[NSUserDefaults standardUserDefaults] boolForKey:@"configuratorModeUnlocked"];
+}
+
+- (BOOL)menuContainsConfiguratorItem:(NSMenu *)menu {
+    for (NSMenuItem *item in menu.itemArray) {
+        if (item.action == @selector(openConfiguratorMode:)) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)unlockConfiguratorModeFromStatusItemClick {
+    if (![self isConfiguratorModeAllowed]) {
+        return;
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"configuratorModeUnlocked"]) {
+        // Already unlocked — ensure the item is present for this menu open.
+        [self appendConfiguratorMenuItemsIfNeeded];
+        return;
+    }
+
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"configuratorModeUnlocked"];
+    os_log(OS_LOG_DEFAULT, "Configurator Mode unlocked via Shift-Option-click.");
+    [self appendConfiguratorMenuItemsIfNeeded];
+}
+
+- (void)appendConfiguratorMenuItemsIfNeeded {
+    if (![self isConfiguratorModeVisible]) {
+        return;
+    }
+
+    NSMenu *menu = self.statusItem.menu;
+    if (!menu || [self menuContainsConfiguratorItem:menu]) {
+        return;
+    }
+
+    [menu addItem:[NSMenuItem separatorItem]];
+
+    NSMenuItem *configItem = [[NSMenuItem alloc] initWithTitle:@"Configurator Mode…"
+                                                        action:@selector(openConfiguratorMode:)
+                                                 keyEquivalent:@""];
+    configItem.target = self;
+    [menu addItem:configItem];
+}
+
+- (void)openConfiguratorMode:(id)sender {
+    if (![self isConfiguratorModeVisible]) {
+        return;
+    }
+
+    HITConfiguratorController *controller = [HITConfiguratorController sharedController];
+    __weak typeof(self) weakSelf = self;
+    controller.onApply = ^{
+        [weakSelf reloadHelloIT];
+    };
+    [controller showConfigurator];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

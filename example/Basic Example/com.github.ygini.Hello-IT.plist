@@ -126,29 +126,69 @@
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
-			<string>public.script.item</string>
+			<string>public.system.info</string>
 			<key>settings</key>
 			<dict>
-				<key>script</key>
-				<string>com.github.ygini.hello-it.ip.sh</string>
+				<key>kind</key>
+				<string>hostname</string>
+				<key>format</key>
+				<string>%C</string>
 				<key>repeat</key>
 				<integer>60</integer>
+				<key>skipForGlobalState</key>
+				<true/>
 			</dict>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
-			<string>public.script.item</string>
+			<string>public.system.info</string>
 			<key>settings</key>
 			<dict>
-				<key>script</key>
-				<string>com.github.ygini.hello-it.hostname.sh</string>
+				<key>kind</key>
+				<string>ip</string>
 				<key>repeat</key>
 				<integer>60</integer>
-				<key>args</key>
-				<dict>
-					<key>format</key>
-					<string>%C</string>
-				</dict>
+				<key>skipForGlobalState</key>
+				<true/>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>wifi</string>
+				<key>repeat</key>
+				<integer>60</integer>
+				<key>skipForGlobalState</key>
+				<true/>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>ethernet</string>
+				<key>repeat</key>
+				<integer>60</integer>
+				<key>skipForGlobalState</key>
+				<true/>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>storage</string>
+				<key>repeat</key>
+				<integer>300</integer>
+				<key>skipForGlobalState</key>
+				<true/>
 			</dict>
 		</dict>
 		<dict>

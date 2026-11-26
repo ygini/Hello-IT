@@ -12,5 +12,8 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 @property (readonly) Reachability *reachability;
+
+- (void)reloadHelloIT;
+- (void)openConfiguratorMode:(id)sender;
 @end
 

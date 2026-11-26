@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,10 +22,15 @@
 		E1D068081B51D08E00567172 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1D068061B51D08E00567172 /* MainMenu.xib */; };
 		E1D068141B51D08F00567172 /* Hello_ITTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D068131B51D08F00567172 /* Hello_ITTests.m */; };
 		E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D0681E1B51D4B500567172 /* HITPluginsManager.m */; };
+		A1C0F1002C1A00010000HIT /* HITConfiguratorController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C0F1022C1A00010000HIT /* HITConfiguratorController.m */; };
 		F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F83294B31F773078009DA574 /* ADPass.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F84238FF20C8748200FB5410 /* CachetHQComponent.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F8D61B8A20C8731A00DE2453 /* CachetHQComponent.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89B593B1DA7DC350028D75F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F89B593A1DA7DC350028D75F /* Reachability.m */; };
 		F8F07637244EEFA200E3DF7B /* Command.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = F89A03522368A51D0059281B /* Command.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2SYSINF0COPY0001 /* SystemInfo.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = A2SYSINF0REFPROX01 /* SystemInfo.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2MUNKI0COPY00001 /* Munki.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = A2MUNKI0REFPROX01 /* Munki.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2SENDE0COPY00001 /* SendEmail.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = A2SENDE0REFPROX01 /* SendEmail.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2ABOUT0COPY00001 /* About.hitp in Copy Default Plugins */ = {isa = PBXBuildFile; fileRef = A2ABOUT0REFPROX01 /* About.hitp */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +146,62 @@
 			remoteGlobalIDString = F89A03422368A51C0059281B;
 			remoteInfo = Command;
 		};
+		A2SYSINF0PROXY0001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2SYSINF0FILEREF01 /* SystemInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A2SYS1000000000A00000001;
+			remoteInfo = SystemInfo;
+		};
+		A2SYSINF0PROXY0002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2SYSINF0FILEREF01 /* SystemInfo.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A2SYS1000000001200000001;
+			remoteInfo = SystemInfo;
+		};
+		A2MUNKI0PROXY0001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2MUNKI0FILEREF01 /* Munki.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A2MUNKI00000000A00000001;
+			remoteInfo = Munki;
+		};
+		A2MUNKI0PROXY0002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2MUNKI0FILEREF01 /* Munki.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A2MUNKI00000001200000001;
+			remoteInfo = Munki;
+		};
+		A2SENDE0PROXY0001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2SENDE0FILEREF01 /* SendEmail.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A2SENDE00000000A00000001;
+			remoteInfo = SendEmail;
+		};
+		A2SENDE0PROXY0002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2SENDE0FILEREF01 /* SendEmail.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A2SENDE00000001200000001;
+			remoteInfo = SendEmail;
+		};
+		A2ABOUT0PROXY0001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2ABOUT0FILEREF01 /* About.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A2ABOUT0PROD000001;
+			remoteInfo = About;
+		};
+		A2ABOUT0PROXY0002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2ABOUT0FILEREF01 /* About.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A2ABOUT0TGT0000001;
+			remoteInfo = About;
+		};
 		F8CF084221A729190070C049 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */;
@@ -228,6 +289,10 @@
 			dstSubfolderSpec = 13;
 			files = (
 				F8F07637244EEFA200E3DF7B /* Command.hitp in Copy Default Plugins */,
+				A2SYSINF0COPY0001 /* SystemInfo.hitp in Copy Default Plugins */,
+				A2MUNKI0COPY00001 /* Munki.hitp in Copy Default Plugins */,
+				A2SENDE0COPY00001 /* SendEmail.hitp in Copy Default Plugins */,
+				A2ABOUT0COPY00001 /* About.hitp in Copy Default Plugins */,
 				F84238FF20C8748200FB5410 /* CachetHQComponent.hitp in Copy Default Plugins */,
 				F83294DD1F7736B5009DA574 /* ADPass.hitp in Copy Default Plugins */,
 				E14B67DA1B59110D00941A27 /* ScriptedItem.hitp in Copy Default Plugins */,
@@ -277,9 +342,15 @@
 		E1D068131B51D08F00567172 /* Hello_ITTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Hello_ITTests.m; sourceTree = "<group>"; };
 		E1D0681D1B51D4B500567172 /* HITPluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITPluginsManager.h; sourceTree = "<group>"; };
 		E1D0681E1B51D4B500567172 /* HITPluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITPluginsManager.m; sourceTree = "<group>"; };
+		A1C0F1012C1A00010000HIT /* HITConfiguratorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HITConfiguratorController.h; sourceTree = "<group>"; };
+		A1C0F1022C1A00010000HIT /* HITConfiguratorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HITConfiguratorController.m; sourceTree = "<group>"; };
 		F83294AE1F773076009DA574 /* ADPass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ADPass.xcodeproj; path = ADPass/ADPass.xcodeproj; sourceTree = "<group>"; };
 		F88869FC262CC1770039DE6C /* Hello-IT.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Hello-IT.xcconfig"; sourceTree = "<group>"; };
 		F89A034C2368A51C0059281B /* Command.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Command.xcodeproj; path = Command/Command.xcodeproj; sourceTree = "<group>"; };
+		A2SYSINF0FILEREF01 /* SystemInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SystemInfo.xcodeproj; path = SystemInfo/SystemInfo.xcodeproj; sourceTree = "<group>"; };
+		A2MUNKI0FILEREF01 /* Munki.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Munki.xcodeproj; path = Munki/Munki.xcodeproj; sourceTree = "<group>"; };
+		A2SENDE0FILEREF01 /* SendEmail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SendEmail.xcodeproj; path = SendEmail/SendEmail.xcodeproj; sourceTree = "<group>"; };
+		A2ABOUT0FILEREF01 /* About.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = About.xcodeproj; path = About/About.xcodeproj; sourceTree = "<group>"; };
 		F89B59391DA7DC350028D75F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		F89B593A1DA7DC350028D75F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		F8B315891FA6BB1400839784 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -333,6 +404,10 @@
 			isa = PBXGroup;
 			children = (
 				F89A034C2368A51C0059281B /* Command.xcodeproj */,
+				A2SYSINF0FILEREF01 /* SystemInfo.xcodeproj */,
+				A2MUNKI0FILEREF01 /* Munki.xcodeproj */,
+				A2SENDE0FILEREF01 /* SendEmail.xcodeproj */,
+				A2ABOUT0FILEREF01 /* About.xcodeproj */,
 				F8D61B8520C8731A00DE2453 /* CachetHQ.xcodeproj */,
 				F83294AE1F773076009DA574 /* ADPass.xcodeproj */,
 				E17743591B51EA8500A5B406 /* OpenResource.xcodeproj */,
@@ -345,6 +420,38 @@
 				E14B67CF1B59059000941A27 /* ScriptedItem.xcodeproj */,
 			);
 			path = Plugins;
+			sourceTree = "<group>";
+		};
+		A2SYSINF0PRODUCTS1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2SYSINF0REFPROX01 /* SystemInfo.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A2MUNKI0PRODUCTS1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2MUNKI0REFPROX01 /* Munki.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A2SENDE0PRODUCTS1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2SENDE0REFPROX01 /* SendEmail.hitp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A2ABOUT0PRODUCTS1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2ABOUT0REFPROX01 /* About.hitp */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E177435A1B51EA8500A5B406 /* Products */ = {
@@ -425,6 +532,8 @@
 				F89B593A1DA7DC350028D75F /* Reachability.m */,
 				E1D067FF1B51D08E00567172 /* AppDelegate.h */,
 				E1D068001B51D08E00567172 /* AppDelegate.m */,
+				A1C0F1012C1A00010000HIT /* HITConfiguratorController.h */,
+				A1C0F1022C1A00010000HIT /* HITConfiguratorController.m */,
 				E1D0681D1B51D4B500567172 /* HITPluginsManager.h */,
 				E1D0681E1B51D4B500567172 /* HITPluginsManager.m */,
 				E1D068041B51D08E00567172 /* Images.xcassets */,
@@ -503,6 +612,10 @@
 			dependencies = (
 				F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */,
 				F8A258772452F66B00BB8A05 /* PBXTargetDependency */,
+				A2SYSINF0TARGETDP1 /* PBXTargetDependency */,
+				A2MUNKI0TARGETDP1 /* PBXTargetDependency */,
+				A2SENDE0TARGETDP1 /* PBXTargetDependency */,
+				A2ABOUT0TARGETDP1 /* PBXTargetDependency */,
 				F842390220C8748800FB5410 /* PBXTargetDependency */,
 				F86CCC0B1F790D250043CF55 /* PBXTargetDependency */,
 				F8F4E5791F1A73CC004E8789 /* PBXTargetDependency */,
@@ -543,13 +656,11 @@
 		E1D067F21B51D08E00567172 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
 				TargetAttributes = {
 					E1D067F91B51D08E00567172 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.HardenedRuntime = {
@@ -559,8 +670,6 @@
 					};
 					E1D0680C1B51D08F00567172 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = CRXPBZF3N4;
-						ProvisioningStyle = Automatic;
 						TestTargetID = E1D067F91B51D08E00567172;
 					};
 				};
@@ -589,6 +698,22 @@
 				{
 					ProductGroup = F89A034D2368A51C0059281B /* Products */;
 					ProjectRef = F89A034C2368A51C0059281B /* Command.xcodeproj */;
+				},
+				{
+					ProductGroup = A2SYSINF0PRODUCTS1 /* Products */;
+					ProjectRef = A2SYSINF0FILEREF01 /* SystemInfo.xcodeproj */;
+				},
+				{
+					ProductGroup = A2MUNKI0PRODUCTS1 /* Products */;
+					ProjectRef = A2MUNKI0FILEREF01 /* Munki.xcodeproj */;
+				},
+				{
+					ProductGroup = A2SENDE0PRODUCTS1 /* Products */;
+					ProjectRef = A2SENDE0FILEREF01 /* SendEmail.xcodeproj */;
+				},
+				{
+					ProductGroup = A2ABOUT0PRODUCTS1 /* Products */;
+					ProjectRef = A2ABOUT0FILEREF01 /* About.xcodeproj */;
 				},
 				{
 					ProductGroup = E1B2C8EE1B59351B005A9936 /* Products */;
@@ -720,6 +845,34 @@
 			remoteRef = F89A03512368A51D0059281B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A2SYSINF0REFPROX01 /* SystemInfo.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SystemInfo.hitp;
+			remoteRef = A2SYSINF0PROXY0001 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A2MUNKI0REFPROX01 /* Munki.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Munki.hitp;
+			remoteRef = A2MUNKI0PROXY0001 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A2SENDE0REFPROX01 /* SendEmail.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SendEmail.hitp;
+			remoteRef = A2SENDE0PROXY0001 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A2ABOUT0REFPROX01 /* About.hitp */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = About.hitp;
+			remoteRef = A2ABOUT0PROXY0001 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F8CF084321A729190070C049 /* CachetHQIncidents.hitp */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -762,6 +915,7 @@
 			files = (
 				E1D068031B51D08E00567172 /* main.m in Sources */,
 				E1D0681F1B51D4B500567172 /* HITPluginsManager.m in Sources */,
+				A1C0F1002C1A00010000HIT /* HITConfiguratorController.m in Sources */,
 				F89B593B1DA7DC350028D75F /* Reachability.m in Sources */,
 				E1D068011B51D08E00567172 /* AppDelegate.m in Sources */,
 			);
@@ -797,6 +951,26 @@
 			isa = PBXTargetDependency;
 			name = Command;
 			targetProxy = F8A258762452F66B00BB8A05 /* PBXContainerItemProxy */;
+		};
+		A2SYSINF0TARGETDP1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SystemInfo;
+			targetProxy = A2SYSINF0PROXY0002 /* PBXContainerItemProxy */;
+		};
+		A2MUNKI0TARGETDP1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Munki;
+			targetProxy = A2MUNKI0PROXY0002 /* PBXContainerItemProxy */;
+		};
+		A2SENDE0TARGETDP1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SendEmail;
+			targetProxy = A2SENDE0PROXY0002 /* PBXContainerItemProxy */;
+		};
+		A2ABOUT0TARGETDP1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = About;
+			targetProxy = A2ABOUT0PROXY0002 /* PBXContainerItemProxy */;
 		};
 		F8F4E5771F1A73CC004E8789 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -888,8 +1062,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -908,6 +1082,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -944,8 +1119,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -957,6 +1132,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -967,15 +1143,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Hello IT/Hello IT.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Hello IT/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_BASE).$(PRODUCT_NAME:rfc1034identifier)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -986,15 +1161,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Hello IT/Hello IT.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Hello IT/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_BASE).$(PRODUCT_NAME:rfc1034identifier)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1005,7 +1179,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -1015,12 +1188,8 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Hello ITTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_BASE).$(PRODUCT_NAME:rfc1034identifier)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hello IT.app/Contents/MacOS/Hello IT";
 			};
@@ -1031,18 +1200,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Hello ITTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_BASE).$(PRODUCT_NAME:rfc1034identifier)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hello IT.app/Contents/MacOS/Hello IT";
 			};
