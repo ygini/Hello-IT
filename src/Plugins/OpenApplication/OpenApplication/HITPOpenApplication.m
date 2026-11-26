@@ -151,16 +151,45 @@
 }
 
 - (void)mainAction:(id)sender {
-    if (self.application) {
-        os_log_info(OS_LOG_DEFAULT, "User requested to open %s with optional file %s.", [self.application cStringUsingEncoding:NSUTF8StringEncoding], [self.file cStringUsingEncoding:NSUTF8StringEncoding]);
-        [[NSWorkspace sharedWorkspace] openFile:self.file withApplication:self.application andDeactivate:YES];
-    } else if (self.appURL) {
-        os_log_info(OS_LOG_DEFAULT, "User requested to open application at path %s with opional args %s.", [[self.appURL absoluteString] cStringUsingEncoding:NSUTF8StringEncoding], [[self.args description] cStringUsingEncoding:NSUTF8StringEncoding]);
+    NSString *resolvedPath = [self resolvedApplicationPath];
+    NSURL *launchURL = resolvedPath.length > 0 ? [NSURL fileURLWithPath:resolvedPath] : self.appURL;
+
+    if (self.application.length > 0 && self.file.length > 0) {
+        // Prefer Launch Services by name when opening a document; fall back to resolved path.
+        os_log_info(OS_LOG_DEFAULT, "User requested to open %s with optional file %s.",
+                    [self.application cStringUsingEncoding:NSUTF8StringEncoding],
+                    [self.file cStringUsingEncoding:NSUTF8StringEncoding]);
+        BOOL opened = [[NSWorkspace sharedWorkspace] openFile:self.file
+                                              withApplication:self.application
+                                                andDeactivate:YES];
+        if (!opened && launchURL) {
+            NSError *error = nil;
+            [[NSWorkspace sharedWorkspace] openURLs:@[[NSURL fileURLWithPath:self.file]]
+                               withApplicationAtURL:launchURL
+                                            options:0
+                                      configuration:@{}
+                                              error:&error];
+            if (error) {
+                os_log_error(OS_LOG_DEFAULT, "Error when opening file with resolved app:\n%s",
+                             [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
+            }
+        }
+        return;
+    }
+
+    if (launchURL) {
+        os_log_info(OS_LOG_DEFAULT, "User requested to open application at path %s with optional args %s.",
+                    [[launchURL absoluteString] cStringUsingEncoding:NSUTF8StringEncoding],
+                    [[self.args description] cStringUsingEncoding:NSUTF8StringEncoding]);
         NSError *error = nil;
-        [[NSWorkspace sharedWorkspace] launchApplicationAtURL:self.appURL options:0 configuration:@{NSWorkspaceLaunchConfigurationArguments: self.args} error:&error];
-        
+        NSDictionary *config = @{NSWorkspaceLaunchConfigurationArguments: self.args ?: @[]};
+        [[NSWorkspace sharedWorkspace] launchApplicationAtURL:launchURL
+                                                      options:0
+                                                configuration:config
+                                                        error:&error];
         if (error) {
-            os_log_error(OS_LOG_DEFAULT, "Error when running app:\n%s", [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
+            os_log_error(OS_LOG_DEFAULT, "Error when running app:\n%s",
+                         [[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }
 }
