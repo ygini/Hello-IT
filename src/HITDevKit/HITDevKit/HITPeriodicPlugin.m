@@ -35,6 +35,11 @@
 }
 
 - (void)setupCronJob {
+    // stopAndPrepareForRelease cancels the pending afterDelay; still guard in case
+    // we were already on the runloop when stop ran.
+    if (!self.allowedToRun) {
+        return;
+    }
     _cron = [NSTimer scheduledTimerWithTimeInterval:[_repeat integerValue]
                                              target:self
                                            selector:@selector(runPeriodicAction:)
