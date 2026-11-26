@@ -85,18 +85,15 @@
 }
 
 -(NSMenuItem *)prepareNewMenuItem {
-    NSString *title = [self localizedString:[self.settings objectForKey:kHITSimplePluginTitleKey]];
-    if (!title) {
-        title = @"Title error";
-    }
-    
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title
-                                                      action:@selector(mainAction:)
-                                               keyEquivalent:@""];
+    // Use Advanced/Simple prepare so type glyphs (and custom images) are applied.
+    // The old override built a bare NSMenuItem and skipped accessory chrome —
+    // static-title scripts (e.g. Email IT Support) never got an icon.
+    NSMenuItem *menuItem = [super prepareNewMenuItem];
     menuItem.target = self;
-    
+    menuItem.action = @selector(mainAction:);
+
     [self performSelector:@selector(updateTitle) withObject:nil afterDelay:0];
-    
+
     return menuItem;
 }
 
@@ -123,7 +120,9 @@
     if (self.scriptChecked && self.allowedToRun) {
         os_log_info(OS_LOG_DEFAULT, "Start script %s with command %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [command cStringUsingEncoding:NSUTF8StringEncoding]);
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // Keep NSTask on the main queue (1.6 behavior). 1.7 moved this to a
+        // background queue and is the prime crash suspect — do not adopt that.
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSTask *task = [[NSTask alloc] init];
             [task setLaunchPath:self.script];
             
@@ -198,7 +197,7 @@
             } @catch (NSException *exception) {
                 os_log_error(OS_LOG_DEFAULT, "Script %s failed to run: %s", [self.script.lastPathComponent cStringUsingEncoding:NSUTF8StringEncoding], [[exception reason] UTF8String]);
             }
-        });
+        }];
     }
 }
 
@@ -206,13 +205,25 @@
     os_log_info(OS_LOG_DEFAULT, "Script request recieved: %s", [request cStringUsingEncoding:NSUTF8StringEncoding]);
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        // Ignore late stdout from a script that was already stopped by menu reload.
+        if (!self.allowedToRun) {
+            return;
+        }
         NSRange limiterRange = [request rangeOfString:@":"];
+        if (limiterRange.location == NSNotFound) {
+            return;
+        }
         NSString *key = [[[request substringToIndex:limiterRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
         NSString *value = [[request substringFromIndex:limiterRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         value = [value stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
         
         if ([key isEqualToString:@"hitp-title"]) {
-            self.menuItem.title = value;
+            // Keep OK/Warn/Error indicator when scripts update the title.
+            if ([self respondsToSelector:@selector(setMenuTitle:)]) {
+                [self setMenuTitle:value];
+            } else {
+                self.menuItem.title = value;
+            }
             
         } else if ([key isEqualToString:@"hitp-state"]) {
             value = [value lowercaseString];
@@ -272,6 +283,9 @@
             
         } else if ([key isEqualToString:@"hitp-tooltip"]) {
             self.menuItem.toolTip = value;
+            if ([value length] > 0) {
+                self.menuItem.accessibilityHelp = value;
+            }
             
         } else if ([key isEqualToString:@"hitp-log-emerg"]) {
             os_log_fault(OS_LOG_DEFAULT, "hitp-log-emerg: %s", [value cStringUsingEncoding:NSUTF8StringEncoding]);

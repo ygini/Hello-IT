@@ -267,7 +267,6 @@
     NSString *stringDate = [dateFormatter stringFromDate:self.passwordExpiryDate];
     notification.informativeText = [NSString stringWithFormat:infoTextFormat, stringDate];
     
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHITPADPassLastNotifKey];
     
     [self.pluginsManager sendNotification:notification from:self];

@@ -181,6 +181,10 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
     for (id<HITPluginProtocol> pluginInstance in self.subPluginInstances) {
         [pluginInstance stopAndPrepareForRelease];
     }
+
+    // Must reach HITSimplePlugin/HITBasicPlugin so allowedToRun goes NO and
+    // appearance observers / afterDelay work are torn down on reload.
+    [super stopAndPrepareForRelease];
 }
 
 #pragma mark - NSMenuDelegate

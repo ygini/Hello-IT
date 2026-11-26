@@ -54,6 +54,51 @@
     return self;
 }
 
+- (NSString *)resolvedApplicationPath {
+    if (self.application.length > 0) {
+        return [[NSWorkspace sharedWorkspace] fullPathForApplication:self.application];
+    }
+    if (self.appURL.path.length > 0) {
+        return self.appURL.path;
+    }
+    return nil;
+}
+
+- (NSImage *)imageForMenuItem {
+    if ([[self.settings objectForKey:kHITSimplePluginNoIconKey] boolValue]) {
+        return nil;
+    }
+    // Explicit imageBaseName / imagePath win when set.
+    NSImage *custom = [self customImageForMenuItem];
+    if (custom) {
+        return custom;
+    }
+
+    NSString *appPath = [self resolvedApplicationPath];
+    if (appPath.length == 0) {
+        // Newer macOS: fullPathForApplication can miss QuickSupport-style helpers.
+        // Try common install locations using the configured name.
+        if (self.application.length > 0) {
+            for (NSString *dir in @[@"/Applications", @"/Applications/Utilities", @"/System/Applications", @"/System/Applications/Utilities"]) {
+                NSString *candidate = [[dir stringByAppendingPathComponent:self.application] stringByAppendingPathExtension:@"app"];
+                if ([[NSFileManager defaultManager] fileExistsAtPath:candidate]) {
+                    appPath = candidate;
+                    break;
+                }
+            }
+        }
+    }
+    if (appPath.length > 0) {
+        NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
+        if (icon) {
+            return icon;
+        }
+    }
+
+    // Type glyph fallback (same as other plugins).
+    return [super imageForMenuItem];
+}
+
 - (void)hideItemIfNeeded {
     if (self.hideIfNotAvailable) {
         if (self.application) {
