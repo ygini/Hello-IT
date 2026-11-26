@@ -1,0 +1,6 @@
+//
+//  Config.xcconfig
+//  Munki
+//
+
+#include "../../Hello-IT.xcconfig"

@@ -8,6 +8,8 @@
 Shows total uptime of computer in days. Tooltip shows last reboot date.
 Click to show a prompt to restart.
 
+Prefer the built-in `public.system.info` kind `uptime` (Hello IT 1.7+) unless you need click-to-restart.
+
 ### Preference Keys
 <dict>
     <key>functionIdentifier</key>

@@ -1,0 +1,6 @@
+//
+//  Config.xcconfig
+//  SendEmail
+//
+
+#include "../../Hello-IT.xcconfig"
