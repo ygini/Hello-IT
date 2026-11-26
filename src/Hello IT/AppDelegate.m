@@ -135,7 +135,7 @@
     
     self.notificationObjectForMDMUpdate = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"com.apple.MCX._managementStatusChangedForDomains"
                                                                                                       object:nil
-                                                                                                       queue:nil
+                                                                                                       queue:[NSOperationQueue mainQueue]
                                                                                                   usingBlock:^(NSNotification * _Nonnull note) {
                                                                                                       NSArray *domains = [note.userInfo objectForKey:@"com.apple.MCX.changedDomains"];
                                                                                                       
@@ -157,7 +157,7 @@
         
     self.notificationObjectForInterfaceTheme = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification"
                                                                                                            object:nil
-                                                                                                            queue:nil
+                                                                                                            queue:[NSOperationQueue mainQueue]
                                                                                                        usingBlock:^(NSNotification * _Nonnull note) {
                                                                                                            [self updateStatusItem];
                                                                                             }];
@@ -169,7 +169,7 @@
     __weak typeof(self) weakSelf = self;
     self.notificationObjectForMenuTracking = [[NSNotificationCenter defaultCenter] addObserverForName:NSMenuDidBeginTrackingNotification
                                                                                                object:nil
-                                                                                                queue:nil
+                                                                                                queue:[NSOperationQueue mainQueue]
                                                                                            usingBlock:^(NSNotification * _Nonnull note) {
         AppDelegate *strongSelf = weakSelf;
         if (!strongSelf || note.object != strongSelf.statusItem.menu) {
@@ -199,6 +199,11 @@
     if (self.notificationObjectForMenuTracking) {
         [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMenuTracking];
         self.notificationObjectForMenuTracking = nil;
+    }
+    @try {
+        [self.statusItem removeObserver:self forKeyPath:@"button.effectiveAppearance"];
+    } @catch (__unused NSException *exception) {
+        // Already removed or never observed.
     }
 }
 

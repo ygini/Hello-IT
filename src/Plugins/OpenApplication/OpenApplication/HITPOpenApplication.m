@@ -95,9 +95,20 @@
 
 - (NSString *)resolvedApplicationPath {
     if (self.application.length > 0) {
-        return [[NSWorkspace sharedWorkspace] fullPathForApplication:self.application];
+        NSString *lsPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:self.application];
+        if (lsPath.length > 0) {
+            return lsPath;
+        }
+        // Newer macOS: fullPathForApplication can miss QuickSupport-style helpers.
+        for (NSString *dir in @[@"/Applications", @"/Applications/Utilities", @"/System/Applications", @"/System/Applications/Utilities"]) {
+            NSString *candidate = [[dir stringByAppendingPathComponent:self.application] stringByAppendingPathExtension:@"app"];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:candidate]) {
+                return candidate;
+            }
+        }
+        return nil;
     }
-    if (self.appURL.path.length > 0) {
+    if (self.appURL.path.length > 0 && [[NSFileManager defaultManager] fileExistsAtPath:self.appURL.path]) {
         return self.appURL.path;
     }
     return nil;
@@ -114,19 +125,6 @@
     }
 
     NSString *appPath = [self resolvedApplicationPath];
-    if (appPath.length == 0) {
-        // Newer macOS: fullPathForApplication can miss QuickSupport-style helpers.
-        // Try common install locations using the configured name.
-        if (self.application.length > 0) {
-            for (NSString *dir in @[@"/Applications", @"/Applications/Utilities", @"/System/Applications", @"/System/Applications/Utilities"]) {
-                NSString *candidate = [[dir stringByAppendingPathComponent:self.application] stringByAppendingPathExtension:@"app"];
-                if ([[NSFileManager defaultManager] fileExistsAtPath:candidate]) {
-                    appPath = candidate;
-                    break;
-                }
-            }
-        }
-    }
     if (appPath.length > 0) {
         NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
         if (icon) {
@@ -140,16 +138,12 @@
 
 - (void)hideItemIfNeeded {
     if (self.hideIfNotAvailable) {
-        if (self.application) {
-            self.menuItem.hidden = [[NSWorkspace sharedWorkspace] fullPathForApplication:self.application] == nil;
-            if (self.menuItem.hidden) {
-                os_log_info(OS_LOG_DEFAULT, "Menu item %s for %s is hidden, workspace unable to find requested app.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [self.application cStringUsingEncoding:NSUTF8StringEncoding]);
-            }
-        } else {
-            self.menuItem.hidden = ![[NSFileManager defaultManager] fileExistsAtPath:[self.appURL path]];
-            if (self.menuItem.hidden) {
-                os_log_info(OS_LOG_DEFAULT, "Menu item %s for app at path %s is hidden, path does not exist.", [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding], [[self.appURL path] cStringUsingEncoding:NSUTF8StringEncoding]);
-            }
+        // Same resolution as the menu icon — Launch Services or on-disk fallbacks.
+        BOOL available = [self resolvedApplicationPath].length > 0;
+        self.menuItem.hidden = !available;
+        if (self.menuItem.hidden) {
+            os_log_info(OS_LOG_DEFAULT, "Menu item %s is hidden; application not found.",
+                        [self.menuItem.title cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     } else {
         self.menuItem.hidden = NO;
