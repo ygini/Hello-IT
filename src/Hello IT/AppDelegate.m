@@ -188,8 +188,14 @@
     // Insert code here to tear down your application
     
     [self.reachability stopNotifier];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMDMUpdate];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForInterfaceTheme];
+    if (self.notificationObjectForMDMUpdate) {
+        [[NSDistributedNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMDMUpdate];
+        self.notificationObjectForMDMUpdate = nil;
+    }
+    if (self.notificationObjectForInterfaceTheme) {
+        [[NSDistributedNotificationCenter defaultCenter] removeObserver:self.notificationObjectForInterfaceTheme];
+        self.notificationObjectForInterfaceTheme = nil;
+    }
     if (self.notificationObjectForMenuTracking) {
         [[NSNotificationCenter defaultCenter] removeObserver:self.notificationObjectForMenuTracking];
         self.notificationObjectForMenuTracking = nil;

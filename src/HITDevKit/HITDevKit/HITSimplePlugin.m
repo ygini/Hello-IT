@@ -476,34 +476,41 @@ static NSRect HITAspectFitRect(NSSize contentSize, NSRect bounds) {
                 
             });
             
-            __block BOOL firstLine = YES;
+            // Accumulate across read callbacks — the first chunk can be empty with buffered pipes.
+            __block NSMutableData *accumulated = [NSMutableData data];
+            __block BOOL appliedTitle = NO;
             dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
-                if (firstLine) {
-                    firstLine = NO;
-                } else {
+                if (appliedTitle) {
                     return;
                 }
 
-                // dispatch_data_t is not NSData — map bytes explicitly.
-                NSMutableData *stdoutData = [NSMutableData data];
                 if (data) {
                     dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
                         if (buffer && size > 0) {
-                            [stdoutData appendBytes:buffer length:size];
+                            [accumulated appendBytes:buffer length:size];
                         }
                         return true;
                     });
                 }
 
-                NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
-                
-                NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
-                NSString *computed = [stdoutLines firstObject];
-                // Assigning menuItem.title clears attributedTitle (icons/state glyphs).
-                // dispatch_io callbacks run off the main queue — UI updates must hop to main.
+                NSString *stdoutString = [[NSString alloc] initWithData:accumulated encoding:NSUTF8StringEncoding] ?: @"";
+                NSRange newline = [stdoutString rangeOfString:@"\n"];
+                NSString *computed = nil;
+                if (newline.location != NSNotFound) {
+                    computed = [stdoutString substringToIndex:newline.location];
+                } else if (done && stdoutString.length > 0) {
+                    computed = stdoutString;
+                } else {
+                    return; // wait for more data (or EOF with content)
+                }
+
                 if (computed.length == 0) {
                     return;
                 }
+                appliedTitle = YES;
+
+                // Assigning menuItem.title clears attributedTitle (icons/state glyphs).
+                // dispatch_io callbacks run off the main queue — UI updates must hop to main.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (!self.allowedToRun) {
                         return;

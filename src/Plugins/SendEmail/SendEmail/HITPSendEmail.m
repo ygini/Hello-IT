@@ -181,8 +181,11 @@ typedef NS_ENUM(NSInteger, HITPSendEmailMailer) {
         // Copy the body to the pasteboard and open compose with to + subject only.
         if (body.length > 0) {
             NSPasteboard *pb = [NSPasteboard generalPasteboard];
-            [pb clearContents];
-            [pb setString:body forType:NSPasteboardTypeString];
+            // Prefer writing the string type without wiping other pasteboard representations.
+            if (![pb setString:body forType:NSPasteboardTypeString]) {
+                [pb declareTypes:@[NSPasteboardTypeString] owner:nil];
+                [pb setString:body forType:NSPasteboardTypeString];
+            }
             os_log_info(OS_LOG_DEFAULT, "SendEmail: Gmail body copied to pasteboard (%lu chars).",
                         (unsigned long)body.length);
         }

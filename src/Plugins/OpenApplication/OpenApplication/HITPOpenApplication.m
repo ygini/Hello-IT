@@ -16,6 +16,7 @@
 
 #define kHITPOpenApplicationHideIfNotAvailable @"hideIfNotAvailable"
 
+#import <Cocoa/Cocoa.h>
 #import <os/log.h>
 
 @interface HITPOpenApplication ()
@@ -26,6 +27,7 @@
 @property NSArray *args;
 
 @property BOOL hideIfNotAvailable;
+@property (strong) id menuTrackingObserver;
 
 @end
 
@@ -50,8 +52,45 @@
         }
         
         [self hideItemIfNeeded];
+
+        if (_hideIfNotAvailable) {
+            __weak typeof(self) weakSelf = self;
+            _menuTrackingObserver = [[NSNotificationCenter defaultCenter]
+                addObserverForName:NSMenuDidBeginTrackingNotification
+                            object:nil
+                             queue:[NSOperationQueue mainQueue]
+                        usingBlock:^(NSNotification * _Nonnull note) {
+                typeof(self) strongSelf = weakSelf;
+                if (!strongSelf || !strongSelf.menuItem) {
+                    return;
+                }
+                NSMenu *tracked = note.object;
+                if (![tracked isKindOfClass:[NSMenu class]]) {
+                    return;
+                }
+                BOOL relevant = NO;
+                for (NSMenu *menu = strongSelf.menuItem.menu; menu != nil; menu = menu.supermenu) {
+                    if (menu == tracked) {
+                        relevant = YES;
+                        break;
+                    }
+                }
+                if (!relevant) {
+                    return;
+                }
+                [strongSelf hideItemIfNeeded];
+            }];
+        }
     }
     return self;
+}
+
+- (void)stopAndPrepareForRelease {
+    if (self.menuTrackingObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.menuTrackingObserver];
+        self.menuTrackingObserver = nil;
+    }
+    [super stopAndPrepareForRelease];
 }
 
 - (NSString *)resolvedApplicationPath {

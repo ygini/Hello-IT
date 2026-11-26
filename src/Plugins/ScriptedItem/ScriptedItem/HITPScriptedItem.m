@@ -172,8 +172,9 @@
                 
             });
             
+            // Carry incomplete lines across read callbacks so split hitp-* rows are not dropped.
+            __block NSMutableString *lineBuffer = [NSMutableString string];
             dispatch_io_read(stdoutChannel, 0, SIZE_MAX, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(bool done, dispatch_data_t data, int error) {
-                // dispatch_data_t is not NSData — map bytes explicitly.
                 NSMutableData *stdoutData = [NSMutableData data];
                 if (data) {
                     dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
@@ -184,16 +185,25 @@
                     });
                 }
 
-                NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+                NSString *chunk = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+                if (chunk.length > 0) {
+                    [lineBuffer appendString:chunk];
+                }
 
-                NSArray *stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
-
-                for (NSString *line in stdoutLines) {
+                NSArray *parts = [lineBuffer componentsSeparatedByString:@"\n"];
+                NSUInteger completeCount = done ? parts.count : (parts.count > 0 ? parts.count - 1 : 0);
+                for (NSUInteger i = 0; i < completeCount; i++) {
+                    NSString *line = parts[i];
                     if ([line hasPrefix:@"hitp-"]) {
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                             [self handleScriptRequest:line];
                         });
                     }
+                }
+                if (done) {
+                    [lineBuffer setString:@""];
+                } else if (parts.count > 0) {
+                    [lineBuffer setString:parts.lastObject ?: @""];
                 }
             });
             
