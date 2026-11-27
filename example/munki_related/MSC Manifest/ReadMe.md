@@ -5,6 +5,8 @@
 ###Description:
 Provides user with name of manifest currently in use by the computer. Useful for my district. - Zack McCauley
 
+**Hello IT 1.7+:** Prefer built-in `public.munki` kind `manifest` (see `../ReadMe.md`). Script below is for older releases.
+
 ### Preference Keys to add:
     <dict>
       <key>functionIdentifier</key>

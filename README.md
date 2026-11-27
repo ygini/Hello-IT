@@ -1,16 +1,33 @@
 # Hello-IT
 
-Hello-IT is a simple menu for the menu bar fully configurable by the IT department to provide a self-service menu. Each item of the menu can:
-* display a state of service
-* display a local information
+Hello-IT is a menu-bar helper fully configurable by IT to provide a self-service menu. Each item can:
+
+* show the state of a service
+* show local system information
 * run a command
-* open an app or a resource 
+* open an app or a resource
 
 ![Application Screenshot](/Docs/screenshot.png?raw=true "Hello IT")
 
-You can find Hello IT release and preview version at [on the github release page](https://github.com/ygini/Hello-IT/releases)
+Releases: [GitHub Releases](https://github.com/ygini/Hello-IT/releases)  
+Docs: [Wiki](https://github.com/ygini/Hello-IT/wiki)
 
-You will learn all needed informations on the [Wiki](https://github.com/ygini/Hello-IT/wiki)
+## What’s new in 1.7.0
 
-Also, note that you will find an AutoPkg recipe to keep Hello-IT up to date on [Yoann's recipes repo](https://github.com/autopkg/ygini-recipes)
+This line builds on Yoann’s 1.7 modernization (`os_log`, dark mode, NSURLSession packaging cleanups) and adds:
 
+* **Configurator Mode** — edit the menu tree in the app, Apply & Reload, export plist / `.mobileconfig` / bash installer (⇧⌥-click the status item to unlock; fleet can disable)
+* **Built-in plugins** — System info, Munki, Send email, About (no CustomScripts required for common items)
+* **Alerts / thresholds / notifications** — warn/error thresholds and optional banners for stateful items; optional Command completion notify
+* **HTTP test failover** — optional secondary host when the primary URL cannot connect (Warning if ping works but HTTP failed; not OK)
+* **Script network change** — optional `settings.network` so scripts re-run with subcommand `network` when connectivity changes
+* **Deployment hardening** — `notarytool`, universal builds, min macOS **12.0**, safer default for writable scripts
+
+See:
+
+* [Docs/deployment-hardening.md](Docs/deployment-hardening.md) — signing, notarization, MDM
+* [Docs/configurator.md](Docs/configurator.md) — Configurator Mode
+* [Docs/built-in-plugins.md](Docs/built-in-plugins.md) — System info / Munki / Send email / About
+* [example/](example/) — sample prefs (Basic Example uses built-ins; script folders kept for older releases / custom items)
+
+AutoPkg: [ygini-recipes](https://github.com/autopkg/ygini-recipes)

@@ -14,6 +14,8 @@
 + (instancetype)sharedInstance;
 - (void)loadPluginsWithCompletionHandler:(void(^)(HITPluginsManager *pluginsManager))handler;
 - (Class<HITPluginProtocol>)mainClassForPluginWithFunctionIdentifier:(NSString*)functionIdentifier;
+/// Drop network-related instances before rebuilding the menu (reload must not accumulate stopped plugins).
+- (void)clearNetworkRelatedPlugins;
 
 - (void)sendNotificationWithTitle:(NSString*)title andMessage:(NSString*)message from:(id<HITPluginProtocol>)sender;
 - (void)sendNotification:(NSUserNotification*)notification from:(id<HITPluginProtocol>)sender;

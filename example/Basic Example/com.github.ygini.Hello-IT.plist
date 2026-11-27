@@ -6,9 +6,30 @@
 	<array>
 		<dict>
 			<key>functionIdentifier</key>
+			<string>public.test.http</string>
+			<key>settings</key>
+			<dict>
+				<key>URL</key>
+				<string>http://captive.apple.com</string>
+				<key>mode</key>
+				<string>md5</string>
+				<key>originalString</key>
+				<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
+				<key>ignoreSystemState</key>
+				<true/>
+				<key>repeat</key>
+				<integer>60</integer>
+				<key>title</key>
+				<string>Internet</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
 			<string>public.submenu</string>
 			<key>settings</key>
 			<dict>
+				<key>title</key>
+				<string>Self-Service</string>
 				<key>content</key>
 				<array>
 					<dict>
@@ -33,9 +54,20 @@
 							<string>Managed Software Center</string>
 						</dict>
 					</dict>
+					<dict>
+						<key>functionIdentifier</key>
+						<string>public.munki</string>
+						<key>settings</key>
+						<dict>
+							<key>kind</key>
+							<string>pending</string>
+							<key>title</key>
+							<string>Pending Updates</string>
+							<key>repeat</key>
+							<integer>360</integer>
+						</dict>
+					</dict>
 				</array>
-				<key>title</key>
-				<string>Toolbox</string>
 			</dict>
 		</dict>
 		<dict>
@@ -43,55 +75,44 @@
 			<string>public.submenu</string>
 			<key>settings</key>
 			<dict>
+				<key>title</key>
+				<string>Applications</string>
 				<key>content</key>
 				<array>
 					<dict>
 						<key>functionIdentifier</key>
-						<string>public.test.http</string>
+						<string>public.open.application</string>
 						<key>settings</key>
 						<dict>
-							<key>URL</key>
-							<string>http://captive.apple.com</string>
-							<key>mode</key>
-							<string>md5</string>
-							<key>originalString</key>
-							<string>73a78ff5bd7e5e88aa445826d4d6eecb</string>
-							<key>ignoreSystemState</key>
-							<true/>
-							<key>repeat</key>
-							<integer>60</integer>
+							<key>app</key>
+							<string>Safari</string>
 							<key>title</key>
-							<string>Internet</string>
+							<string>Safari</string>
 						</dict>
 					</dict>
 					<dict>
 						<key>functionIdentifier</key>
-						<string>public.test.http</string>
+						<string>public.open.application</string>
 						<key>settings</key>
 						<dict>
-							<key>URL</key>
-							<string>http://internal.example.com</string>
-							<key>mode</key>
-							<string>md5</string>
-							<key>originalString</key>
-							<string>4f7c1267224582bc9bc074a918ad97c1</string>
-							<key>repeat</key>
-							<integer>60</integer>
-							<key>ignoreSystemState</key>
-							<true/>
+							<key>app</key>
+							<string>Mail</string>
 							<key>title</key>
-							<string>Internal Services</string>
-							<key>failedConnection</key>
-							<string>HITPluginTestStateUnavailable</string>
-							<key>unmatchingResult</key>
-							<string>HITPluginTestStateError</string>
+							<string>Mail</string>
+						</dict>
+					</dict>
+					<dict>
+						<key>functionIdentifier</key>
+						<string>public.open.application</string>
+						<key>settings</key>
+						<dict>
+							<key>app</key>
+							<string>System Settings</string>
+							<key>title</key>
+							<string>System Settings</string>
 						</dict>
 					</dict>
 				</array>
-				<key>stateSortScenario</key>
-				<integer>1</integer>
-				<key>title</key>
-				<string>Services State</string>
 			</dict>
 		</dict>
 		<dict>
@@ -117,54 +138,76 @@
 				<key>URL</key>
 				<string>https://support.example.com</string>
 				<key>title</key>
-				<string>Support</string>
+				<string>Support Portal</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
-			<string>public.separator</string>
-		</dict>
-		<dict>
-			<key>functionIdentifier</key>
-			<string>public.script.item</string>
+			<string>public.send.email</string>
 			<key>settings</key>
 			<dict>
-				<key>script</key>
-				<string>com.github.ygini.hello-it.ip.sh</string>
-				<key>repeat</key>
-				<integer>60</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>functionIdentifier</key>
-			<string>public.script.item</string>
-			<key>settings</key>
-			<dict>
-				<key>script</key>
-				<string>com.github.ygini.hello-it.hostname.sh</string>
-				<key>repeat</key>
-				<integer>60</integer>
-				<key>args</key>
-				<dict>
-					<key>format</key>
-					<string>%C</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>functionIdentifier</key>
-			<string>public.open.resource</string>
-			<key>settings</key>
-			<dict>
-				<key>URL</key>
-				<string>mailto:support@example.com?subject=Support Request</string>
 				<key>title</key>
-				<string>Send e-mail to support</string>
+				<string>Email IT</string>
+				<key>mailto</key>
+				<string>support@example.com</string>
+				<key>mailer</key>
+				<string>default</string>
+				<key>subject</key>
+				<string>Help — $SERIAL</string>
+				<key>deviceURL</key>
+				<string>https://report.example.com/device?$UUID</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>
 			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>hostname</string>
+				<key>format</key>
+				<string>%C</string>
+				<key>repeat</key>
+				<integer>60</integer>
+				<key>skipForGlobalState</key>
+				<true/>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>ip</string>
+				<key>repeat</key>
+				<integer>60</integer>
+				<key>skipForGlobalState</key>
+				<true/>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.system.info</string>
+			<key>settings</key>
+			<dict>
+				<key>kind</key>
+				<string>storage</string>
+				<key>repeat</key>
+				<integer>300</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.separator</string>
+		</dict>
+		<dict>
+			<key>functionIdentifier</key>
+			<string>public.about</string>
 		</dict>
 		<dict>
 			<key>functionIdentifier</key>

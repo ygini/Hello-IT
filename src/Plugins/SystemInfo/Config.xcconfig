@@ -1,0 +1,6 @@
+//
+//  Config.xcconfig
+//  SystemInfo
+//
+
+#include "../../Hello-IT.xcconfig"

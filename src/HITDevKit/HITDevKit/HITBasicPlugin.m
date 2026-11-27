@@ -48,6 +48,9 @@
 }
 
 - (void)stopAndPrepareForRelease {
+    // Cancel afterDelay:0 work (periodic setup, title/refresh kicks) so reload
+    // cannot resurrect a stopped plugin.
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     self.allowedToRun = NO;
 }
 

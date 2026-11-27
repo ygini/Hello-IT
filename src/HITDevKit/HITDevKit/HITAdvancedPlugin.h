@@ -23,4 +23,7 @@
 
 -(void)sendNotificationWithMessage:(NSString*)message;
 
+/// Prefer this over setting menuItem.title directly so OK/Warn/Error indicators stay applied.
+-(void)setMenuTitle:(NSString *)title;
+
 @end

@@ -181,6 +181,10 @@
     return Nil;
 }
 
+- (void)clearNetworkRelatedPlugins {
+    [self.networkRelatedPluginInstances removeAllObjects];
+}
+
 - (void)registerPluginInstanceAsNetworkRelated:(id<HITPluginProtocol>)plugin {
     [self.networkRelatedPluginInstances addObject:plugin];
     
@@ -255,6 +259,17 @@
     [userInfo setObject:senderID forKey:@"senderID"];
     
     notification.userInfo = userInfo;
+
+    // Notification Center caches the sender (left) icon by bundle ID; stamp the
+    // live AppIcon onto _identityImage only — do not set contentImage (right side).
+    NSImage *appIcon = [NSApp applicationIconImage];
+    if (appIcon) {
+        @try {
+            [notification setValue:appIcon forKey:@"_identityImage"];
+            [notification setValue:@NO forKey:@"_identityImageHasBorder"];
+        } @catch (__unused NSException *exception) {
+        }
+    }
     
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }

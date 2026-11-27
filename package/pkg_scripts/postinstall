@@ -6,6 +6,26 @@
 # and will move the original version to the trash.
 
 original_app_path="/Applications/Hello IT.app"
+plist="/Library/LaunchAgents/com.github.ygini.hello-it.plist"
+label="com.github.ygini.hello-it"
+
+reload_agent_for_uid() {
+    local uid="$1"
+    local domain="gui/${uid}"
+
+    # Prefer modern bootstrap/kickstart; fall back to asuser load for older OS.
+    if /bin/launchctl print "${domain}" >/dev/null 2>&1; then
+        /bin/launchctl bootout "${domain}" "${plist}" >/dev/null 2>&1 || true
+        /bin/launchctl bootstrap "${domain}" "${plist}" >/dev/null 2>&1 \
+            || /bin/launchctl asuser "${uid}" /bin/launchctl load "${plist}" >/dev/null 2>&1 || true
+        /bin/launchctl enable "${domain}/${label}" >/dev/null 2>&1 || true
+        /bin/launchctl kickstart -k "${domain}/${label}" >/dev/null 2>&1 || true
+    else
+        /bin/launchctl asuser "${uid}" /bin/launchctl unload "${plist}" >/dev/null 2>&1 || true
+        /bin/launchctl asuser "${uid}" /bin/launchctl remove "${label}" >/dev/null 2>&1 || true
+        /bin/launchctl asuser "${uid}" /bin/launchctl load "${plist}" >/dev/null 2>&1 || true
+    fi
+}
 
 while read shortname
 do
@@ -13,15 +33,15 @@ do
 
     if [ -n "$uid" ]
     then
-        /bin/launchctl asuser "$uid" /bin/launchctl unload /Library/LaunchAgents/com.github.ygini.hello-it.plist
-        /bin/launchctl asuser "$uid" /bin/launchctl remove com.github.ygini.hello-it
-        /bin/launchctl asuser "$uid" /bin/launchctl load /Library/LaunchAgents/com.github.ygini.hello-it.plist
+        reload_agent_for_uid "$uid"
     fi
 done < <(ps aux | grep "MacOS/[F]inder" | awk '{print $1}')
 
+# Root's ~/.Trash is unreliable during pkg install — stage under /private/var/tmp then remove.
 if [ -d "$original_app_path" ]
 then
-    mv "$original_app_path" ~/.Trash/
+    dest="/private/var/tmp/Hello-IT-migrated-$$.app"
+    /bin/mv "$original_app_path" "$dest" 2>/dev/null && /bin/rm -rf "$dest" 2>/dev/null || /bin/rm -rf "$original_app_path"
 fi
 
 exit 0

@@ -173,14 +173,20 @@ typedef NS_ENUM(NSInteger, HITPSubMenuSortScenario) {
 }
 
 -(void)stopAndPrepareForRelease {
-    for (NSObject<HITPluginProtocol> *observablePluginInstance in [self.observedSubPluginInstances reverseObjectEnumerator]) {
+    // Copy before teardown — mutating the observed array while enumerating can throw.
+    NSArray *observed = [self.observedSubPluginInstances copy];
+    for (NSObject<HITPluginProtocol> *observablePluginInstance in observed) {
         [observablePluginInstance removeObserver:self forKeyPath:@"testState"];
-        [self.observedSubPluginInstances removeObject:observablePluginInstance];
     }
-    
+    [self.observedSubPluginInstances removeAllObjects];
+
     for (id<HITPluginProtocol> pluginInstance in self.subPluginInstances) {
         [pluginInstance stopAndPrepareForRelease];
     }
+
+    // Must reach HITSimplePlugin/HITBasicPlugin so allowedToRun goes NO and
+    // appearance observers / afterDelay work are torn down on reload.
+    [super stopAndPrepareForRelease];
 }
 
 #pragma mark - NSMenuDelegate

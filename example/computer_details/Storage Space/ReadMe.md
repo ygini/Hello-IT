@@ -7,6 +7,8 @@ Displays current SMART Status in Hello-IT. Updated to use the hitp shell lib.
 If under 50%: Green
 If
 
+**Hello IT 1.7+:** Prefer built-in `public.system.info` kind `storage`.
+
 ### Preference Keys
     <dict>
         <key>functionIdentifier</key>

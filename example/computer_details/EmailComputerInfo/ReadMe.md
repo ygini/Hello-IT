@@ -6,6 +6,8 @@
 If clicked, it will open an email in the app set to handle emails. It will pre-fill with a large amount of data.
 
 
+**Hello IT 1.7+:** Prefer built-in `public.send.email` (see `../../send_email/ReadMe.md`) unless this script’s extra behaviour is required.
+
 ### Preference Keys
 <dict>
     <key>functionIdentifier</key>
