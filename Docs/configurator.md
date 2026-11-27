@@ -35,9 +35,11 @@ Friendly Type names map to plugin `functionIdentifier` values, including:
 | About | `public.about` |
 | Script | `public.script.item` |
 | Command | `public.command.item` |
-| HTTP test | `public.http.status` |
+| HTTP test | `public.test.http` |
 | … | existing Hello IT plugins |
 
-Stateful types support optional **Alerts** (thresholds where applicable) and **Notifications** (`notificationWhenStateTurn*`). Command items can optionally notify on completion.
+Stateful types support optional **Alerts** (thresholds where applicable) and **Notifications** (`notificationWhenStateTurn*`). Command items can optionally notify on completion. Script items can opt into **Run on network change** (`settings.network`).
+
+Imported plugins that are not in the built-in Type list stay editable for title, icon, alerts, and repeat; other keys are left as imported.
 
 See [built-in-plugins.md](built-in-plugins.md) for built-in settings keys.

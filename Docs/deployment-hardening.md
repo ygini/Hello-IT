@@ -16,7 +16,19 @@ defaults write com.github.ygini.Hello-IT disableConfiguratorMode -bool YES
 
 Or deploy `example/HelloIT-DisableConfigurator.mobileconfig`.
 
-Details: [configurator.md](configurator.md).
+Details: [configurator.md](configurator.md). Built-in settings keys: [built-in-plugins.md](built-in-plugins.md).
+
+## Built-in item types (no CustomScript required)
+
+| Type | `functionIdentifier` | Notes |
+|------|----------------------|--------|
+| System info | `public.system.info` | hostname, ip, wifi, ethernet, storage, uptime, memory (+ thresholds / Alerts) |
+| Munki | `public.munki` | `manifest` / `pending` |
+| Send email | `public.send.email` | mailto / Gmail; `$SERIAL` / `$UUID` / `$HOSTNAME` / `$DEVICE_URL` |
+| HTTP test | `public.test.http` | optional `failoverHost` (default `cloudflare.com`) — ICMP ping if URL fails to connect |
+| Command | `public.command` | optional completion notify in Alerts |
+| Script | `public.script.item` | optional `network` (Configurator: **Run on network change**) |
+| CachetHQ component | `public.cachethq.component` | shipped plugin; wire via prefs / import (no Type menu yet). Incidents plugin is **not** in the default app bundle |
 
 ## Packaging changes
 
@@ -25,7 +37,7 @@ Details: [configurator.md](configurator.md).
 - Minimum macOS **12.0** (intentional vs older 1.7 betas that targeted 10.14.6 — required by current Xcode / SDKs)
 - Entitlements trimmed to Apple Events + `disable-library-validation` (needed for `.hitp` plugins under Application Support)
 - Default preference `denyUserWritableScript` = **YES** (refuse user-writable scripts/commands)
-- OpenResource: optional `hideIfNotAvailable` for `file://` URLs
+- OpenApplication / OpenResource: optional `hideIfNotAvailable`
 - ScriptedItem logs include the script basename
 
 ## Signing / notarization
@@ -71,9 +83,17 @@ Keep CustomScripts root-owned and not user-writable:
 /Library/Application Support/com.github.ygini.hello-it/CustomScripts
 ```
 
+## Preferences domain
+
+Use **`com.github.ygini.Hello-IT`** consistently (capital `Hello-IT`). Configurator import tolerates `com.github.ygini.hello-it`, but mixing domains in MDM vs local defaults is a common “config didn’t apply” footgun.
+
 ## App Transport Security
 
 `NSAllowsArbitraryLoads` remains enabled so **TestHTTP** / **CachetHQ** can hit admin-configured HTTP(S) endpoints. If your fleet never uses those plugins, you can rebuild with ATS tightened.
+
+## Notifications
+
+State-change and Command completion banners use the legacy notification API (still functional). For background delivery when Hello IT is not focused, deploy `example/HelloIT-Notifications-Background.mobileconfig`.
 
 ## MDM: PPPC (Privacy Preferences Policy Control)
 
@@ -84,6 +104,7 @@ Grant only what your scripts actually need. Typical Hello IT itself needs:
 | AppleEvents | Hello IT → System Events / other apps | Only if your items/scripts drive UI or other apps |
 | SystemPolicyAllFiles / FDA | Usually **not** for Hello IT.app | Prefer granting FDA to the **shell/interpreter** your scripts call, if required |
 | Accessibility | Only if a script needs it | Prefer scoping to the script helper, not the menu-bar app |
+| Location | Hello IT (optional) | Only if you need Wi‑Fi **SSID** via System info; SNR/rate work without it |
 
 Bundle ID (upstream): `com.github.ygini.Hello-IT`  
 LaunchAgent label: `com.github.ygini.hello-it`  
@@ -98,16 +119,19 @@ On recent macOS releases that enforce allowed binaries, allow Hello IT and every
 - `/Applications/Utilities/Hello IT.app/Contents/MacOS/Hello IT` (TeamID or CDHash)
 - `/bin/bash`, `/bin/zsh`, `/usr/bin/python3`, etc. as used by your CustomScripts
 - Any helper tools scripts call (`networksetup`, `system_profiler`, MSC helpers, …)
+- `/sbin/ping` if you use HTTP test **failover** (`failoverHost`)
 
-Mismatch here often looks like “menu item does nothing” rather than a Hello IT crash.
+Mismatch here often looks like “menu item does nothing” / “HTTP stuck on warning” rather than a Hello IT crash.
 
 ## Smoke test checklist
 
 1. Status item appears; menu opens
 2. MDM/profile change rebuilds menu (`com.apple.MCX._managementStatusChangedForDomains`)
-3. ScriptedItem title + periodic-run + click `run`
-4. Command item
-5. OpenApplication / OpenResource (and `hideIfNotAvailable` for a missing `file://` path)
-6. ADPass only if you use it
-7. Configurator unlock (⇧⌥-click), Apply & Reload, Export
-8. Confirm writable-script denial: temporarily make a CustomScript user-writable and ensure it is refused with `denyUserWritableScript` left at default
+3. ScriptedItem title + periodic-run + click `run` (+ network subcommand if `network` is set)
+4. Command item (+ optional completion banner)
+5. System info / Munki / Send email built-ins you deploy
+6. OpenApplication / OpenResource (and `hideIfNotAvailable` for a missing `file://` path)
+7. HTTP test with and without failover
+8. ADPass only if you use it
+9. Configurator unlock (⇧⌥-click), Apply & Reload, Export
+10. Confirm writable-script denial: temporarily make a CustomScript user-writable and ensure it is refused with `denyUserWritableScript` left at default

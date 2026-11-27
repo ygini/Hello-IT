@@ -174,6 +174,8 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
 @property (nonatomic, strong) NSButton *skipGlobalCheckbox;
 @property (nonatomic, strong) NSButton *optionalDisplayCheckbox;
 @property (nonatomic, strong) NSButton *hideIfUnavailableCheckbox;
+@property (nonatomic, strong) NSButton *networkRelatedCheckbox;
+@property (nonatomic, strong) NSTextField *unknownTypeHintLabel;
 @property (nonatomic, strong) NSView *inspectorView;
 @property (nonatomic, strong) NSScrollView *inspectorScrollView;
 @property (nonatomic, strong) NSSplitView *mainSplitView;
@@ -691,6 +693,21 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     self.hideIfUnavailableCheckbox.toolTip = @"hideIfNotAvailable for open.application / open.resource";
     [inspector addSubview:self.hideIfUnavailableCheckbox];
 
+    self.networkRelatedCheckbox = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 320, 22)];
+    self.networkRelatedCheckbox.buttonType = NSButtonTypeSwitch;
+    self.networkRelatedCheckbox.title = @"Run on network change";
+    self.networkRelatedCheckbox.target = self;
+    self.networkRelatedCheckbox.action = @selector(flagsChanged:);
+    self.networkRelatedCheckbox.toolTip = @"settings.network — calls the script with subcommand “network” when connectivity changes";
+    [inspector addSubview:self.networkRelatedCheckbox];
+
+    self.unknownTypeHintLabel = [self label:@"" at:NSMakeRect(0, 0, 520, 36)];
+    self.unknownTypeHintLabel.alignment = NSTextAlignmentLeft;
+    self.unknownTypeHintLabel.textColor = [NSColor secondaryLabelColor];
+    self.unknownTypeHintLabel.font = [NSFont systemFontOfSize:11];
+    self.unknownTypeHintLabel.autoresizingMask = NSViewWidthSizable;
+    [inspector addSubview:self.unknownTypeHintLabel];
+
     self.footerHintLabel = [self label:@"Apply & Reload to preview. Use Export for plist, mobileconfig, script, or all three."
                                     at:NSMakeRect(0, 0, 520, 28)];
     self.footerHintLabel.alignment = NSTextAlignmentLeft;
@@ -741,6 +758,8 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     self.notifyNoneField.hidden = YES;
     self.notifyNoneSwitch.hidden = YES;
     self.hideIfUnavailableCheckbox.hidden = YES;
+    self.networkRelatedCheckbox.hidden = YES;
+    self.unknownTypeHintLabel.hidden = YES;
     self.iconHintLabel.stringValue = @"Uses a built-in type glyph in the menu (same as the left list).";
 
     [self reflowInspectorFromIconSection];
@@ -1260,6 +1279,10 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     y += 26;
 
     y = [self placeLabeledControl:self.typePopup label:self.typeLabel atY:y width:MIN(fullWidth, 360) height:25];
+    if (!self.unknownTypeHintLabel.hidden && self.unknownTypeHintLabel.stringValue.length > 0) {
+        self.unknownTypeHintLabel.frame = NSMakeRect(controlX, y, fullWidth, 36);
+        y += 40;
+    }
     y = [self placeLabeledControl:self.titleField label:self.titleLabel atY:y width:fullWidth height:24];
     y = [self placeLabeledControl:self.tooltipField label:self.tooltipLabel atY:y width:fullWidth height:24];
 
@@ -1503,6 +1526,10 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         self.hideIfUnavailableCheckbox.frame = NSMakeRect(controlX, y, MAX(320, fullWidth), 22);
         y += 28;
     }
+    if (!self.networkRelatedCheckbox.hidden) {
+        self.networkRelatedCheckbox.frame = NSMakeRect(controlX, y, MAX(320, fullWidth), 22);
+        y += 28;
+    }
     y += 8;
     self.footerHintLabel.frame = NSMakeRect(16, y, fullWidth + controlX - 16, 28);
     y += 28;
@@ -1568,6 +1595,21 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     return ids;
 }
 
+- (BOOL)isKnownFunctionIdentifier:(NSString *)fid {
+    if (fid.length == 0) {
+        return NO;
+    }
+    return [[self knownFunctionIdentifiers] containsObject:fid];
+}
+
+/// Title shown in the Type popup for plugins that are not in the built-in allowlist.
+- (NSString *)displayTitleForUnknownFunctionIdentifier:(NSString *)fid {
+    if ([fid hasPrefix:@"public."]) {
+        return [NSString stringWithFormat:@"%@ (plugin)", [fid substringFromIndex:7]];
+    }
+    return [NSString stringWithFormat:@"%@ (plugin)", fid ?: @"unknown"];
+}
+
 - (void)rebuildTypePopup {
     [self.typePopup removeAllItems];
     for (NSDictionary *entry in [self knownFunctionEntries]) {
@@ -1595,7 +1637,7 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
             return;
         }
     }
-    [self.typePopup addItemWithTitle:fid];
+    [self.typePopup addItemWithTitle:[self displayTitleForUnknownFunctionIdentifier:fid]];
     self.typePopup.lastItem.representedObject = fid;
     [self.typePopup selectItem:self.typePopup.lastItem];
 }
@@ -2551,11 +2593,13 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     self.skipGlobalCheckbox.state = [settings[@"skipForGlobalState"] boolValue] ? NSControlStateValueOn : NSControlStateValueOff;
     self.optionalDisplayCheckbox.state = [settings[@"optionalDisplay"] boolValue] ? NSControlStateValueOn : NSControlStateValueOff;
     self.hideIfUnavailableCheckbox.state = [settings[@"hideIfNotAvailable"] boolValue] ? NSControlStateValueOn : NSControlStateValueOff;
+    self.networkRelatedCheckbox.state = [settings[@"network"] boolValue] ? NSControlStateValueOn : NSControlStateValueOff;
 
     self.updatingUI = NO;
 }
 
 - (void)configureTypeSpecificFields:(NSString *)fid settings:(NSDictionary *)settings {
+    BOOL isKnown = [self isKnownFunctionIdentifier:fid];
     BOOL isSeparatorOrQuit = [fid isEqualToString:@"public.separator"] || [fid isEqualToString:@"public.quit"];
     BOOL isAbout = [fid isEqualToString:@"public.about"];
     BOOL isTitleOnly = [fid isEqualToString:@"public.title"] || [fid isEqualToString:@"public.submenu"] || isAbout;
@@ -2568,6 +2612,16 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     BOOL isSendEmail = [fid isEqualToString:@"public.send.email"];
     BOOL isHTTP = [fid isEqualToString:@"public.test.http"];
     BOOL isADPass = [fid isEqualToString:@"public.ad.pass"];
+
+    if (!isKnown) {
+        self.unknownTypeHintLabel.hidden = NO;
+        self.unknownTypeHintLabel.stringValue = [NSString stringWithFormat:
+            @"Custom plugin “%@”. Edit title, icon, alerts, and repeat here — other settings stay as imported (not shown).",
+            fid];
+    } else {
+        self.unknownTypeHintLabel.hidden = YES;
+        self.unknownTypeHintLabel.stringValue = @"";
+    }
 
     self.titleField.enabled = !isSeparatorOrQuit;
     self.tooltipField.enabled = !isSeparatorOrQuit;
@@ -2589,8 +2643,9 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         [self updateIconModeUI];
     }
 
-    // Primary key field (hidden for system.info / munki — uses menus instead)
-    self.keyField.hidden = isSeparatorOrQuit || isTitleOnly || isADPass || isSystemInfo || isMunki;
+    // Primary key field (hidden for system.info / munki — uses menus instead).
+    // Unknown plugins: hide — we must not rewrite their settings into script/URL/etc.
+    self.keyField.hidden = !isKnown || isSeparatorOrQuit || isTitleOnly || isADPass || isSystemInfo || isMunki;
     self.keyLabel.hidden = self.keyField.hidden;
     self.keyField.enabled = !self.keyField.hidden;
     // Browse for single-path key fields (script/app/file URL). Command is an argv line — type it.
@@ -2639,8 +2694,31 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         self.keyField.placeholderString = @"";
     }
 
-    // System info / Munki / Send email menus
-    if (isSystemInfo) {
+    // System info / Munki / Send email menus (known types only)
+    if (!isKnown) {
+        self.infoKindPopup.hidden = YES;
+        self.infoKindLabel.hidden = YES;
+        self.infoOptionPopup.hidden = YES;
+        self.infoOptionLabel.hidden = YES;
+        self.infoInterfacePopup.hidden = YES;
+        self.infoInterfaceLabel.hidden = YES;
+        [self configureThresholdFieldsForKind:nil settings:nil];
+        self.fileField.hidden = YES;
+        self.fileLabel.hidden = YES;
+        self.fileField.enabled = NO;
+        self.fileBrowseButton.hidden = YES;
+        self.fileBrowseButton.enabled = NO;
+        self.fileRevealButton.hidden = YES;
+        self.fileField.stringValue = @"";
+        self.optionsLabel.hidden = YES;
+        self.optionsField.hidden = YES;
+        self.optionsField.enabled = NO;
+        self.optionsField.stringValue = @"";
+        self.bodyLabel.hidden = YES;
+        self.bodyField.hidden = YES;
+        self.bodyField.enabled = NO;
+        self.bodyField.stringValue = @"";
+    } else if (isSystemInfo) {
         [self rebuildInfoKindPopup];
         NSString *kind = settings[@"kind"] ?: @"hostname";
         [self selectInfoKind:kind];
@@ -2686,102 +2764,106 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         [self configureThresholdFieldsForKind:nil settings:nil];
     }
 
-    // File (open.application) or Device URL (send.email)
-    if (isOpenApp) {
-        self.fileField.hidden = NO;
-        self.fileLabel.hidden = NO;
-        self.fileField.enabled = YES;
-        self.fileBrowseButton.hidden = NO;
-        self.fileBrowseButton.enabled = YES;
-        self.fileRevealButton.hidden = NO;
-        self.fileLabel.stringValue = @"File";
-        self.fileField.stringValue = settings[@"file"] ?: @"";
-        self.fileField.placeholderString = @"/path/to/open with the app";
-        self.fileField.toolTip = @"open.application: open this file with the app (e.g. a log in Console)";
-    } else if (isSendEmail) {
-        self.fileField.hidden = NO;
-        self.fileLabel.hidden = NO;
-        self.fileField.enabled = YES;
-        self.fileBrowseButton.hidden = YES;
-        self.fileBrowseButton.enabled = NO;
-        self.fileRevealButton.hidden = YES;
-        self.fileLabel.stringValue = @"Device URL";
-        self.fileField.stringValue = settings[@"deviceURL"] ?: @"";
-        self.fileField.placeholderString = @"https://report.example.com/?$SERIAL";
-        self.fileField.toolTip = @"Template URL; placeholders $SERIAL $UUID $HOSTNAME (resolved at click)";
-    } else if (isHTTP) {
-        self.fileField.hidden = NO;
-        self.fileLabel.hidden = NO;
-        self.fileField.enabled = YES;
-        self.fileBrowseButton.hidden = YES;
-        self.fileBrowseButton.enabled = NO;
-        self.fileRevealButton.hidden = YES;
-        self.fileLabel.stringValue = @"Failover";
-        NSString *failover = settings[@"failoverHost"];
-        self.fileField.stringValue = [failover isKindOfClass:[NSString class]] ? failover : @"cloudflare.com";
-        self.fileField.placeholderString = @"cloudflare.com";
-        self.fileField.toolTip = @"If the primary URL fails to connect, ping this FQDN. Success → Warning (not OK). Empty disables failover. Default: cloudflare.com";
+    // File (open.application) or Device URL (send.email) — known types only (unknown handled above)
+    if (isKnown) {
+        if (isOpenApp) {
+            self.fileField.hidden = NO;
+            self.fileLabel.hidden = NO;
+            self.fileField.enabled = YES;
+            self.fileBrowseButton.hidden = NO;
+            self.fileBrowseButton.enabled = YES;
+            self.fileRevealButton.hidden = NO;
+            self.fileLabel.stringValue = @"File";
+            self.fileField.stringValue = settings[@"file"] ?: @"";
+            self.fileField.placeholderString = @"/path/to/open with the app";
+            self.fileField.toolTip = @"open.application: open this file with the app (e.g. a log in Console)";
+        } else if (isSendEmail) {
+            self.fileField.hidden = NO;
+            self.fileLabel.hidden = NO;
+            self.fileField.enabled = YES;
+            self.fileBrowseButton.hidden = YES;
+            self.fileBrowseButton.enabled = NO;
+            self.fileRevealButton.hidden = YES;
+            self.fileLabel.stringValue = @"Device URL";
+            self.fileField.stringValue = settings[@"deviceURL"] ?: @"";
+            self.fileField.placeholderString = @"https://report.example.com/?$SERIAL";
+            self.fileField.toolTip = @"Template URL; placeholders $SERIAL $UUID $HOSTNAME (resolved at click)";
+        } else if (isHTTP) {
+            self.fileField.hidden = NO;
+            self.fileLabel.hidden = NO;
+            self.fileField.enabled = YES;
+            self.fileBrowseButton.hidden = YES;
+            self.fileBrowseButton.enabled = NO;
+            self.fileRevealButton.hidden = YES;
+            self.fileLabel.stringValue = @"Failover";
+            NSString *failover = settings[@"failoverHost"];
+            self.fileField.stringValue = [failover isKindOfClass:[NSString class]] ? failover : @"cloudflare.com";
+            self.fileField.placeholderString = @"cloudflare.com";
+            self.fileField.toolTip = @"If the primary URL fails to connect, ping this FQDN. Success → Warning (not OK). Empty disables failover. Default: cloudflare.com";
+        } else {
+            self.fileField.hidden = YES;
+            self.fileLabel.hidden = YES;
+            self.fileField.enabled = NO;
+            self.fileBrowseButton.hidden = YES;
+            self.fileBrowseButton.enabled = NO;
+            self.fileRevealButton.hidden = YES;
+            self.fileField.stringValue = @"";
+        }
+
+        [self updateRevealButtonsEnabled];
+
+        // Options / Mode / Subject
+        if (isScript) {
+            self.optionsLabel.hidden = NO;
+            self.optionsField.hidden = NO;
+            self.optionsField.enabled = YES;
+            self.optionsLabel.stringValue = @"Options";
+            NSArray *options = settings[@"options"];
+            self.optionsField.stringValue = [options isKindOfClass:[NSArray class]] ? [options componentsJoinedByString:@" "] : @"";
+            self.optionsField.placeholderString = @"space-separated script options";
+            self.optionsField.toolTip = @"Passed to the script as options";
+        } else if (isHTTP) {
+            self.optionsLabel.hidden = NO;
+            self.optionsField.hidden = NO;
+            self.optionsField.enabled = YES;
+            self.optionsLabel.stringValue = @"Mode";
+            self.optionsField.stringValue = settings[@"mode"] ?: @"";
+            self.optionsField.placeholderString = @"md5 or string";
+            self.optionsField.toolTip = @"test.http mode (md5 / string); originalString kept if already set";
+        } else if (isSendEmail) {
+            self.optionsLabel.hidden = NO;
+            self.optionsField.hidden = NO;
+            self.optionsField.enabled = YES;
+            self.optionsLabel.stringValue = @"Subject";
+            self.optionsField.stringValue = settings[@"subject"] ?: @"";
+            self.optionsField.placeholderString = @"Help — $SERIAL";
+            self.optionsField.toolTip = @"Optional subject template ($SERIAL $UUID $HOSTNAME $DEVICE_URL)";
+        } else {
+            self.optionsLabel.hidden = YES;
+            self.optionsField.hidden = YES;
+            self.optionsField.enabled = NO;
+            self.optionsField.stringValue = @"";
+        }
+
+        if (isSendEmail) {
+            self.bodyLabel.hidden = NO;
+            self.bodyField.hidden = NO;
+            self.bodyField.enabled = YES;
+            self.bodyField.stringValue = settings[@"body"] ?: @"";
+            self.bodyField.placeholderString = @"optional — device URL block is appended automatically";
+            self.bodyField.toolTip = @"Optional body template ($SERIAL $UUID $HOSTNAME $DEVICE_URL). If empty (or without $DEVICE_URL), a protected block + device URL is appended.";
+        } else {
+            self.bodyLabel.hidden = YES;
+            self.bodyField.hidden = YES;
+            self.bodyField.enabled = NO;
+            self.bodyField.stringValue = @"";
+        }
     } else {
-        self.fileField.hidden = YES;
-        self.fileLabel.hidden = YES;
-        self.fileField.enabled = NO;
-        self.fileBrowseButton.hidden = YES;
-        self.fileBrowseButton.enabled = NO;
-        self.fileRevealButton.hidden = YES;
-        self.fileField.stringValue = @"";
+        [self updateRevealButtonsEnabled];
     }
 
-    [self updateRevealButtonsEnabled];
-
-    // Options / Mode / Subject
-    if (isScript) {
-        self.optionsLabel.hidden = NO;
-        self.optionsField.hidden = NO;
-        self.optionsField.enabled = YES;
-        self.optionsLabel.stringValue = @"Options";
-        NSArray *options = settings[@"options"];
-        self.optionsField.stringValue = [options isKindOfClass:[NSArray class]] ? [options componentsJoinedByString:@" "] : @"";
-        self.optionsField.placeholderString = @"space-separated script options";
-        self.optionsField.toolTip = @"Passed to the script as options";
-    } else if (isHTTP) {
-        self.optionsLabel.hidden = NO;
-        self.optionsField.hidden = NO;
-        self.optionsField.enabled = YES;
-        self.optionsLabel.stringValue = @"Mode";
-        self.optionsField.stringValue = settings[@"mode"] ?: @"";
-        self.optionsField.placeholderString = @"md5 or string";
-        self.optionsField.toolTip = @"test.http mode (md5 / string); originalString kept if already set";
-    } else if (isSendEmail) {
-        self.optionsLabel.hidden = NO;
-        self.optionsField.hidden = NO;
-        self.optionsField.enabled = YES;
-        self.optionsLabel.stringValue = @"Subject";
-        self.optionsField.stringValue = settings[@"subject"] ?: @"";
-        self.optionsField.placeholderString = @"Help — $SERIAL";
-        self.optionsField.toolTip = @"Optional subject template ($SERIAL $UUID $HOSTNAME $DEVICE_URL)";
-    } else {
-        self.optionsLabel.hidden = YES;
-        self.optionsField.hidden = YES;
-        self.optionsField.enabled = NO;
-        self.optionsField.stringValue = @"";
-    }
-
-    if (isSendEmail) {
-        self.bodyLabel.hidden = NO;
-        self.bodyField.hidden = NO;
-        self.bodyField.enabled = YES;
-        self.bodyField.stringValue = settings[@"body"] ?: @"";
-        self.bodyField.placeholderString = @"optional — device URL block is appended automatically";
-        self.bodyField.toolTip = @"Optional body template ($SERIAL $UUID $HOSTNAME $DEVICE_URL). If empty (or without $DEVICE_URL), a protected block + device URL is appended.";
-    } else {
-        self.bodyLabel.hidden = YES;
-        self.bodyField.hidden = YES;
-        self.bodyField.enabled = NO;
-        self.bodyField.stringValue = @"";
-    }
-
-    // Repeat
-    BOOL showRepeat = isScript || isHTTP || isADPass || isSystemInfo || isMunki;
+    // Repeat — known periodic types, or any unknown plugin that already has / may need a timer
+    BOOL showRepeat = (!isKnown) || isScript || isHTTP || isADPass || isSystemInfo || isMunki;
     self.repeatLabel.hidden = !showRepeat;
     self.repeatField.hidden = !showRepeat;
     self.repeatField.enabled = showRepeat;
@@ -2794,6 +2876,8 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
 
     self.hideIfUnavailableCheckbox.hidden = !(isOpenApp || isOpenResource);
     self.hideIfUnavailableCheckbox.enabled = isOpenApp || isOpenResource;
+    self.networkRelatedCheckbox.hidden = !isScript;
+    self.networkRelatedCheckbox.enabled = isScript;
 
     [self reflowInspectorFromIconSection];
 }
@@ -2824,6 +2908,32 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     [self writeTooltip:self.tooltipField.stringValue intoSettings:settings];
     [self writeIconSettingsIntoSettings:settings];
 
+    // Preserve localized notification dicts while rewriting (cleared below if type doesn't support them).
+    id existingNotifyOK = [settings[@"notificationWhenStateTurnOK"] copy];
+    id existingNotifyWarning = [settings[@"notificationWhenStateTurnWarning"] copy];
+    id existingNotifyError = [settings[@"notificationWhenStateTurnError"] copy];
+    id existingNotifyUnavailable = [settings[@"notificationWhenStateTurnUnavailable"] copy];
+    id existingNotifyNone = [settings[@"notificationWhenStateTurnNone"] copy];
+    id existingNotifyOnCompletion = [settings[@"notificationOnCompletion"] copy];
+
+    BOOL isKnown = [self isKnownFunctionIdentifier:fid];
+    NSString *keyValue = self.keyField.stringValue;
+
+    if (!isKnown) {
+        // Custom / third-party plugin: only touch shared chrome. Keep imported settings keys intact.
+        [settings removeObjectForKey:@"notificationWhenStateTurnOK"];
+        [settings removeObjectForKey:@"notificationWhenStateTurnWarning"];
+        [settings removeObjectForKey:@"notificationWhenStateTurnError"];
+        [settings removeObjectForKey:@"notificationWhenStateTurnUnavailable"];
+        [settings removeObjectForKey:@"notificationWhenStateTurnNone"];
+        [settings removeObjectForKey:@"notificationOnCompletion"];
+        [settings removeObjectForKey:@"notifyOnCompletion"];
+        if (self.repeatField.stringValue.length > 0) {
+            settings[@"repeat"] = @([self.repeatField.stringValue integerValue]);
+        } else {
+            [settings removeObjectForKey:@"repeat"];
+        }
+    } else {
     // Clear type-specific keys, then write only what this type uses (keeps unknown keys intact).
     [settings removeObjectForKey:@"script"];
     [settings removeObjectForKey:@"path"];
@@ -2854,14 +2964,8 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     [settings removeObjectForKey:@"body"];
     [settings removeObjectForKey:@"repeat"];
     [settings removeObjectForKey:@"hideIfNotAvailable"];
+    [settings removeObjectForKey:@"network"];
     [settings removeObjectForKey:@"notifyOnCompletion"];
-    // Preserve localized notification dicts while rewriting (cleared below if type doesn't support them).
-    id existingNotifyOK = [settings[@"notificationWhenStateTurnOK"] copy];
-    id existingNotifyWarning = [settings[@"notificationWhenStateTurnWarning"] copy];
-    id existingNotifyError = [settings[@"notificationWhenStateTurnError"] copy];
-    id existingNotifyUnavailable = [settings[@"notificationWhenStateTurnUnavailable"] copy];
-    id existingNotifyNone = [settings[@"notificationWhenStateTurnNone"] copy];
-    id existingNotifyOnCompletion = [settings[@"notificationOnCompletion"] copy];
     [settings removeObjectForKey:@"notificationWhenStateTurnOK"];
     [settings removeObjectForKey:@"notificationWhenStateTurnWarning"];
     [settings removeObjectForKey:@"notificationWhenStateTurnError"];
@@ -2875,7 +2979,6 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         [settings removeObjectForKey:@"failedConnection"];
     }
 
-    NSString *keyValue = self.keyField.stringValue;
     if ([fid isEqualToString:@"public.script.item"]) {
         if (keyValue.length) {
             // Absolute path → settings.path; otherwise CustomScripts basename → settings.script
@@ -2890,6 +2993,9 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         }
         if (self.repeatField.stringValue.length > 0) {
             settings[@"repeat"] = @([self.repeatField.stringValue integerValue]);
+        }
+        if (self.networkRelatedCheckbox.state == NSControlStateValueOn) {
+            settings[@"network"] = @YES;
         }
     } else if ([fid isEqualToString:@"public.system.info"]) {
         NSString *kind = [self selectedInfoKind];
@@ -2989,6 +3095,7 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
             settings[@"repeat"] = @([self.repeatField.stringValue integerValue]);
         }
     }
+    } // end known-type settings rewrite
 
     if ([self functionSupportsNotifications:fid]) {
         NSSet<NSString *> *applicable = [self applicableNotificationKeys];
@@ -3064,6 +3171,11 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
         } else if (![settings[kHITConfigContent] isKindOfClass:[NSMutableArray class]]) {
             settings[kHITConfigContent] = [NSMutableArray array];
         }
+    } else if (![self isKnownFunctionIdentifier:fid]) {
+        // Keep any imported content key on custom plugins.
+        if (existingContent) {
+            settings[kHITConfigContent] = [existingContent mutableCopy];
+        }
     } else {
         [settings removeObjectForKey:kHITConfigContent];
     }
@@ -3085,6 +3197,10 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
 
 - (BOOL)functionSupportsStateNotifications:(NSString *)fid {
     // HITAdvancedPlugin fires notificationWhenStateTurn* when testState changes.
+    // Unknown / third-party plugins: offer Alerts; unused keys simply never fire.
+    if (![self isKnownFunctionIdentifier:fid]) {
+        return YES;
+    }
     return [fid isEqualToString:@"public.script.item"]
         || [fid isEqualToString:@"public.test.http"]
         || [fid isEqualToString:@"public.system.info"]
@@ -3106,8 +3222,10 @@ typedef NS_ENUM(NSInteger, HITConfigIconMode) {
     if (![self functionSupportsStateNotifications:fid]) {
         return [NSSet set];
     }
-    // Scripts and submenus can surface any state.
-    if ([fid isEqualToString:@"public.script.item"] || [fid isEqualToString:@"public.submenu"]) {
+    // Scripts, submenus, and unknown plugins can surface any state.
+    if ([fid isEqualToString:@"public.script.item"]
+        || [fid isEqualToString:@"public.submenu"]
+        || ![self isKnownFunctionIdentifier:fid]) {
         return [NSSet setWithArray:@[
             @"notificationWhenStateTurnOK",
             @"notificationWhenStateTurnWarning",
