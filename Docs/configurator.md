@@ -19,7 +19,9 @@ Sample profile: `example/HelloIT-DisableConfigurator.mobileconfig`.
 1. Unlock Configurator Mode
 2. Edit the menu tree (add / duplicate / reorder / delete items)
 3. **Apply & Reload** — writes prefs and rebuilds the live menu for a local preview
-4. **Export** — plist, `.mobileconfig`, bash installer (`defaults import`), or **All three…** under one name
+4. **Export** — plist, `.mobileconfig`, bash installer, or **All three…** under one name
+
+The bash export works as a normal user, under `sudo`, or as an MDM/Munki script: root installs computer prefs and clears per-user overrides; reload goes through the LaunchAgent (never `open` as root). For continuous MDM management of the domain, prefer **Export → Mobileconfig…**.
 
 ## Item types
 
